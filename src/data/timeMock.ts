@@ -1,0 +1,23 @@
+export const timeMock = [
+  { id: 1, period: 'AM', time: '08:00' },
+  { id: 2, period: 'AM', time: '08:30' },
+  { id: 3, period: 'AM', time: '09:00' },
+  { id: 4, period: 'AM', time: '09:30' },
+  { id: 5, period: 'AM', time: '10:00' },
+  { id: 6, period: 'AM', time: '10:30' },
+  { id: 7, period: 'AM', time: '11:00' },
+  { id: 8, period: 'AM', time: '11:30' },
+  { id: 9, period: 'PM', time: '12:00' },
+  { id: 10, period: 'PM', time: '12:30' },
+  { id: 11, period: 'PM', time: '13:00' },
+  { id: 12, period: 'PM', time: '13:30' },
+  { id: 13, period: 'PM', time: '14:00' },
+  { id: 14, period: 'PM', time: '14:30' },
+  { id: 15, period: 'PM', time: '15:00' },
+  { id: 16, period: 'PM', time: '15:30' },
+  { id: 17, period: 'PM', time: '16:00' },
+  { id: 18, period: 'PM', time: '16:30' },
+  { id: 19, period: 'PM', time: '17:00' },
+  { id: 20, period: 'PM', time: '17:30' },
+  { id: 21, period: 'PM', time: '18:00' }
+]
