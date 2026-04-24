@@ -34,11 +34,6 @@ const Container = styled.div<ContainerProps>`
       align-items: center;
     `}
 
-  ${({ $delay }) =>
-    $delay &&
-    css`
-      animation-delay: ${$delay}s;
-    `}
 
   ${({ $hover }) =>
     $hover &&
@@ -46,9 +41,17 @@ const Container = styled.div<ContainerProps>`
       &:hover > * {
         ${$hover}
       }
-    `}
+      `}
 
   ${({ $animationCSS }) => $animationCSS}
+
+
+  ${({ $delay }) =>
+    $delay !== undefined &&
+    css`
+    animation-delay: ${$delay}s;
+    animation-fill-mode: backwards;
+  `}
 `;
 
 export function MAnimation({

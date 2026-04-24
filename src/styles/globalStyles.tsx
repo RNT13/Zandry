@@ -31,8 +31,8 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background-color: ${maskedTheme.colors.baseBlack.dark02};
-    color: ${maskedTheme.colors.baseBlack.base};
+    background-color: ${maskedTheme.colors.baseBlue.light40};
+    color: ${maskedTheme.colors.baseBlack.dark40};
     font-family: var(--roboto-font);
   }
 
@@ -42,16 +42,8 @@ export const GlobalStyles = createGlobalStyle`
     margin: 0 auto;
     width: 100%;
 
-    ${media.pc}{
-      width: 95%;
-    }
-
-    ${media.tablet}{
-      width: 95%;
-    }
-
-    ${media.mobile}{
-      width: 95%;
+    ${media.mobile} {
+      padding: 0;
     }
   }
 `;
@@ -88,7 +80,7 @@ export const TitleH2 = styled.h2`
   gap: ${maskedTheme.spacing.sm};
   font-size: ${maskedTheme.fontSize.xl};
   font-weight: 600;
-  color: ${maskedTheme.colors.baseBlue.base};
+  color: ${maskedTheme.colors.baseBlue.dark30};
   ${transitions.default};
 `
 
@@ -98,7 +90,7 @@ export const TitleH3 = styled.h3`
   gap: ${maskedTheme.spacing.sm};
   font-size: ${maskedTheme.fontSize.lg};
   font-weight: 600;
-  color: ${maskedTheme.colors.baseBlue.base};
+  color: ${maskedTheme.colors.baseBlue.dark30};
   ${transitions.default};
 `
 

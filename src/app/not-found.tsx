@@ -1,7 +1,8 @@
 
 'use client'
 
-import { maskedTheme } from '@/styles/MaskedThemes/MaskedThemes'
+import { maskedTheme, media } from '@/styles/MaskedThemes/MaskedThemes'
+import Image from 'next/image'
 // 🚫 NOT FOUND PÚBLICO - Página 404 para rotas públicas
 // ⚠️ ARQUIVO DELETÁVEL - Pode ser removido ao criar sua própria página 404
 
@@ -34,6 +35,21 @@ const NotFoundContainer = styled.div`
     margin-bottom: 30px;
     max-width: 500px;
   }
+
+  ${media.mobile} {
+    padding: 0px;
+  }
+`
+
+const ImageContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 400px;
+  margin-bottom: 20px;
+
+  ${media.mobile} {
+    height: 250px;
+  }
 `
 
 const BackButton = styled(Link)`
@@ -52,10 +68,12 @@ const BackButton = styled(Link)`
 export default function NotFound() {
   return (
     <NotFoundContainer>
-      <h1>404</h1>
+      <ImageContainer>
+        <Image src="/not-fond.png" alt="404" fill />
+      </ImageContainer>
       <h2>Página não encontrada</h2>
       <p>A página que você está procurando não existe ou foi movida.</p>
-      <BackButton href="/">Voltar ao início</BackButton>
+      <BackButton href="/login">Voltar ao início</BackButton>
     </NotFoundContainer>
   )
 }

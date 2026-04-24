@@ -1,6 +1,7 @@
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { setProfessional } from "@/redux/slices/bookingSlice";
 import { Row, TitleH2 } from "@/styles/globalStyles";
+import { MAnimation } from "@/styles/MaskedAnimations/MAnimation";
 import { useParams, useRouter } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
 import { MButton } from "../MaskedButton/MaskedButton";
@@ -34,27 +35,32 @@ export default function ProfessionalsList(props: ProfessionalsListProps) {
   return (
     <ProfessionalsListContainer>
       <ProfessionalsListContent>
-        <Row>
-          <MButton
-            variant="default"
-            shapes="circle"
-            leftIcon={<IoIosArrowBack />}
-            onClick={handleBack}
-          >
+        <MAnimation variant="fadeInRight" trigger="mount" delay={0.2}>
 
-          </MButton>
-          <TitleH2>Selecione os profissionais</TitleH2>
-        </Row>
+          <Row>
+            <MButton
+              variant="default"
+              shapes="circle"
+              leftIcon={<IoIosArrowBack />}
+              onClick={handleBack}
+            >
 
-        {props.professionals.map((professional) => (
-          <ProfessionalsCard
-            key={professional.id}
-            id={professional.id}
-            full_name={professional.full_name}
-            position={professional.position}
-            rating={professional.rating}
-            onClick={() => handleNext(professional)}
-          />
+            </MButton>
+            <TitleH2>Selecione os profissionais</TitleH2>
+          </Row>
+
+        </MAnimation>
+
+        {props.professionals.map((professional, index) => (
+          <MAnimation key={professional.id} variant="fadeInUp" trigger="mount" delay={index * 0.2}>
+            <ProfessionalsCard
+              key={professional.id}
+              id={professional.id}
+              full_name={professional.full_name}
+              position={professional.position}
+              rating={professional.rating}
+              onClick={() => handleNext(professional)}
+            /></MAnimation>
         ))}
       </ProfessionalsListContent>
     </ProfessionalsListContainer>

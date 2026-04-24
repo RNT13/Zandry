@@ -7,6 +7,7 @@ export const ConfirmationContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${maskedTheme.spacing.md};
+  padding: ${maskedTheme.spacing.sm};
 `
 
 export const ConfirmationName = styled.div`
@@ -55,6 +56,6 @@ export const TotalDiv = styled.div`
   display: flex;
   justify-content: space-between;
   gap: ${maskedTheme.spacing.md};
-  border-top: 1px solid ${maskedTheme.colors.baseBlue.light04};
+  border-top: 1px solid ${maskedTheme.colors.baseBlue.dark30};
   padding-top: ${maskedTheme.spacing.md};
 `

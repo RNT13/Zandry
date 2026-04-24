@@ -1,3 +1,4 @@
+import { continuousAnimations } from '@/styles/MaskedAnimations/animations/continuousAnimations'
 import { maskedTheme } from '@/styles/MaskedThemes/MaskedThemes'
 import styled from 'styled-components'
 
@@ -7,6 +8,7 @@ export const ConfirmedContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${maskedTheme.spacing.lg};
+  padding: ${maskedTheme.spacing.sm};
 `
 
 export const ConfirmedHeader = styled.div`
@@ -25,6 +27,7 @@ export const SvgDiv = styled.div`
   background-color: ${maskedTheme.colors.baseGreen.dark02};
   border-radius: 50%;
   padding: ${maskedTheme.spacing.xl};
+  ${continuousAnimations.pulse}
 `
 
 export const ConfirmedDetails = styled.div`
@@ -42,8 +45,8 @@ export const ConfirmedServices = styled.div`
   flex-direction: column;
   gap: ${maskedTheme.spacing.sm};
   padding: ${maskedTheme.spacing.md};
-  border-top: 1px solid ${maskedTheme.colors.baseBlue.dark04};
-  border-bottom: 1px solid ${maskedTheme.colors.baseBlue.dark04};
+  border-top: 1px solid ${maskedTheme.colors.baseBlue.dark30};
+  border-bottom: 1px solid ${maskedTheme.colors.baseBlue.dark30};
 `
 
 export const ConfirmationTotal = styled.div`
@@ -72,7 +75,7 @@ export const ConfirmedDivHeader = styled.div`
   gap: ${maskedTheme.spacing.sm};
 
   svg {
-    color: ${maskedTheme.colors.baseBlue.dark20};
+    color: ${maskedTheme.colors.baseBlue.dark30};
     font-size: ${maskedTheme.fontSize.xl};
   }
 `

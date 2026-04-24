@@ -1,5 +1,5 @@
 import { transitions } from '@/styles/MaskedAnimations/animations/transitions'
-import { maskedTheme } from '@/styles/MaskedThemes/MaskedThemes'
+import { maskedTheme, media } from '@/styles/MaskedThemes/MaskedThemes'
 import styled from 'styled-components'
 
 export const DataTimeContainer = styled.div``
@@ -8,6 +8,7 @@ export const DataTimeContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${maskedTheme.spacing.md};
+  padding: ${maskedTheme.spacing.sm};
 `
 
 export const DataContainer = styled.div`
@@ -21,6 +22,7 @@ export const DaysContainer = styled.ul`
   display: flex;
   gap: ${maskedTheme.spacing.md};
   list-style: none;
+  overflow-x: auto;
 `
 
 export const TimeContainer = styled.ul`
@@ -30,8 +32,12 @@ export const TimeContainer = styled.ul`
   grid-template-columns: ${maskedTheme.grid.three};
   gap: ${maskedTheme.spacing.md};
   padding: ${maskedTheme.spacing.md};
-  gap: ${maskedTheme.spacing.md};
   list-style: none;
+
+  ${media.mobile} {
+    padding: 0;
+    gap: ${maskedTheme.spacing.xs};
+  }
 `
 
 export const HoursContainer = styled.ul`
@@ -41,7 +47,7 @@ export const HoursContainer = styled.ul`
 `
 
 export const DayItem = styled.li<{ $isActive?: boolean }>`
-  width: 100%;
+  width: 80px;
   height: 100px;
   display: flex;
   flex-direction: column;
@@ -54,6 +60,13 @@ export const DayItem = styled.li<{ $isActive?: boolean }>`
   background-color: ${({ $isActive }) => ($isActive ? maskedTheme.colors.baseBlue.base : maskedTheme.colors.baseBlue.dark04)};
   transition: ${transitions.default};
   cursor: pointer;
+  ${transitions.default}
+
+  &:hover {
+    cursor: pointer;
+    scale: 1.01;
+    box-shadow: ${maskedTheme.boxShadow.lg};
+  }
 
   h3,
   h2 {
@@ -62,5 +75,14 @@ export const DayItem = styled.li<{ $isActive?: boolean }>`
 `
 
 export const TimeItem = styled(DayItem)`
-  height: 60px;
+  width: 100%;
+  height: 80px;
+
+  h3 {
+    font-size: ${maskedTheme.fontSize.lg};
+  }
+
+  ${media.mobile} {
+    width: 100%;
+  }
 `

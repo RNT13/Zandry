@@ -58,7 +58,6 @@ declare global {
     label: string
     year: number
     data: string
-    period: string
     time: string
   }
 

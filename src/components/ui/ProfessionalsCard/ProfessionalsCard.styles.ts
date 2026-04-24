@@ -1,4 +1,5 @@
-import { maskedTheme } from '@/styles/MaskedThemes/MaskedThemes'
+import { transitions } from '@/styles/MaskedAnimations/animations/transitions'
+import { maskedTheme, media } from '@/styles/MaskedThemes/MaskedThemes'
 import styled from 'styled-components'
 
 export const ProfessionalsCardContainer = styled.div``
@@ -7,11 +8,24 @@ export const ProfessionalsCardContent = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: ${maskedTheme.spacing.md};
   border-radius: ${maskedTheme.radius.md};
   gap: ${maskedTheme.spacing.md};
   background-color: ${maskedTheme.colors.baseBlue.dark04};
   border: 1px solid ${maskedTheme.colors.baseBlue.base};
+
+  ${transitions.default}
+
+  &:hover {
+    cursor: pointer;
+    scale: 1.01;
+    box-shadow: ${maskedTheme.boxShadow.lg};
+  }
+
+  ${media.mobile} {
+    padding: ${maskedTheme.spacing.sm};
+  }
 `
 
 export const ProfessionalsCardAvatar = styled.div`
@@ -37,5 +51,12 @@ export const ProfessionalsCardAvatar = styled.div`
 export const ProfessionalsCardInfo = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: end;
   gap: ${maskedTheme.spacing.sm};
+
+  ${media.mobile} {
+    h2 {
+      font-size: ${maskedTheme.fontSize.lg};
+    }
+  }
 `
