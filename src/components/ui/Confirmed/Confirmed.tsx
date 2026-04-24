@@ -53,7 +53,7 @@ export default function Confirmed() {
 
               <ConfirmedDivItem>
                 <TitleH3>Data e Hora</TitleH3>
-                <MinorTextH4>{booking.dayTime.label}, {booking.dayTime.day} de {formatMonth(booking.dayTime.month)} {booking.dayTime.year} as {booking.dayTime.time} {booking.dayTime.period}</MinorTextH4>
+                <MinorTextH4>{booking.dayTime.label}, {booking.dayTime.day} de {formatMonth(booking.dayTime.month)} {booking.dayTime.year} as {booking.dayTime.time}</MinorTextH4>
               </ConfirmedDivItem>
 
             </ConfirmedDiv>

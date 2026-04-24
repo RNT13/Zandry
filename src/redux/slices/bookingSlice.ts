@@ -50,6 +50,7 @@ const initialState: BookingState = {
     day: 0,
     month: 0,
     label: '',
+    year: 0,
     data: '',
     time: ''
   }
