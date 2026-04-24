@@ -44,7 +44,7 @@ export const ConfirmedServices = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${maskedTheme.spacing.sm};
-  padding: ${maskedTheme.spacing.md};
+  padding: ${maskedTheme.spacing.md} 0;
   border-top: 1px solid ${maskedTheme.colors.baseBlue.dark30};
   border-bottom: 1px solid ${maskedTheme.colors.baseBlue.dark30};
 `
@@ -53,7 +53,7 @@ export const ConfirmationTotal = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${maskedTheme.spacing.sm};
-  padding: ${maskedTheme.spacing.md};
+  padding: ${maskedTheme.spacing.md} 0;
 `
 
 export const ConfirmedRow = styled.div`
@@ -61,12 +61,19 @@ export const ConfirmedRow = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: ${maskedTheme.spacing.sm};
+
+  h4 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+  }
 `
 
 export const ConfirmedDiv = styled.div`
   display: flex;
   gap: ${maskedTheme.spacing.sm};
-  padding: ${maskedTheme.spacing.md};
+  padding: ${maskedTheme.spacing.md} 0;
 `
 
 export const ConfirmedDivHeader = styled.div`

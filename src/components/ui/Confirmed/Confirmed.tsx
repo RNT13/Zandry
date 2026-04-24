@@ -87,24 +87,24 @@ export default function Confirmed() {
 
             <ConfirmedServices>
               <ConfirmedRow>
-                <TitleH3>Serviços</TitleH3>
+                <TitleH3>Serviços:</TitleH3>
                 <MinorTextH4>{booking.services.name}</MinorTextH4>
               </ConfirmedRow>
 
               <ConfirmedRow>
-                <TitleH3>Profissional</TitleH3>
+                <TitleH3>Profissional:</TitleH3>
                 <MinorTextH4>{booking.professional.full_name}</MinorTextH4>
               </ConfirmedRow>
 
               <ConfirmedRow>
-                <TitleH3>Duração</TitleH3>
+                <TitleH3>Duração:</TitleH3>
                 <MinorTextH4>{booking.services.duration} Minutos</MinorTextH4>
               </ConfirmedRow>
             </ConfirmedServices>
 
             <ConfirmationTotal>
               <ConfirmedRow>
-                <TitleH3>Total</TitleH3>
+                <TitleH3>Total:</TitleH3>
                 <MinorTextH4>R$ {booking.services.price}</MinorTextH4>
               </ConfirmedRow>
             </ConfirmationTotal>

@@ -64,7 +64,7 @@ export default function DataTime() {
 
           <DaysContainer>
             {daysMock.map((day, index) => (
-              <MAnimation key={day.day} variant="fadeInRight" trigger="mount" delay={index * 0.2}>
+              <MAnimation key={day.day} variant="fadeInRight" trigger="mount" delay={index * 0.2} center>
                 <DayItem
                   key={day.data}
                   $isActive={day.data === selectedDay?.data}

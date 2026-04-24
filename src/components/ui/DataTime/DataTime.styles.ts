@@ -53,7 +53,8 @@ export const DayItem = styled.li<{ $isActive?: boolean }>`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: ${maskedTheme.spacing.xs};
+  margin: ${maskedTheme.spacing.md} 0;
+  gap: ${maskedTheme.spacing.md};
   border: 1px solid ${({ $isActive }) => ($isActive ? maskedTheme.colors.baseBlue.light40 : maskedTheme.colors.baseBlue.base)};
   border-radius: ${maskedTheme.radius.md};
   padding: ${maskedTheme.spacing.sm} ${maskedTheme.spacing.md};
@@ -77,6 +78,7 @@ export const DayItem = styled.li<{ $isActive?: boolean }>`
 export const TimeItem = styled(DayItem)`
   width: 100%;
   height: 80px;
+  margin: 0;
 
   h3 {
     font-size: ${maskedTheme.fontSize.lg};
