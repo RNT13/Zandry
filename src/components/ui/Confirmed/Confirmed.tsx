@@ -37,7 +37,7 @@ export default function Confirmed() {
             <TitleH2>Agendamento Confirmado!</TitleH2>
           </MAnimation>
           <MAnimation variant="fadeInUp" trigger="mount" delay={0.4} center>
-            <TitleH3>Enviaremos uma confirmação para o seu e-mail</TitleH3>
+            <TitleH3>Enviaremos uma confirmação para o seu numero de telefone</TitleH3>
           </MAnimation>
         </ConfirmedHeader>
 

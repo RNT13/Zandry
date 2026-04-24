@@ -22,7 +22,8 @@ export const DaysContainer = styled.ul`
   display: flex;
   gap: ${maskedTheme.spacing.md};
   list-style: none;
-  overflow-x: auto;
+  overflow: auto;
+  scrollbar-width: none;
 `
 
 export const TimeContainer = styled.ul`

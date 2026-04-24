@@ -52,7 +52,7 @@ export default function Confirmation(props: ConfirmationProps) {
             >
 
             </MButton>
-            <TitleH2>Comfirme seus dados</TitleH2>
+            <TitleH2>Confirme seus dados</TitleH2>
           </Row>
         </MAnimation>
 
