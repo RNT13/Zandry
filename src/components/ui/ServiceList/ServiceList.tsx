@@ -1,6 +1,7 @@
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { setService } from "@/redux/slices/bookingSlice";
 import { Row, TitleH2 } from "@/styles/globalStyles";
+import { MAnimation } from "@/styles/MaskedAnimations/MAnimation";
 import { useParams, useRouter } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
 import { MButton } from "../MaskedButton/MaskedButton";
@@ -33,28 +34,32 @@ export default function ServiceList(props: ServiceListProps) {
   return (
     <ServiceListContainer>
       <ServiceListContent>
-        <Row>
-          <MButton
-            variant="default"
-            shapes="circle"
-            leftIcon={<IoIosArrowBack />}
-            onClick={handleBack}
-          >
+        <MAnimation variant="fadeInRight" trigger="mount" delay={0.2}>
+          <Row>
+            <MButton
+              variant="default"
+              shapes="circle"
+              leftIcon={<IoIosArrowBack />}
+              onClick={handleBack}
+            >
 
-          </MButton>
-          <TitleH2>Selecione o serviço</TitleH2>
-        </Row>
+            </MButton>
+            <TitleH2>Selecione o serviço</TitleH2>
+          </Row>
+        </MAnimation>
 
-        {props.services.map((service) => (
-          <ServiceCard
-            key={service.id}
-            id={service.id}
-            name={service.name}
-            description={service.description}
-            price={service.price}
-            duration={service.duration}
-            onClick={() => handleNext(service)}
-          />
+        {props.services.map((service, index) => (
+          <MAnimation key={service.id} variant="fadeInUp" trigger="mount" delay={index * 0.2}>
+            <ServiceCard
+              key={service.id}
+              id={service.id}
+              name={service.name}
+              description={service.description}
+              price={service.price}
+              duration={service.duration}
+              onClick={() => handleNext(service)}
+            />
+          </MAnimation>
         ))}
 
       </ServiceListContent>

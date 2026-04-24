@@ -7,4 +7,5 @@ export const ServiceListContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${maskedTheme.spacing.md};
+  padding: ${maskedTheme.spacing.sm};
 `

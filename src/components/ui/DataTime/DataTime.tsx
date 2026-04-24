@@ -3,6 +3,7 @@ import { timeMock } from "@/data/timeMock";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { setDateTime } from "@/redux/slices/bookingSlice";
 import { Row, TitleH2, TitleH3 } from "@/styles/globalStyles";
+import { MAnimation } from "@/styles/MaskedAnimations/MAnimation";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
@@ -32,7 +33,6 @@ export default function DataTime() {
       year: selectedDay.year,
       label: selectedDay.label,
       data: selectedDay.data,
-      period: selectedTime.period,
       time: selectedTime.time
     }))
 
@@ -43,52 +43,64 @@ export default function DataTime() {
   return (
     <DataTimeContainer>
       <DataTimeContent>
-        <Row>
-          <MButton
-            variant="default"
-            shapes="circle"
-            leftIcon={<IoIosArrowBack />}
-            onClick={handleBack}
-          >
+        <MAnimation variant="fadeInRight" trigger="mount" delay={0.2}>
+          <Row>
+            <MButton
+              variant="default"
+              shapes="circle"
+              leftIcon={<IoIosArrowBack />}
+              onClick={handleBack}
+            >
 
-          </MButton>
-          <TitleH2>Selecione Data & Hora</TitleH2>
-        </Row>
+            </MButton>
+            <TitleH2>Selecione Data & Hora</TitleH2>
+          </Row>
+        </MAnimation>
 
         <DataContainer>
-          <TitleH3>Escolha o dia </TitleH3>
+          <MAnimation variant="fadeInLeft" trigger="mount" delay={0.2}>
+            <TitleH3>Escolha o dia </TitleH3>
+          </MAnimation>
 
           <DaysContainer>
-            {daysMock.map((day) => (
-              <DayItem
-                key={day.data}
-                $isActive={day.data === selectedDay?.data}
-                onClick={() => setSelectedDay(day)}
-              >
-                <TitleH2>{day.label}</TitleH2>
-                <TitleH3>{day.day}</TitleH3>
-              </DayItem>
+            {daysMock.map((day, index) => (
+              <MAnimation key={day.day} variant="fadeInRight" trigger="mount" delay={index * 0.2}>
+                <DayItem
+                  key={day.data}
+                  $isActive={day.data === selectedDay?.data}
+                  onClick={() => setSelectedDay(day)}
+                >
+                  <TitleH2>{day.label}</TitleH2>
+                  <TitleH3>{day.day}</TitleH3>
+                </DayItem>
+              </MAnimation>
             ))}
           </DaysContainer>
 
-          <TitleH3>Escolha o horário</TitleH3>
+          <MAnimation variant="fadeInLeft" trigger="mount" delay={0.2}>
+            <TitleH3>Escolha o horário</TitleH3>
+          </MAnimation>
 
           <TimeContainer>
-            {timeMock.map((time) => (
-              <TimeItem
-                key={time.id}
-                $isActive={time.id === selectedTime?.id}
-                onClick={() => setSelectedTime(time)}
-              >
-                <TitleH3>{time.time} - {time.period}</TitleH3>
-              </TimeItem>
+            {timeMock.map((time, index) => (
+              <MAnimation key={time.time} variant="fadeInRight" trigger="mount" delay={index * 0.05}>
+                <TimeItem
+                  key={time.id}
+                  $isActive={time.id === selectedTime?.id}
+                  onClick={() => setSelectedTime(time)}
+                >
+                  <TitleH3><p>{time.time}</p></TitleH3>
+                </TimeItem>
+              </MAnimation>
             ))}
           </TimeContainer>
         </DataContainer>
 
-        <MButton variant="default" fullWidth state={!selectedDay || !selectedTime ? 'disabled' : 'default'} onClick={handleNext}>
-          Confirmar
-        </MButton>
+        <MAnimation variant="fadeInUp" trigger="mount" delay={0.2}>
+          <MButton variant="default" fullWidth state={!selectedDay || !selectedTime ? 'disabled' : 'default'} onClick={handleNext}>
+            Confirmar
+          </MButton>
+        </MAnimation>
 
       </DataTimeContent>
     </DataTimeContainer>

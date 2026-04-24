@@ -60,7 +60,7 @@ export const MaskedInputContainer = styled.div<props>`
       color: ${maskedTheme.colors.baseBlue.base};
 
       &::placeholder {
-        color: ${maskedTheme.colors.baseBlue.light40};
+        color: ${maskedTheme.colors.baseBlue.light};
       }
     }
 
@@ -87,7 +87,7 @@ export const MaskedInputContainer = styled.div<props>`
     }
 
     &::placeholder {
-      color: ${maskedTheme.colors.baseBlue.light40};
+      color: ${maskedTheme.colors.baseBlue.dark};
     }
   }
 

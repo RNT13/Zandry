@@ -1,3 +1,4 @@
+import { transitions } from '@/styles/MaskedAnimations/animations/transitions'
 import { maskedTheme } from '@/styles/MaskedThemes/MaskedThemes'
 import styled from 'styled-components'
 
@@ -12,6 +13,19 @@ export const ServiceCardContent = styled.div`
   gap: ${maskedTheme.spacing.md};
   background-color: ${maskedTheme.colors.baseBlue.dark04};
   border: 1px solid ${maskedTheme.colors.baseBlue.base};
+  ${transitions.default}
+
+  &:hover {
+    cursor: pointer;
+    scale: 1.01;
+    box-shadow: ${maskedTheme.boxShadow.lg};
+  }
+`
+
+export const ServiceCardWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${maskedTheme.spacing.md};
 `
 
 export const ServiceCardHeader = styled.div`
@@ -26,6 +40,6 @@ export const ServiceCardFooter = styled.div`
   display: flex;
   justify-content: space-between;
   gap: ${maskedTheme.spacing.md};
-  border-top: 1px solid ${maskedTheme.colors.baseBlue.dark30};
+  border-top: 1px solid ${maskedTheme.colors.baseBlack.dark40};
   padding-top: ${maskedTheme.spacing.md};
 `

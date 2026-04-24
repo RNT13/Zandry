@@ -1,5 +1,5 @@
 import { continuousAnimations } from '@/styles/MaskedAnimations/animations/continuousAnimations'
-import { maskedTheme } from '@/styles/MaskedThemes/MaskedThemes'
+import { maskedTheme, media } from '@/styles/MaskedThemes/MaskedThemes'
 import styled from 'styled-components'
 
 export const EnterpriseContainer = styled.div`
@@ -38,12 +38,16 @@ export const EnterpriseBanner = styled.div`
   height: 200px;
   background-color: blue;
   border-radius: 20px 20px 0 0;
+
+  ${media.mobile} {
+    border-radius: 0;
+  }
 `
 
 export const AbsoluteDiv = styled.div`
   position: absolute;
   top: 135px;
-  padding: ${maskedTheme.spacing.md};
+  padding: ${maskedTheme.spacing.sm};
 `
 
 export const EnterpriseContent = styled.div`
@@ -56,10 +60,16 @@ export const EnterpriseContent = styled.div`
 export const EnterpriseAvatar = styled.div`
   width: 100px;
   height: 100px;
-  background-color: yellow;
+  background-color: ${maskedTheme.colors.baseBlue.dark04};
   border-radius: ${maskedTheme.radius.md};
   margin-bottom: ${maskedTheme.spacing.md};
+  color: ${maskedTheme.colors.baseBlue.light40};
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: bold;
 `
 
 export const EnterpriseInfo = styled.div`
@@ -73,17 +83,27 @@ export const ButtonDiv = styled.div`
   display: flex;
   justify-content: space-between;
   gap: ${maskedTheme.spacing.md};
+
+  button {
+    color: ${maskedTheme.colors.baseBlue.dark40};
+  }
 `
 
 export const EnterpriseTag = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
 
   background-color: ${maskedTheme.colors.baseBlue.dark04};
   border-radius: ${maskedTheme.radius.lg};
   padding: ${maskedTheme.spacing.sm} ${maskedTheme.spacing.md};
-
   gap: ${maskedTheme.spacing.md};
+
+  ${media.mobile} {
+    h3 {
+      width: 100%;
+    }
+  }
 `
 
 export const EnterpriseTime = styled.div`
@@ -108,5 +128,9 @@ export const EnterpriseInfoDiv = styled.div`
     display: flex;
     align-items: center;
     gap: ${maskedTheme.spacing.md};
+  }
+
+  button {
+    color: ${maskedTheme.colors.baseBlue.dark30};
   }
 `
