@@ -6,6 +6,8 @@ type props = {
   $variant?: string
   $hasToggle?: boolean
   $radius?: number
+  $icon?: boolean
+  $open?: boolean
 }
 
 /* ============================================================
@@ -18,6 +20,8 @@ export const MaskedInputContainer = styled.div<props>`
   display: flex;
   flex-direction: column;
   gap: 6px;
+
+  z-index: ${({ $open }) => ($open ? 999 : 1)};
 
   input,
   textarea,
@@ -32,9 +36,7 @@ export const MaskedInputContainer = styled.div<props>`
     line-height: 1.4;
     color: ${maskedTheme.colors.baseBlue.base};
     background-color: ${maskedTheme.colors.baseBlue.light02};
-    z-index: 2;
     text-align: left;
-
     ${transitions.slow}
 
     ${({ $hasToggle }) => $hasToggle && `padding-right: 44px;`}
@@ -87,15 +89,16 @@ export const MaskedInputContainer = styled.div<props>`
     }
 
     &::placeholder {
-      color: ${maskedTheme.colors.baseBlue.dark};
+      color: ${maskedTheme.colors.baseBlue.dark08};
     }
   }
 
   input,
   textarea,
-  select {
+  select,
+  button {
     min-height: 44px;
-    padding: 0 12px;
+    padding: ${({ $icon }) => ($icon ? '0 12px' : '0 43px')};
     line-height: 40px;
   }
 
@@ -121,7 +124,6 @@ export const SearchIcon = styled.div`
   font-size: 1.3rem;
   color: ${maskedTheme.colors.baseBlue.light30};
   pointer-events: none;
-  z-index: 3;
 `
 
 /* ============================================================
@@ -131,11 +133,10 @@ export const SearchIcon = styled.div`
 export const PasswordToggle = styled.div`
   position: absolute;
   right: 12px;
-  top: 43px;
+  top: 44px;
   background: none;
   border: none;
   cursor: pointer;
-  z-index: 2;
   color: ${maskedTheme.colors.baseBlue.light};
 
   svg {
@@ -204,10 +205,10 @@ export const FileTrigger = styled.button`
  * ============================================================ */
 
 export const ErrorDiv = styled.div`
-  color: ${maskedTheme.colors.baseRed.light30};
+  color: ${maskedTheme.colors.baseRed.dark30};
   font-size: 0.85rem;
   font-weight: 500;
-  background-color: ${maskedTheme.colors.baseRed.light04};
+  background-color: ${maskedTheme.colors.baseRed.light20};
   padding: 6px 12px;
   border-radius: 10px;
 `
@@ -246,15 +247,26 @@ export const SelectTrigger = styled.button`
 `
 
 export const SelectDropdown = styled.div`
-  position: absolute;
-  top: 100%;
+  position: fixed;
   padding: 4px 4px 0px 4px;
-  left: 0;
-  width: 100%;
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
   background: ${maskedTheme.colors.baseBlue.base};
-  z-index: 5;
+  z-index: 999999;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+
+  animation: selectFade 0.18s ease;
+
+  @keyframes selectFade {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 `
 
 export const SelectOption = styled.div`
@@ -286,15 +298,28 @@ export const CurrencyWrapper = styled.div`
 
   span {
     position: absolute;
-    left: 14px;
     top: 50%;
+    left: 12px;
     transform: translateY(-50%);
-    font-weight: 600;
-    color: ${maskedTheme.colors.baseBlue.light30};
-    pointer-events: none;
+    font-weight: 900;
+    font-size: 1.2rem;
+    color: ${maskedTheme.colors.baseBlue.light};
   }
 
   input {
     padding-left: 44px;
+  }
+`
+
+export const InputIconWrapper = styled.div`
+  position: absolute;
+  left: 12px;
+  top: 44px;
+  background: none;
+  border: none;
+  color: ${maskedTheme.colors.baseBlue.light};
+
+  svg {
+    font-size: 1.5rem;
   }
 `

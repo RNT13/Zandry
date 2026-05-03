@@ -1,4 +1,6 @@
-export const professionalsListMock: Professional[] = [
+import { ProfessionalType } from '@/types/entities'
+
+export const professionalsListMock: ProfessionalType[] = [
   {
     id: 1,
     full_name: '',

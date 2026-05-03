@@ -2,6 +2,7 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { setService } from "@/redux/slices/bookingSlice";
 import { Row, TitleH2 } from "@/styles/globalStyles";
 import { MAnimation } from "@/styles/MaskedAnimations/MAnimation";
+import { ServiceType } from "@/types/entities";
 import { useParams, useRouter } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
 import { MButton } from "../MaskedButton/MaskedButton";
@@ -9,7 +10,7 @@ import ServiceCard from "../ServiceCard/ServiceCard";
 import { ServiceListContainer, ServiceListContent } from "./ServiceList.styles";
 
 interface ServiceListProps {
-  services: Service[]
+  services: ServiceType[]
 }
 
 export default function ServiceList(props: ServiceListProps) {
@@ -23,7 +24,7 @@ export default function ServiceList(props: ServiceListProps) {
     push(`/${slug}`)
   }
 
-  const handleNext = (service: Service) => {
+  const handleNext = (service: ServiceType) => {
     if (!service) return
 
     dispatch(setService(service))
@@ -34,10 +35,10 @@ export default function ServiceList(props: ServiceListProps) {
   return (
     <ServiceListContainer>
       <ServiceListContent>
-        <MAnimation variant="fadeInRight" trigger="mount" delay={0.2}>
+        <MAnimation variant="revealFadeInRight" trigger="mount" delay={0.2}>
           <Row>
             <MButton
-              variant="default"
+              $variant="default"
               shapes="circle"
               leftIcon={<IoIosArrowBack />}
               onClick={handleBack}
@@ -49,7 +50,7 @@ export default function ServiceList(props: ServiceListProps) {
         </MAnimation>
 
         {props.services.map((service, index) => (
-          <MAnimation key={service.id} variant="fadeInUp" trigger="mount" delay={index * 0.2}>
+          <MAnimation key={service.id} variant="revealFadeInUp" trigger="mount" delay={index * 0.2}>
             <ServiceCard
               key={service.id}
               id={service.id}

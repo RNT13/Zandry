@@ -1,4 +1,6 @@
-export const serviceListMock: Service[] = [
+import { ServiceType } from '@/types/entities'
+
+export const serviceListMock: ServiceType[] = [
   {
     id: 1,
     name: 'Corte de cabelo masculino',

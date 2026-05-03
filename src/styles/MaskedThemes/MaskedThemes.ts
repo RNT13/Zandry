@@ -39,13 +39,13 @@ const lightColors = {
 }
 
 const neonColors = {
-  neonPink: { base: '#FF2DAA', glow: '#FF5FCC', soft: '#FFB3E6' },
-  neonPurple: { base: '#B026FF', glow: '#D26CFF', soft: '#E6C2FF' },
-  neonBlue: { base: '#00E5FF', glow: '#5DF4FF', soft: '#B3FBFF' },
-  neonGreen: { base: '#2BFF88', glow: '#6DFFB3', soft: '#C7FFE5' },
-  neonRed: { base: '#FF1744', glow: '#FF5252', soft: '#FF9E9E' },
-  neonYellow: { base: '#FFE600', glow: '#FFF066', soft: '#FFF6B3' },
-  neonCyan: { base: '#00FFF0', glow: '#66FFF7', soft: '#B3FFFB' }
+  neonPink: { base: '#FF2DAA', glow: '#FF74D1', soft: '#FFD0EC', dark: '#C40078' },
+  neonPurple: { base: '#B026FF', glow: '#D06CFF', soft: '#EBCBFF', dark: '#7A00CC' },
+  neonBlue: { base: '#00E5FF', glow: '#66F4FF', soft: '#CCFBFF', dark: '#0099CC' },
+  neonGreen: { base: '#2BFF88', glow: '#74FFB2', soft: '#D4FFE9', dark: '#00C95A' },
+  neonRed: { base: '#FF1744', glow: '#FF5C77', soft: '#FFC2CC', dark: '#C4002B' },
+  neonYellow: { base: '#FFE600', glow: '#FFF266', soft: '#FFF9C7', dark: '#C7A800' },
+  neonCyan: { base: '#00FFF0', glow: '#66FFF7', soft: '#CCFFFC', dark: '#00BFAF' }
 }
 
 const pastelColors = {
@@ -79,9 +79,38 @@ const structure = {
     '2xl': '4rem'
   },
   boxShadow: {
-    sm: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    md: '0 4px 8px rgba(0, 0, 0, 0.2)',
-    lg: '0 8px 16px rgba(0, 0, 0, 0.3)'
+    xs: `
+    box-shadow:
+      0 1px 2px rgba(0,0,0,0.12),
+      0 2px 6px rgba(0,0,0,0.08);
+  `,
+
+    sm: `
+    box-shadow:
+      0 2px 6px rgba(0,0,0,0.18),
+      0 6px 14px rgba(0,0,0,0.10);
+  `,
+
+    md: `
+    box-shadow:
+      0 4px 12px rgba(0,0,0,0.22),
+      0 10px 24px rgba(0,0,0,0.14),
+      0 0 0 1px rgba(255,255,255,0.03);
+  `,
+
+    lg: `
+    box-shadow:
+      0 8px 20px rgba(0,0,0,0.28),
+      0 18px 40px rgba(0,0,0,0.18),
+      0 0 0 1px rgba(255,255,255,0.04);
+  `,
+
+    xl: `
+    box-shadow:
+      0 12px 30px rgba(0,0,0,0.35),
+      0 24px 60px rgba(0,0,0,0.22),
+      0 0 0 1px rgba(255,255,255,0.05);
+  `
   },
   fontSize: {
     xs: '0.75rem',

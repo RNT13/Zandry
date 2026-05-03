@@ -1,24 +1,26 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 
 import { apiSlice } from './slices/apiSlice'
-import authReducer from './slices/authSlice'
-import bookingReducer from './slices/bookingSlice'
 
 import { persistReducer, persistStore } from 'redux-persist'
 
-import storage from 'redux-persist/lib/storage'
+import authSlice from './slices/authSlice'
+import bookingSlice from './slices/bookingSlice'
+import registerSlice from './slices/registerSlice'
+import storage from './storage'
 
 const rootReducer = combineReducers({
-  auth: authReducer,
-  booking: bookingReducer,
+  auth: authSlice,
+  booking: bookingSlice,
+  register: registerSlice,
   [apiSlice.reducerPath]: apiSlice.reducer
 })
 
 const persistConfig = {
-  key: 'root',
+  key: 'zandry-root',
+  version: 1,
   storage,
-  whitelist: ['booking'],
-  blacklist: [apiSlice.reducerPath]
+  whitelist: ['auth', 'booking']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

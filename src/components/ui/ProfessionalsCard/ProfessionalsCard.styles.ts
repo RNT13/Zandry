@@ -12,7 +12,7 @@ export const ProfessionalsCardContent = styled.div`
   padding: ${maskedTheme.spacing.md};
   border-radius: ${maskedTheme.radius.md};
   gap: ${maskedTheme.spacing.md};
-  background-color: ${maskedTheme.colors.baseBlue.dark04};
+  background-color: ${maskedTheme.colors.baseBlue.light30};
   border: 1px solid ${maskedTheme.colors.baseBlue.base};
 
   ${transitions.default}

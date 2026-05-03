@@ -1,11 +1,10 @@
 "use client";
 
-import { FiSearch } from "react-icons/fi";
 import {
   ErrorDiv,
+  InputIconWrapper,
   InputLabel,
-  MaskedInputContainer,
-  SearchIcon,
+  MaskedInputContainer
 } from "../MaskedInput.styles";
 import { InputVariantMap } from "../MaskedInput.types";
 
@@ -25,17 +24,15 @@ export function SearchInput(props: Props) {
       $variant="search"
       $radius={props.radius}
       data-error={hasError}
+      $icon={!props.icon}
     >
       {props.label && (
         <InputLabel htmlFor={props.id}>
-          {props.icon}
           <span>{props.label}</span>
         </InputLabel>
       )}
 
-      <SearchIcon>
-        <FiSearch />
-      </SearchIcon>
+      {props.icon && <InputIconWrapper>{props.icon}</InputIconWrapper>}
 
       <input
         id={props.id}
@@ -48,11 +45,10 @@ export function SearchInput(props: Props) {
         style={{ paddingLeft: 40 }}
         aria-invalid={hasError ? "true" : undefined}
         aria-describedby={hasError ? `${props.id}-error` : undefined}
+        disabled={props.disabled}
       />
 
-      {props.showError && hasError && (
-        <ErrorDiv id={`${props.id}-error`}>{props.error}</ErrorDiv>
-      )}
+      {hasError && <ErrorDiv id={`${props.id}-error`}>{props.error}</ErrorDiv>}
     </MaskedInputContainer>
   );
 }

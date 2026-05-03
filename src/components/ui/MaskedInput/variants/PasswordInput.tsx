@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import {
   ErrorDiv,
+  InputIconWrapper,
   InputLabel,
   MaskedInputContainer,
   PasswordToggle,
@@ -21,13 +22,15 @@ export function PasswordInput(props: Props) {
       $variant="password"
       $radius={props.radius}
       data-error={hasError}
+      $icon={!props.icon}
     >
       {props.label && (
         <InputLabel htmlFor={props.id}>
-          {props.icon}
           <span>{props.label}</span>
         </InputLabel>
       )}
+
+      {props.icon && <InputIconWrapper>{props.icon}</InputIconWrapper>}
 
       <input
         id={props.id}
@@ -38,15 +41,14 @@ export function PasswordInput(props: Props) {
         placeholder={props.placeholder}
         aria-invalid={hasError ? "true" : undefined}
         aria-describedby={hasError ? `${props.id}-error` : undefined}
+        disabled={props.disabled}
       />
 
       <PasswordToggle onClick={() => setShow((s) => !s)}>
         {show ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
       </PasswordToggle>
 
-      {props.showError && hasError && (
-        <ErrorDiv id={`${props.id}-error`}>{props.error}</ErrorDiv>
-      )}
+      {hasError && <ErrorDiv id={`${props.id}-error`}>{props.error}</ErrorDiv>}
     </MaskedInputContainer>
   );
 }

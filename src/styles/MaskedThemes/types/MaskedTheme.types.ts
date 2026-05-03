@@ -27,6 +27,7 @@ export interface NeonColorVariant {
   base: string
   glow: string
   soft: string
+  dark: string
 }
 
 export interface PastelColorVariant {
@@ -101,9 +102,11 @@ declare module 'styled-components' {
     }
 
     boxShadow: {
+      xs: string
       sm: string
       md: string
       lg: string
+      xl: string
     }
 
     fontSize: {

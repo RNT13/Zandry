@@ -12,6 +12,8 @@ export type BaseProps<T> = {
   className?: string
   placeholder?: string
 
+  disabled?: boolean
+
   icon?: ReactNode
   label?: string
   helperText?: string
@@ -33,7 +35,7 @@ export type InputVariantMap = {
   password: BaseProps<string>
 
   masked: BaseProps<string> & {
-    mask: string
+    mask: string | ((value: string) => string)
   }
 
   select: BaseProps<string> & {
@@ -63,6 +65,7 @@ export type InputVariantMap = {
   }
 
   currency: BaseProps<string> & {
+    symbol?: string
     currencyConfig?: {
       locale?: string
       currency?: string

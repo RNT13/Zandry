@@ -20,29 +20,29 @@ import {
 import { overlayBase } from './transitions'
 
 export const continuousAnimations = {
-  spin: css`
+  continuousSpin: css`
     animation: ${spin} 1s linear infinite;
   `,
-  pulse: css`
+  continuousPulse: css`
     animation: ${pulse} 1.2s ease-in-out infinite;
   `,
-  bounce: css`
+  continuousBounce: css`
     animation: ${bounce} 1.6s cubic-bezier(0.28, 0.84, 0.42, 1) infinite;
   `,
-  float: css`
+  continuousFloat: css`
     animation: ${float} 3s ease-in-out infinite;
   `,
-  jumpRotate: css`
+  continuousJumpRotate: css`
     animation: ${jumpRotate} 0.6s ease-in-out;
   `,
-  horizontalLine: css`
+  continuousHorizontalLine: css`
     animation: ${horizontalLine} 1.2s ease-in-out infinite;
   `,
-  shakeX: css`
+  continuousShakeX: css`
     animation: ${shakeX} 0.4s ease-in-out;
   `,
 
-  skeleton: css`
+  continuousSkeleton: css`
     ${overlayBase}
     background: rgba(255,255,255,0.06);
 
@@ -56,7 +56,7 @@ export const continuousAnimations = {
     }
   `,
 
-  glow: css`
+  continuousGlow: css`
     ${overlayBase}
     &::before {
       content: '';
@@ -77,7 +77,7 @@ export const continuousAnimations = {
     }
   `,
 
-  InfinityGlowDiagonal: css`
+  continuousGlowDiagonal: css`
     ${overlayBase}
 
     &::before {
@@ -108,7 +108,7 @@ export const continuousAnimations = {
     }
   `,
 
-  InfinityGlowGold: css`
+  continuousGlowGold: css`
     ${overlayBase}
 
     &::before {
@@ -138,7 +138,7 @@ export const continuousAnimations = {
     }
   `,
 
-  InfinityGlowPurple: css`
+  continuousGlowPurple: css`
     ${overlayBase}
 
     &::before {
@@ -168,7 +168,7 @@ export const continuousAnimations = {
     }
   `,
 
-  shineInfinite: css`
+  continuousShine: css`
     ${overlayBase}
     &::before {
       content: '';
@@ -181,7 +181,7 @@ export const continuousAnimations = {
     }
   `,
 
-  goldBorderPremium: css`
+  continuousGoldBorderPremium: css`
     position: relative;
     isolation: isolate;
 
@@ -261,11 +261,11 @@ export const continuousAnimations = {
 
       opacity: 0;
 
-      animation: ${starFlash} 6s linear infinite;
+      animation: ${starFlash} 6s reverse infinite;
     }
   `,
 
-  silverBorderPremium: css`
+  continuousSilverBorderPremium: css`
     position: relative;
     isolation: isolate;
 
@@ -313,15 +313,15 @@ export const continuousAnimations = {
     }
   `,
 
-  rocketLaunchLoop: css`
+  continuousRocketLaunchLoop: css`
     animation: ${rocketTrajectory} 6s ease-in-out infinite;
   `,
 
-  lightningStrikeLoop: css`
+  continuousLightningStrikeLoop: css`
     animation: ${lightningStrikeMove} 5s ease-in-out infinite;
   `,
 
-  backGlow: css`
+  continuousBackGlow: css`
     position: relative;
     z-index: 1;
 
@@ -340,7 +340,7 @@ export const continuousAnimations = {
     }
   `,
 
-  rocketLaunch: css`
+  continuousRocketLaunch: css`
     animation: ${rocketTrajectory} 4s cubic-bezier(0.22, 1.4, 0.36, 1);
   `
 }

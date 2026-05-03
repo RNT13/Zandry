@@ -95,7 +95,7 @@ const stateStyles: Record<ButtonState, ReturnType<typeof css>> = {
     cursor: not-allowed;
 
     svg {
-      ${continuousAnimations.spin}
+      ${continuousAnimations.continuousSpin}
       stroke-width: 2;
     }
   `,
@@ -106,7 +106,7 @@ const stateStyles: Record<ButtonState, ReturnType<typeof css>> = {
   `,
   error: css`
     &:hover {
-      ${continuousAnimations.shakeX}
+      ${continuousAnimations.continuousShakeX}
     }
   `
 }

@@ -43,10 +43,10 @@ export default function DataTime() {
   return (
     <DataTimeContainer>
       <DataTimeContent>
-        <MAnimation variant="fadeInRight" trigger="mount" delay={0.2}>
+        <MAnimation variant="revealFadeInRight" trigger="mount" delay={0.2}>
           <Row>
             <MButton
-              variant="default"
+              $variant="default"
               shapes="circle"
               leftIcon={<IoIosArrowBack />}
               onClick={handleBack}
@@ -58,13 +58,13 @@ export default function DataTime() {
         </MAnimation>
 
         <DataContainer>
-          <MAnimation variant="fadeInLeft" trigger="mount" delay={0.2}>
+          <MAnimation variant="revealFadeInLeft" trigger="mount" delay={0.2}>
             <TitleH3>Escolha o dia </TitleH3>
           </MAnimation>
 
           <DaysContainer>
             {daysMock.map((day, index) => (
-              <MAnimation key={day.day} variant="fadeInRight" trigger="mount" delay={index * 0.2} center>
+              <MAnimation key={day.day} variant="revealFadeInRight" trigger="mount" delay={index * 0.2} center>
                 <DayItem
                   key={day.data}
                   $isActive={day.data === selectedDay?.data}
@@ -77,13 +77,13 @@ export default function DataTime() {
             ))}
           </DaysContainer>
 
-          <MAnimation variant="fadeInLeft" trigger="mount" delay={0.2}>
+          <MAnimation variant="revealFadeInLeft" trigger="mount" delay={0.2}>
             <TitleH3>Escolha o horário</TitleH3>
           </MAnimation>
 
           <TimeContainer>
             {timeMock.map((time, index) => (
-              <MAnimation key={time.time} variant="fadeInRight" trigger="mount" delay={index * 0.05}>
+              <MAnimation key={time.time} variant="revealFadeInRight" trigger="mount" delay={index * 0.05}>
                 <TimeItem
                   key={time.id}
                   $isActive={time.id === selectedTime?.id}
@@ -96,8 +96,8 @@ export default function DataTime() {
           </TimeContainer>
         </DataContainer>
 
-        <MAnimation variant="fadeInUp" trigger="mount" delay={0.2}>
-          <MButton variant="default" fullWidth state={!selectedDay || !selectedTime ? 'disabled' : 'default'} onClick={handleNext}>
+        <MAnimation variant="revealFadeInUp" trigger="mount" delay={0.2}>
+          <MButton $variant="default" fullWidth state={!selectedDay || !selectedTime ? 'disabled' : 'default'} onClick={handleNext}>
             Confirmar
           </MButton>
         </MAnimation>

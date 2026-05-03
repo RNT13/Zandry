@@ -3,6 +3,7 @@ import { setUser } from "@/redux/slices/authSlice";
 import { RootState } from "@/redux/store";
 import { MinorTextH4, Row, TitleH2, TitleH3 } from "@/styles/globalStyles";
 import { MAnimation } from "@/styles/MaskedAnimations/MAnimation";
+import { UserType } from "@/types/entities";
 import { formatMonth } from "@/utils/formateMonth";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -13,7 +14,7 @@ import { MInput } from "../MaskedInput/MaskedInput";
 import { ConfirmationContainer, ConfirmationContent, ConfirmationInfo, ConfirmationName, ConfirmationPhone, ConfirmationRow, TotalDiv } from "./Confirmation.styles";
 
 interface ConfirmationProps {
-  user: User
+  user: UserType
 }
 
 export default function Confirmation(props: ConfirmationProps) {
@@ -31,7 +32,7 @@ export default function Confirmation(props: ConfirmationProps) {
     push(`/${slug}/servicos/profissional/horario`)
   }
 
-  const handleConfirm = (user: User) => {
+  const handleConfirm = (user: UserType) => {
     if (!nameValue || !numberValue) return
 
     dispatch(setUser(user))
@@ -42,10 +43,10 @@ export default function Confirmation(props: ConfirmationProps) {
   return (
     <ConfirmationContainer>
       <ConfirmationContent>
-        <MAnimation variant="fadeInRight" trigger="mount" delay={0.2}>
+        <MAnimation variant="revealFadeInRight" trigger="mount" delay={0.2}>
           <Row>
             <MButton
-              variant="default"
+              $variant="default"
               shapes="circle"
               leftIcon={<IoIosArrowBack />}
               onClick={handleBack}
@@ -56,21 +57,21 @@ export default function Confirmation(props: ConfirmationProps) {
           </Row>
         </MAnimation>
 
-        <MAnimation variant="fadeInRight" trigger="mount" delay={0.4}>
+        <MAnimation variant="revealFadeInRight" trigger="mount" delay={0.4}>
           <ConfirmationName>
             <TitleH2>Nome Completo</TitleH2>
             <MInput variant="default" value={nameValue} onChange={value => setNameValue(value)} placeholder="Nome Completo" />
           </ConfirmationName>
         </MAnimation>
 
-        <MAnimation variant="fadeInRight" trigger="mount" delay={0.6}>
+        <MAnimation variant="revealFadeInRight" trigger="mount" delay={0.6}>
           <ConfirmationPhone>
             <TitleH2>Telefone</TitleH2>
             <MInput variant="masked" mask="(00) 00000-0000" value={numberValue} onChange={value => setNumberValue(value)} placeholder="Telefone" />
           </ConfirmationPhone>
         </MAnimation>
 
-        <MAnimation variant="fadeInRight" trigger="mount" delay={0.8}>
+        <MAnimation variant="revealFadeInRight" trigger="mount" delay={0.8}>
           <ConfirmationInfo>
             <TitleH2>Detalhes do agendamento</TitleH2>
             <ConfirmationRow><TitleH3>Serviço:</TitleH3><MinorTextH4> {booking.services.name}</MinorTextH4></ConfirmationRow>
@@ -85,8 +86,8 @@ export default function Confirmation(props: ConfirmationProps) {
           </ConfirmationInfo>
         </MAnimation>
 
-        <MAnimation variant="fadeInUp" trigger="mount" delay={1}>
-          <MButton variant="default" label="Confirmar atendimento" state={!nameValue || !numberValue ? 'disabled' : 'default'} fullWidth onClick={() => handleConfirm(props.user)}>
+        <MAnimation variant="revealFadeInUp" trigger="mount" delay={1}>
+          <MButton $variant="default" label="Confirmar atendimento" state={!nameValue || !numberValue ? 'disabled' : 'default'} fullWidth onClick={() => handleConfirm(props.user)}>
             Confirmar
           </MButton>
         </MAnimation>

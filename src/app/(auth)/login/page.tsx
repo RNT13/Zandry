@@ -1,5 +1,6 @@
 'use client'
 
+import LoginWindow from "@/components/ui/LoginWindow/LoginWindow"
 import { LoginContainer, LoginContent } from "./login.styles"
 
 
@@ -7,7 +8,7 @@ export default function Login() {
   return (
     <LoginContainer>
       <LoginContent>
-        <h1>pagina de login</h1>
+        <LoginWindow />
       </LoginContent>
     </LoginContainer>
   )

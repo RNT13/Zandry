@@ -1,10 +1,13 @@
+import { EnterpriseType } from '@/types/entities'
 import { professionalsListMock } from './professionalsMock'
 import { serviceListMock } from './serviceMock'
 
-export const enterpriseListMock: Enterprise[] = [
+export const enterpriseListMock: EnterpriseType[] = [
   {
     id: 1,
     name: 'Barbearia Unissex SP',
+    cnpj: '12.345.678/0001-90',
+    email: 'gjY3o@example.com',
     phone: '(11) 99999-9999',
     category: 'Barbearia',
     description: 'Barbearia Unissex SP é uma barbearia para homens e mulheres, com ambiente aconchegante e preços de alta qualidade.',
@@ -24,6 +27,8 @@ export const enterpriseListMock: Enterprise[] = [
   {
     id: 2,
     name: 'Barbearia do João RJ',
+    cnpj: '12.345.678/0001-90',
+    email: 'gjY3o@example.com',
     phone: '(21) 99999-9999',
     category: 'Barbearia',
     description: 'Barbearia do João RJ é uma barbearia para homens, com ambiente aconchegante e preços de alta qualidade.',
@@ -43,6 +48,8 @@ export const enterpriseListMock: Enterprise[] = [
   {
     id: 3,
     name: 'Barbearia da Luiza MG',
+    cnpj: '12.345.678/0001-90',
+    email: 'gjY3o@example.com',
     phone: '(31) 99999-9999',
     category: 'Barbearia',
     description: 'Barbearia da Luiza MG é uma barbearia para mulheres, com ambiente aconchegante e preços de alta qualidade.',

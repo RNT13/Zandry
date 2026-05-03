@@ -5,7 +5,7 @@ import {
   CurrencyWrapper,
   ErrorDiv,
   InputLabel,
-  MaskedInputContainer,
+  MaskedInputContainer
 } from '../MaskedInput.styles'
 import { InputVariantMap } from '../MaskedInput.types'
 
@@ -69,13 +69,18 @@ export function CurrencyInput(props: Props) {
   }
 
   return (
-    <MaskedInputContainer $variant="currency" $radius={props.radius} data-error={hasError}>
+    <MaskedInputContainer
+      $variant="currency"
+      $radius={props.radius}
+      data-error={hasError}
+      $icon={!props.symbol}
+    >
       {props.label && (
         <InputLabel htmlFor={props.id}>
-          {props.icon}
           <span>{props.label}</span>
         </InputLabel>
       )}
+
 
       <CurrencyWrapper>
         <span>{symbol}</span>
@@ -91,10 +96,11 @@ export function CurrencyInput(props: Props) {
           className={hasError ? 'error' : ''}
           aria-invalid={hasError ? 'true' : undefined}
           aria-describedby={hasError ? `${props.id}-error` : undefined}
+          disabled={props.disabled}
         />
       </CurrencyWrapper>
 
-      {props.showError && hasError && <ErrorDiv id={`${props.id}-error`}>{props.error}</ErrorDiv>}
+      {hasError && <ErrorDiv id={`${props.id}-error`}>{props.error}</ErrorDiv>}
     </MaskedInputContainer>
   )
 }
