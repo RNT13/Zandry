@@ -10,7 +10,7 @@ import OutlineButton from './variants/Outline/OutlineButton'
 import TobbleButton from './variants/Toggle/ToggleButton'
 
 export function MButton(props: ButtonProps) {
-  switch (props.variant) {
+  switch (props.$variant) {
     case 'default':
       return <DefaultButton {...props} />
 

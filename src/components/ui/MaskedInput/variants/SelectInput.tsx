@@ -1,33 +1,85 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+
 import {
   ErrorDiv,
+  InputIconWrapper,
   InputLabel,
   MaskedInputContainer,
   SelectDropdown,
   SelectOption,
   SelectTrigger,
 } from "../MaskedInput.styles";
+
 import { InputVariantMap } from "../MaskedInput.types";
 
-type props = { variant: "select" } & InputVariantMap["select"];
+type Props = { variant: "select" } & InputVariantMap["select"];
 
-export function SelectInput(props: props) {
+export function SelectInput(props: Props) {
   const [open, setOpen] = useState(false);
+
   const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  const [dropdownPos, setDropdownPos] = useState({
+    top: 0,
+    left: 0,
+    width: 0,
+  });
 
   const hasError = props.touched && Boolean(props.error);
 
   const selectedOption = props.options.find((opt) => opt.value === props.value);
 
-  /* fecha ao clicar fora */
+  /* ============================================================
+   * CALCULA POSIÇÃO DO DROPDOWN NO BODY
+   * ============================================================ */
+  function updateDropdownPosition() {
+    if (!triggerRef.current) return;
+
+    const rect = triggerRef.current.getBoundingClientRect();
+
+    setDropdownPos({
+      top: rect.bottom + 6,
+      left: rect.left,
+      width: rect.width,
+    });
+  }
+
+  /* ============================================================
+   * AO ABRIR -> CALCULA POSIÇÃO E MONITORA RESIZE/SCROLL
+   * ============================================================ */
+  useEffect(() => {
+    if (!open) return;
+
+    updateDropdownPosition();
+
+    window.addEventListener("resize", updateDropdownPosition);
+    window.addEventListener("scroll", updateDropdownPosition, true);
+
+    return () => {
+      window.removeEventListener("resize", updateDropdownPosition);
+      window.removeEventListener("scroll", updateDropdownPosition, true);
+    };
+  }, [open]);
+
+  /* ============================================================
+   * FECHA AO CLICAR FORA
+   * ============================================================ */
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(e.target as Node)
-      ) {
+      const target = e.target as Node;
+
+      const clickedInsideTrigger =
+        containerRef.current && containerRef.current.contains(target);
+
+      const clickedInsideDropdown = document
+        .getElementById("masked-select-dropdown")
+        ?.contains(target);
+
+      if (!clickedInsideTrigger && !clickedInsideDropdown) {
         setOpen(false);
       }
     }
@@ -42,47 +94,62 @@ export function SelectInput(props: props) {
       ref={containerRef}
       $radius={props.radius}
       data-error={hasError}
+      $icon={!props.icon}
+      $open={open}
     >
       {props.label && (
-        <InputLabel>
-          {props.icon}
+        <InputLabel htmlFor={props.id}>
           <span>{props.label}</span>
         </InputLabel>
       )}
 
-      {/* TRIGGER */}
+      {props.icon && <InputIconWrapper>{props.icon}</InputIconWrapper>}
+
+      {/* ============================================================
+       * TRIGGER
+       * ============================================================ */}
       <SelectTrigger
+        ref={triggerRef}
         type="button"
-        className={` ${hasError ? "error" : ""}`}
+        className={`${hasError ? "error" : ""}`}
         onClick={() => setOpen((o) => !o)}
       >
         {selectedOption?.label ?? "Selecione uma opção"}
         <span className={`arrow ${open ? "open" : ""}`} />
       </SelectTrigger>
 
-      {/* DROPDOWN */}
-      {open && (
-        <SelectDropdown>
-          {props.options.map((option) => (
-            <SelectOption
-              key={option.value}
-              className={`${option.value === props.value ? "selected" : ""}`}
-              onClick={() => {
-                props.onChange?.(option.value);
-                setOpen(false);
-              }}
-              aria-invalid={hasError ? "true" : undefined}
-              aria-describedby={hasError ? `${props.id}-error` : undefined}
-            >
-              {option.label}
-            </SelectOption>
-          ))}
-        </SelectDropdown>
-      )}
+      {/* ============================================================
+       * DROPDOWN VIA PORTAL
+       * ============================================================ */}
+      {open &&
+        createPortal(
+          <SelectDropdown
+            id="masked-select-dropdown"
+            style={{
+              top: dropdownPos.top,
+              left: dropdownPos.left,
+              width: dropdownPos.width,
+            }}
+          >
+            {props.options.map((option) => (
+              <SelectOption
+                key={option.value}
+                className={`${option.value === props.value ? "selected" : ""}`}
+                onClick={() => {
+                  props.onChange?.(option.value);
+                  setOpen(false);
+                }}
+                aria-invalid={hasError ? "true" : undefined}
+                aria-describedby={hasError ? `${props.id}-error` : undefined}
+              >
+                {option.label}
+              </SelectOption>
+            ))}
+          </SelectDropdown>,
+          document.body
+        )}
 
-      {props.showError && hasError && (
-        <ErrorDiv id={`${props.id}-error`}>{props.error}</ErrorDiv>
-      )}
+      {hasError && <ErrorDiv id={`${props.id}-error`}>{props.error}</ErrorDiv>}
     </MaskedInputContainer>
   );
 }

@@ -1,4 +1,4 @@
-
+import { RefreshResponse } from '@/types/api'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { logout, setCredentials } from '../slices/authSlice'
 import type { RootState } from '../store'
@@ -81,5 +81,3 @@ export const {
   //exemplo de endpoint
   useAuthQuery
 } = apiSlice
-
-      

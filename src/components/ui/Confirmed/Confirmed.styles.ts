@@ -27,7 +27,7 @@ export const SvgDiv = styled.div`
   background-color: ${maskedTheme.colors.baseGreen.dark02};
   border-radius: 50%;
   padding: ${maskedTheme.spacing.xl};
-  ${continuousAnimations.pulse}
+  ${continuousAnimations.continuousPulse}
 `
 
 export const ConfirmedDetails = styled.div`
@@ -35,7 +35,7 @@ export const ConfirmedDetails = styled.div`
   flex-direction: column;
   gap: ${maskedTheme.spacing.sm};
   padding: ${maskedTheme.spacing.md};
-  background-color: ${maskedTheme.colors.baseBlue.dark04};
+  background-color: ${maskedTheme.colors.baseBlue.light30};
   border-radius: ${maskedTheme.radius.md};
   border: 1px solid ${maskedTheme.colors.baseBlue.base};
 `

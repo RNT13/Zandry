@@ -530,3 +530,146 @@ export const magneticRise = keyframes`
     transform: translateY(0) scale(1);
   }
 `
+
+export const softRevealLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`
+
+export const softRevealRight = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`
+
+export const softRevealDown = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`
+
+export const smoothBounceDown = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(34px);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+`
+
+export const smoothBounceLeft = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateX(34px);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translateX(-4px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+`
+
+export const smoothBounceRight = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateX(-34px);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translateX(4px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+`
+
+export const blurRise = keyframes`
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(18px) scale(0.97);
+  }
+
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+`
+
+export const scaleRise = keyframes`
+  0% {
+    opacity: 0;
+    transform: scale(0.82) translateY(20px);
+  }
+
+  70% {
+    opacity: 1;
+    transform: scale(1.03) translateY(-2px);
+  }
+
+  100% {
+    transform: scale(1) translateY(0);
+  }
+`
+
+export const rotateSoftDrop = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-24px) rotate(-5deg);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translateY(3px) rotate(1deg);
+  }
+
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+`
+
+export const cinematicZoom = keyframes`
+  0% {
+    opacity: 0;
+    transform: scale(0.72) translateY(30px);
+  }
+
+  65% {
+    opacity: 1;
+    transform: scale(1.04) translateY(-4px);
+  }
+
+  100% {
+    transform: scale(1) translateY(0);
+  }
+`

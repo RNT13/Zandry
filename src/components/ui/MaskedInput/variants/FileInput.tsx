@@ -82,6 +82,7 @@ export function FileInput(props: Props) {
         hidden
         multiple={props.multiple}
         onChange={(e) => handleFiles(e.target.files)}
+        disabled={props.disabled}
       />
 
       {props.label && (
@@ -103,7 +104,7 @@ export function FileInput(props: Props) {
         </PreviewImageDiv>
       )}
 
-      {props.showError && hasError && <ErrorDiv>{props.error}</ErrorDiv>}
+      {hasError && <ErrorDiv id={`${props.id}-error`}>{props.error}</ErrorDiv>}
     </MaskedInputContainer>
   );
 }

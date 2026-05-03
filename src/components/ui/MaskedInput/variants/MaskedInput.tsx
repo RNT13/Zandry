@@ -1,8 +1,8 @@
 "use client";
 
-import { IMaskInput } from "react-imask";
 import {
   ErrorDiv,
+  InputIconWrapper,
   InputLabel,
   MaskedInputContainer,
 } from "../MaskedInput.styles";
@@ -10,32 +10,89 @@ import { InputVariantMap } from "../MaskedInput.types";
 
 type Props = { variant: "masked" } & InputVariantMap["masked"];
 
+/* ============================================================
+ * REMOVE TODOS OS CARACTERES NÃO NUMÉRICOS
+ * ============================================================ */
+function removeMask(value: string) {
+  return value.replace(/\D/g, "");
+}
+
+/* ============================================================
+ * APLICA UMA MÁSCARA STRING EX: 000.000.000-00
+ * ============================================================ */
+function applyMask(value: string, maskPattern: string) {
+  const numbers = removeMask(value);
+
+  let result = "";
+  let numberIndex = 0;
+
+  for (let i = 0; i < maskPattern.length; i++) {
+    const maskChar = maskPattern[i];
+
+    if (maskChar === "0") {
+      if (numbers[numberIndex]) {
+        result += numbers[numberIndex];
+        numberIndex++;
+      } else {
+        break;
+      }
+    } else {
+      if (numbers[numberIndex]) {
+        result += maskChar;
+      }
+    }
+  }
+
+  return result;
+}
+
+/* ============================================================
+ * RESOLVE SE A MASK É FIXA OU DINÂMICA
+ * ============================================================ */
+function resolveMask(mask: string | ((value: string) => string), value: string) {
+  return typeof mask === "function" ? mask(value) : mask;
+}
+
 export function MaskedInput(props: Props) {
   const hasError = props.touched && props.error;
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value;
+
+    const currentMask = resolveMask(props.mask, rawValue);
+
+    const maskedValue = applyMask(rawValue, currentMask);
+
+    props.onChange?.(maskedValue);
+  };
+
   return (
-    <MaskedInputContainer $variant="masked" $radius={props.radius}>
+    <MaskedInputContainer
+      $variant="masked"
+      $radius={props.radius}
+      data-error={hasError}
+      $icon={!props.icon}
+    >
       {props.label && (
         <InputLabel htmlFor={props.id}>
-          {props.icon}
           <span>{props.label}</span>
         </InputLabel>
       )}
 
-      <IMaskInput
+      {props.icon && <InputIconWrapper>{props.icon}</InputIconWrapper>}
+
+      <input
         id={props.id}
-        mask={props.mask}
         value={props.value ?? ""}
+        onChange={handleChange}
         placeholder={props.placeholder}
-        onAccept={(val) => props.onChange?.(val)}
         className={hasError ? "error" : ""}
         aria-invalid={hasError ? "true" : undefined}
         aria-describedby={hasError ? `${props.id}-error` : undefined}
+        disabled={props.disabled}
       />
 
-      {props.showError && hasError && (
-        <ErrorDiv id={`${props.id}-error`}>{props.error}</ErrorDiv>
-      )}
+      {hasError && <ErrorDiv id={`${props.id}-error`}>{props.error}</ErrorDiv>}
     </MaskedInputContainer>
   );
 }

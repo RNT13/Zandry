@@ -28,7 +28,6 @@ export const ToggleWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
   gap: 8px;
 `
 
@@ -52,7 +51,7 @@ export const ToggleButtonContainer = styled(BaseButtonContainer)<props>`
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background-color: ${({ theme, $isActive }) => ($isActive ? theme.colors.baseBlue.light20 : theme.colors.baseBlack.base)};
+    background-color: ${({ theme, $isActive }) => ($isActive ? theme.colors.baseBlue.dark : theme.colors.baseBlack.base)};
 
     ${transitions.slow}
   }

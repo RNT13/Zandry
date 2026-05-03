@@ -69,7 +69,7 @@ export default function NotFound() {
   return (
     <NotFoundContainer>
       <ImageContainer>
-        <Image src="/not-fond.png" alt="404" fill />
+        <Image src="/not-fond.png" alt="404" fill loading="eager" />
       </ImageContainer>
       <h2>Página não encontrada</h2>
       <p>A página que você está procurando não existe ou foi movida.</p>

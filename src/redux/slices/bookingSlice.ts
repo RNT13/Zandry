@@ -1,10 +1,13 @@
+import { DayTime } from '@/types/common'
+import { EnterpriseType, ProfessionalType, ServiceType, UserType } from '@/types/entities'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from '../store'
 
 type BookingState = {
-  services: Service
-  enterprise: Enterprise
-  professional: Professional
-  user: User
+  services: ServiceType
+  enterprise: EnterpriseType
+  professional: ProfessionalType
+  user: UserType
   dayTime: DayTime
 }
 
@@ -19,6 +22,8 @@ const initialState: BookingState = {
   enterprise: {
     id: 0,
     name: '',
+    cnpj: '',
+    email: '',
     category: '',
     state: '',
     city: '',
@@ -60,15 +65,15 @@ const bookingSlice = createSlice({
   name: 'booking',
   initialState,
   reducers: {
-    setEnterprise(state, action: PayloadAction<Enterprise>) {
+    setEnterprise(state, action: PayloadAction<EnterpriseType>) {
       state.enterprise = action.payload
     },
 
-    setService(state, action: PayloadAction<Service>) {
+    setService(state, action: PayloadAction<ServiceType>) {
       state.services = action.payload
     },
 
-    setProfessional(state, action: PayloadAction<Professional>) {
+    setProfessional(state, action: PayloadAction<ProfessionalType>) {
       state.professional = action.payload
     },
 
@@ -76,7 +81,7 @@ const bookingSlice = createSlice({
       state.dayTime = action.payload
     },
 
-    setUser(state, action: PayloadAction<User>) {
+    setUser(state, action: PayloadAction<UserType>) {
       state.user = action.payload
     },
 
@@ -89,3 +94,9 @@ const bookingSlice = createSlice({
 export const { setService, setProfessional, setDateTime, setEnterprise, setUser, reset } = bookingSlice.actions
 
 export default bookingSlice.reducer
+
+export const selectService = (state: RootState) => state.booking.services
+export const selectProfessional = (state: RootState) => state.booking.professional
+export const selectEnterprise = (state: RootState) => state.booking.enterprise
+export const selectDateTime = (state: RootState) => state.booking.dayTime
+export const selectUser = (state: RootState) => state.booking.user

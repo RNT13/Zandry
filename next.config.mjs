@@ -3,9 +3,27 @@ const nextConfig = {
   compiler: {
     styledComponents: true
   },
+
   images: {
     formats: ['image/avif', 'image/webp'],
-    domains: ['placehold.co', 'res.cloudinary.com', 'api.cloudinary.com', 'localhost']
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'placehold.co'
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.cloudinary.com'
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost'
+      }
+    ]
   }
 }
 

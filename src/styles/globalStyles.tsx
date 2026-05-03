@@ -49,8 +49,16 @@ export const GlobalStyles = createGlobalStyle`
 `;
 
 export const Row = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
+  gap: ${maskedTheme.spacing.md};
+`
+
+export const Column = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   gap: ${maskedTheme.spacing.md};
 `
 

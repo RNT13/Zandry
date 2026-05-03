@@ -27,21 +27,21 @@ export default function Confirmed() {
       <ConfirmedContent>
         <ConfirmedHeader>
 
-          <MAnimation variant="popElastic" trigger="mount" delay={0.2} center>
+          <MAnimation variant="revealPopElastic" trigger="mount" delay={0.2} center>
             <SvgDiv>
               <FaRegCheckCircle />
             </SvgDiv>
           </MAnimation>
 
-          <MAnimation variant="fadeInUp" trigger="mount" delay={0.2} center>
+          <MAnimation variant="revealFadeInUp" trigger="mount" delay={0.2} center>
             <TitleH2>Agendamento Confirmado!</TitleH2>
           </MAnimation>
-          <MAnimation variant="fadeInUp" trigger="mount" delay={0.4} center>
+          <MAnimation variant="revealFadeInUp" trigger="mount" delay={0.4} center>
             <TitleH3>Enviaremos uma confirmação para o seu numero de telefone</TitleH3>
           </MAnimation>
         </ConfirmedHeader>
 
-        <MAnimation variant="fadeInUp" trigger="mount">
+        <MAnimation variant="revealFadeInUp" trigger="mount">
           <ConfirmedDetails>
             <TitleH3>Detalhes do agendamento</TitleH3>
 
@@ -114,9 +114,9 @@ export default function Confirmed() {
 
 
 
-        <MAnimation variant="fadeInUp" trigger="scroll" center>
+        <MAnimation variant="revealFadeInUp" trigger="scroll" center>
           <MButton
-            variant="default"
+            $variant="default"
             leftIcon={<FaCalendarAlt />}
             onClick={handleBack}
             fullWidth
@@ -125,9 +125,9 @@ export default function Confirmed() {
           </MButton>
         </MAnimation>
 
-        <MAnimation variant="fadeInUp" trigger="scroll" center>
+        <MAnimation variant="revealFadeInUp" trigger="scroll" center>
           <MButton
-            variant="outline"
+            $variant="outline"
             leftIcon={<IoIosArrowBack />}
             onClick={handleBack}
             fullWidth

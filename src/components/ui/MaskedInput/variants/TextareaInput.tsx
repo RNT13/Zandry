@@ -2,6 +2,7 @@
 
 import {
   ErrorDiv,
+  InputIconWrapper,
   InputLabel,
   MaskedInputContainer,
 } from "../MaskedInput.styles";
@@ -17,13 +18,15 @@ export function TextareaInput(props: Props) {
       $variant="textarea"
       $radius={props.radius}
       data-error={hasError}
+      $icon={!props.icon}
     >
       {props.label && (
         <InputLabel htmlFor={props.id}>
-          {props.icon}
           <span>{props.label}</span>
         </InputLabel>
       )}
+
+      {props.icon && <InputIconWrapper>{props.icon}</InputIconWrapper>}
 
       <textarea
         id={props.id}
@@ -33,11 +36,10 @@ export function TextareaInput(props: Props) {
         placeholder={props.placeholder}
         aria-invalid={hasError ? "true" : undefined}
         aria-describedby={hasError ? `${props.id}-error` : undefined}
+        disabled={props.disabled}
       />
 
-      {props.showError && hasError && (
-        <ErrorDiv id={`${props.id}-error`}>{props.error}</ErrorDiv>
-      )}
+      {hasError && <ErrorDiv id={`${props.id}-error`}>{props.error}</ErrorDiv>}
     </MaskedInputContainer>
   );
 }

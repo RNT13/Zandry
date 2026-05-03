@@ -40,12 +40,11 @@ export const LinkButtonContainer = styled(BaseButton)<props>`
   border: none;
 
   &:hover {
-    color: ${maskedTheme.colors.baseBlue.base};
     background-color: transparent;
     border: none;
 
     text-decoration: underline;
-    color: ${maskedTheme.colors.baseBlue.light30};
+    color: ${maskedTheme.colors.baseBlue.light50};
     transition: all 0.3s ease;
   }
 

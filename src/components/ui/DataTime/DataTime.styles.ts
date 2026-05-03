@@ -59,7 +59,7 @@ export const DayItem = styled.li<{ $isActive?: boolean }>`
   border: 1px solid ${({ $isActive }) => ($isActive ? maskedTheme.colors.baseBlue.light40 : maskedTheme.colors.baseBlue.base)};
   border-radius: ${maskedTheme.radius.md};
   padding: ${maskedTheme.spacing.sm} ${maskedTheme.spacing.md};
-  background-color: ${({ $isActive }) => ($isActive ? maskedTheme.colors.baseBlue.base : maskedTheme.colors.baseBlue.dark04)};
+  background-color: ${({ $isActive }) => ($isActive ? maskedTheme.colors.baseBlue.base : maskedTheme.colors.baseBlue.light30)};
   transition: ${transitions.default};
   cursor: pointer;
   ${transitions.default}
