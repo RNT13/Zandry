@@ -3,7 +3,7 @@ import { setUser } from "@/redux/slices/authSlice";
 import { RootState } from "@/redux/store";
 import { MinorTextH4, Row, TitleH2, TitleH3 } from "@/styles/globalStyles";
 import { MAnimation } from "@/styles/MaskedAnimations/MAnimation";
-import { UserType } from "@/types/entities";
+import { UserType } from "@/types/user.types";
 import { formatMonth } from "@/utils/formateMonth";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -17,7 +17,7 @@ interface ConfirmationProps {
   user: UserType
 }
 
-export default function Confirmation(props: ConfirmationProps) {
+export default function Confirmation({ user }: ConfirmationProps) {
   const { push } = useRouter()
   const dispatch = useAppDispatch()
   const params = useParams()
@@ -87,7 +87,7 @@ export default function Confirmation(props: ConfirmationProps) {
         </MAnimation>
 
         <MAnimation variant="revealFadeInUp" trigger="mount" delay={1}>
-          <MButton $variant="default" label="Confirmar atendimento" state={!nameValue || !numberValue ? 'disabled' : 'default'} fullWidth onClick={() => handleConfirm(props.user)}>
+          <MButton $variant="default" label="Confirmar atendimento" state={!nameValue || !numberValue ? 'disabled' : 'default'} fullWidth onClick={() => handleConfirm(user)}>
             Confirmar
           </MButton>
         </MAnimation>

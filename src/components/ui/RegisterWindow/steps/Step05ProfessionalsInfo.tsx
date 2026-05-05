@@ -38,7 +38,7 @@ export default function Step05ProfessionalsInfo() {
     initialValues: {
       full_name: '',
       position: '',
-      service_ids: [] as number[]
+      service_ids: [] as string[]
     },
     validationSchema: yup.object({
       full_name: yup.string().required('Campo obrigatório'),
@@ -55,10 +55,10 @@ export default function Step05ProfessionalsInfo() {
     ) return false
 
     dispatch(addProfessionalsData({
-      id: Date.now(),
+      id: String(Date.now()),
       full_name: form.values.full_name,
       position: form.values.position,
-      service_ids: form.values.service_ids
+      service_ids: form.values.service_ids.map(Number)
     }))
 
     form.resetForm()
@@ -186,14 +186,14 @@ export default function Step05ProfessionalsInfo() {
                         <TitleH3>Serviços:</TitleH3>
                         <MinorTextH4>
                           {servicesData
-                            .filter(service => professional.service_ids.includes(service.id))
+                            .filter(service => professional.service_ids.includes(Number(service.id)))
                             .map(service => service.name)
                             .join(', ')}
                         </MinorTextH4>
                       </Row>
                     </Column>
 
-                    <MButton type="button" $variant="link" shapes="circle" leftIcon={<FaTimesCircle />} onClick={() => dispatch(removeProfessionalsData(professional.id))} />
+                    <MButton type="button" $variant="link" shapes="circle" leftIcon={<FaTimesCircle />} onClick={() => dispatch(removeProfessionalsData(Number(professional.id)))} />
 
                   </RegisterRow>
                 </MAnimation>

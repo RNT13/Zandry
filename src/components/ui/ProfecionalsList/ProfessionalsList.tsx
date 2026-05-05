@@ -2,7 +2,7 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { setProfessional } from "@/redux/slices/bookingSlice";
 import { Row, TitleH2 } from "@/styles/globalStyles";
 import { MAnimation } from "@/styles/MaskedAnimations/MAnimation";
-import { ProfessionalType } from "@/types/entities";
+import { ProfessionalType } from "@/types/professional.types";
 import { useParams, useRouter } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
 import { MButton } from "../MaskedButton/MaskedButton";
@@ -13,7 +13,7 @@ interface ProfessionalsListProps {
   professionals: ProfessionalType[]
 }
 
-export default function ProfessionalsList(props: ProfessionalsListProps) {
+export default function ProfessionalsList({ professionals }: ProfessionalsListProps) {
   const { push } = useRouter()
   const dispatch = useAppDispatch()
 
@@ -52,7 +52,7 @@ export default function ProfessionalsList(props: ProfessionalsListProps) {
 
         </MAnimation>
 
-        {props.professionals.map((professional, index) => (
+        {professionals.map((professional, index) => (
           <MAnimation key={professional.id} variant="revealFadeInUp" trigger="mount" delay={index * 0.2}>
             <ProfessionalsCard
               key={professional.id}

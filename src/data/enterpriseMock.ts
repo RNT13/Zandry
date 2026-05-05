@@ -1,10 +1,8 @@
-import { EnterpriseType } from '@/types/entities'
-import { professionalsListMock } from './professionalsMock'
-import { serviceListMock } from './serviceMock'
+import { CompanyType } from '@/types/company.types'
 
-export const enterpriseListMock: EnterpriseType[] = [
+export const enterpriseListMock: CompanyType[] = [
   {
-    id: 1,
+    id: '1',
     name: 'Barbearia Unissex SP',
     cnpj: '12.345.678/0001-90',
     email: 'gjY3o@example.com',
@@ -21,11 +19,11 @@ export const enterpriseListMock: EnterpriseType[] = [
     advantage1: 'Ambiente aconchegante',
     advantage2: 'Wi-Fi gratuito',
     advantage3: 'Profissionais qualificados',
-    services: serviceListMock,
-    professionals: professionalsListMock
+    created_at: '',
+    updated_at: ''
   },
   {
-    id: 2,
+    id: '2',
     name: 'Barbearia do João RJ',
     cnpj: '12.345.678/0001-90',
     email: 'gjY3o@example.com',
@@ -42,11 +40,11 @@ export const enterpriseListMock: EnterpriseType[] = [
     advantage1: 'Estacionamento gratuito',
     advantage2: 'Wi-Fi gratuito',
     advantage3: 'Profissionais qualificados',
-    services: serviceListMock,
-    professionals: professionalsListMock
+    created_at: '',
+    updated_at: ''
   },
   {
-    id: 3,
+    id: '3',
     name: 'Barbearia da Luiza MG',
     cnpj: '12.345.678/0001-90',
     email: 'gjY3o@example.com',
@@ -63,7 +61,7 @@ export const enterpriseListMock: EnterpriseType[] = [
     advantage1: 'Estacionamento gratuito',
     advantage2: 'Wi-Fi gratuito',
     advantage3: 'Profissionais qualificados',
-    services: serviceListMock,
-    professionals: professionalsListMock
+    created_at: '',
+    updated_at: ''
   }
 ]

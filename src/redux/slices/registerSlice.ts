@@ -6,7 +6,7 @@ import {
   RegisterProfessionalsFormData,
   RegisterSecurityFormData,
   RegisterServicesFormData
-} from '@/types/forms'
+} from '@/types/forms.formdata'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 
@@ -139,7 +139,7 @@ const registerSlice = createSlice({
 
     // remove services
     removeServicesData(state, action: PayloadAction<number>) {
-      state.servicesData = state.servicesData.filter(service => service.id !== action.payload)
+      state.servicesData = state.servicesData.filter(service => Number(service.id) !== action.payload)
     },
 
     //update professionals
@@ -154,7 +154,7 @@ const registerSlice = createSlice({
 
     // remove professionals
     removeProfessionalsData(state, action: PayloadAction<number>) {
-      state.professionalsData = state.professionalsData.filter(professional => professional.id !== action.payload)
+      state.professionalsData = state.professionalsData.filter(professional => Number(professional.id) !== action.payload)
     },
 
     //update opening hours

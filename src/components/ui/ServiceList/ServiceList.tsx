@@ -2,7 +2,7 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { setService } from "@/redux/slices/bookingSlice";
 import { Row, TitleH2 } from "@/styles/globalStyles";
 import { MAnimation } from "@/styles/MaskedAnimations/MAnimation";
-import { ServiceType } from "@/types/entities";
+import { ServiceType } from "@/types/service.types";
 import { useParams, useRouter } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
 import { MButton } from "../MaskedButton/MaskedButton";
@@ -13,7 +13,7 @@ interface ServiceListProps {
   services: ServiceType[]
 }
 
-export default function ServiceList(props: ServiceListProps) {
+export default function ServiceList({ services }: ServiceListProps) {
   const { push } = useRouter()
   const dispatch = useAppDispatch()
 
@@ -49,7 +49,7 @@ export default function ServiceList(props: ServiceListProps) {
           </Row>
         </MAnimation>
 
-        {props.services.map((service, index) => (
+        {services.map((service, index) => (
           <MAnimation key={service.id} variant="revealFadeInUp" trigger="mount" delay={index * 0.2}>
             <ServiceCard
               key={service.id}

@@ -53,7 +53,7 @@ export default function Step04ServicesInfo() {
     }
 
     dispatch(addServicesData({
-      id: Date.now(),
+      id: String(Date.now()),
       name: form.values.name,
       description: form.values.description,
       price: Number(form.values.price),
@@ -164,7 +164,7 @@ export default function Step04ServicesInfo() {
                       <Row><TitleH3>R$:</TitleH3>{service.price} </Row>
                       <Row><TitleH3>Tempo:</TitleH3>{service.duration} Minutos</Row>
                     </Column>
-                    <MButton type="button" $variant="link" shapes="circle" leftIcon={<FaTimesCircle />} onClick={() => dispatch(removeServicesData(service.id))} />
+                    <MButton type="button" $variant="link" shapes="circle" leftIcon={<FaTimesCircle />} onClick={() => dispatch(removeServicesData(Number(service.id)))} />
                   </RegisterRow>
                 </MAnimation>
               ))}

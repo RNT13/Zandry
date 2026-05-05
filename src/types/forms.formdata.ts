@@ -25,7 +25,7 @@ export interface RegisterAdvantagesFormData {
 }
 
 export interface RegisterServicesFormData {
-  id: number
+  id: string
   name: string
   description: string
   price: number
@@ -33,7 +33,7 @@ export interface RegisterServicesFormData {
 }
 
 export interface RegisterProfessionalsFormData {
-  id: number
+  id: string
   full_name: string
   position: string
   service_ids: number[]
