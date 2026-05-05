@@ -1,4 +1,4 @@
-import { RefreshResponse } from '@/types/api'
+import { RefreshResponse } from '@/types/api.responses'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { logout, setCredentials } from '../slices/authSlice'
 import type { RootState } from '../store'

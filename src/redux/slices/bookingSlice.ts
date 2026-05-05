@@ -1,11 +1,14 @@
 import { DayTime } from '@/types/common'
-import { EnterpriseType, ProfessionalType, ServiceType, UserType } from '@/types/entities'
+import { CompanyType } from '@/types/company.types'
+import { ProfessionalType } from '@/types/professional.types'
+import { ServiceType } from '@/types/service.types'
+import { UserType } from '@/types/user.types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 
 type BookingState = {
   services: ServiceType
-  enterprise: EnterpriseType
+  enterprise: CompanyType
   professional: ProfessionalType
   user: UserType
   dayTime: DayTime
@@ -13,14 +16,17 @@ type BookingState = {
 
 const initialState: BookingState = {
   services: {
-    id: 0,
+    id: '0',
     name: '',
     price: 0,
     description: '',
-    duration: 0
+    duration: 0,
+    company_id: '',
+    created_at: '',
+    updated_at: ''
   },
   enterprise: {
-    id: 0,
+    id: '0',
     name: '',
     cnpj: '',
     email: '',
@@ -37,19 +43,26 @@ const initialState: BookingState = {
     advantage1: '',
     advantage2: '',
     advantage3: '',
-    services: [],
-    professionals: []
+    created_at: '',
+    updated_at: ''
   },
   professional: {
-    id: 0,
+    id: '0',
     full_name: '',
     position: '',
-    rating: 0
+    rating: 0,
+    company_id: '',
+    avatar: null,
+    phone: '',
+    created_at: '',
+    updated_at: ''
   },
   user: {
-    id: 0,
+    id: '0',
     full_name: '',
-    phone: ''
+    phone: '',
+    email: '',
+    created_at: ''
   },
   dayTime: {
     day: 0,
@@ -65,7 +78,7 @@ const bookingSlice = createSlice({
   name: 'booking',
   initialState,
   reducers: {
-    setEnterprise(state, action: PayloadAction<EnterpriseType>) {
+    setEnterprise(state, action: PayloadAction<CompanyType>) {
       state.enterprise = action.payload
     },
 

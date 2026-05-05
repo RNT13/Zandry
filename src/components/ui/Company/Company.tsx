@@ -2,7 +2,7 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { setEnterprise } from "@/redux/slices/bookingSlice";
 import { MinorTextH4, Row, TitleH2, TitleH3 } from "@/styles/globalStyles";
 import { MAnimation } from "@/styles/MaskedAnimations/MAnimation";
-import { EnterpriseType } from "@/types/entities";
+import { CompanyType } from "@/types/company.types";
 import { getInitials } from "@/utils/initials";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -11,25 +11,25 @@ import { FaMapMarkedAlt, FaMapMarkerAlt, FaRegClock } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import { MdStoreMallDirectory } from "react-icons/md";
 import { MButton } from "../MaskedButton/MaskedButton";
-import { AbsoluteDiv, ButtonDiv, EnterpriseAvatar, EnterpriseBanner, EnterpriseContainer, EnterpriseContent, EnterpriseInfo, EnterpriseInfoDiv, EnterpriseTag, EnterpriseTime, LoginButtonDiv } from "./Enterprise.styles";
+import { AbsoluteDiv, ButtonDiv, EnterpriseAvatar, EnterpriseBanner, EnterpriseContainer, EnterpriseContent, EnterpriseInfo, EnterpriseInfoDiv, EnterpriseTag, EnterpriseTime, LoginButtonDiv } from "./Company.styles";
 
-interface EnterpriseProps {
-  enterprise: EnterpriseType
+interface CompanyProps {
+  company: CompanyType
 }
 
-export default function Enterprise(props: EnterpriseProps) {
+export default function Enterprise({ company }: CompanyProps) {
   const { push } = useRouter()
   const dispatch = useAppDispatch()
 
   // const params = useParams()
   // const slug = params.slug
 
-  const handleNext = (enterprise: EnterpriseType) => {
+  const handleNext = (enterprise: CompanyType) => {
     if (!enterprise) return
 
     dispatch(setEnterprise(enterprise))
 
-    push(`/${props.enterprise.slug}/servicos`)
+    push(`/${company.slug}/servicos`)
   }
 
   const handleLogin = () => {
@@ -53,16 +53,16 @@ export default function Enterprise(props: EnterpriseProps) {
 
           <MAnimation variant="revealFadeInUp" trigger="mount">
             <EnterpriseAvatar >
-              {props.enterprise.logo ? (
+              {company.logo ? (
                 <Image
-                  src={props.enterprise.logo}
-                  alt={props.enterprise.name}
+                  src={company.logo}
+                  alt={company.name}
                   width={100}
                   height={100}
                 />
               ) : (
                 <div >
-                  {getInitials(props.enterprise.name)}
+                  {getInitials(company.name)}
                 </div>
               )}
             </EnterpriseAvatar>
@@ -70,14 +70,14 @@ export default function Enterprise(props: EnterpriseProps) {
 
           <EnterpriseInfo>
             <MAnimation variant="revealFadeInLeft" trigger="mount" delay={0.2}>
-              <TitleH2>{props.enterprise.name}</TitleH2>
+              <TitleH2>{company.name}</TitleH2>
             </MAnimation>
 
             <MAnimation variant="revealFadeInLeft" trigger="mount" delay={0.4}>
               <Row>
                 <EnterpriseTag>
-                  <TitleH3>{props.enterprise.category}</TitleH3>
-                  <TitleH3>{props.enterprise.state} - {props.enterprise.city}</TitleH3>
+                  <TitleH3>{company.category}</TitleH3>
+                  <TitleH3>{company.state} - {company.city}</TitleH3>
                 </EnterpriseTag>
               </Row>
             </MAnimation>
@@ -88,7 +88,7 @@ export default function Enterprise(props: EnterpriseProps) {
               </MAnimation>
 
               <MAnimation variant="revealZoomFromDeep" trigger="mount">
-                <MButton $variant="default" size="lg" fullWidth onClick={() => handleNext(props.enterprise)}>Serviços</MButton>
+                <MButton $variant="default" size="lg" fullWidth onClick={() => handleNext(company)}>Serviços</MButton>
               </MAnimation>
             </ButtonDiv>
 
@@ -103,14 +103,14 @@ export default function Enterprise(props: EnterpriseProps) {
             <MAnimation variant="revealFadeInUp" trigger="mount" delay={0.4}>
               <EnterpriseInfoDiv>
                 <TitleH2><FaRegClock /> Horários</TitleH2>
-                <MinorTextH4>{props.enterprise.schedules}</MinorTextH4>
+                <MinorTextH4>{company.schedules}</MinorTextH4>
               </EnterpriseInfoDiv>
             </MAnimation>
 
             <MAnimation variant="revealFadeInUp" trigger="mount" delay={0.6}>
               <EnterpriseInfoDiv>
                 <TitleH2><FaMapMarkerAlt /> Endereço </TitleH2>
-                <MinorTextH4>{props.enterprise.address}</MinorTextH4>
+                <MinorTextH4>{company.address}</MinorTextH4>
                 <MButton $variant="link" leftIcon={<FaMapMarkedAlt />}>Ver no mapa</MButton>
               </EnterpriseInfoDiv>
             </MAnimation>
@@ -118,10 +118,10 @@ export default function Enterprise(props: EnterpriseProps) {
             <MAnimation variant="revealFadeInUp" trigger="mount" delay={0.8}>
               <EnterpriseInfoDiv>
                 <TitleH2><BsChatRightText /> Sobre nós</TitleH2>
-                <MinorTextH4>{props.enterprise.description}</MinorTextH4>
-                <MinorTextH4> <GoDotFill />{props.enterprise.advantage1}</MinorTextH4>
-                <MinorTextH4> <GoDotFill />{props.enterprise.advantage2}</MinorTextH4>
-                <MinorTextH4> <GoDotFill />{props.enterprise.advantage3}</MinorTextH4>
+                <MinorTextH4>{company.description}</MinorTextH4>
+                <MinorTextH4> <GoDotFill />{company.advantage1}</MinorTextH4>
+                <MinorTextH4> <GoDotFill />{company.advantage2}</MinorTextH4>
+                <MinorTextH4> <GoDotFill />{company.advantage3}</MinorTextH4>
               </EnterpriseInfoDiv>
             </MAnimation>
 

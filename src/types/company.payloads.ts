@@ -6,7 +6,7 @@ import {
   RegisterProfessionalsFormData,
   RegisterSecurityFormData,
   RegisterServicesFormData
-} from './forms'
+} from './forms.formdata'
 
 export interface CreateEnterprisePayload {
   basic_info: RegisterBasicFormData
@@ -16,4 +16,24 @@ export interface CreateEnterprisePayload {
   professionals_info: RegisterProfessionalsFormData[]
   security_info: RegisterSecurityFormData
   plan_info: RegisterPlanFormData
+}
+
+export interface UpdateCompanyPayload {
+  name?: string
+  phone?: string
+  category?: string
+  description?: string
+
+  logo?: string | null
+  banner?: string | null
+
+  address?: string
+  city?: string
+  state?: string
+
+  schedules?: string
+
+  advantage1?: string
+  advantage2?: string
+  advantage3?: string
 }

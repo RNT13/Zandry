@@ -1,7 +1,7 @@
 'use client'
 
 import NotFound from "@/app/not-found";
-import Enterprise from "@/components/ui/Enterprise/Enterprise";
+import Company from "@/components/ui/Company/Company";
 import { enterpriseListMock } from "@/data/enterpriseMock";
 import { useParams } from "next/navigation";
 import { HomeContainer, HomeContent } from "./home.styles";
@@ -10,9 +10,9 @@ export default function Home() {
   const params = useParams()
   const slug = params.slug
 
-  const enterprise = enterpriseListMock.find((item) => item.slug === slug)
+  const company = enterpriseListMock.find((item) => item.slug === slug)
 
-  if (!enterprise) {
+  if (!company) {
     return (
       <HomeContainer>
         <HomeContent>
@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <HomeContainer>
       <HomeContent>
-        <Enterprise enterprise={enterprise} />
+        <Company company={company} />
       </HomeContent>
     </HomeContainer>
   )

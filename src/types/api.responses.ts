@@ -1,12 +1,7 @@
-import { UserType } from './entities'
+import { UserType } from './user.types'
 
 export interface RefreshResponse {
   access: string
-}
-
-export interface LoginRequest {
-  email: string
-  password: string
 }
 
 export interface LoginResponse {
@@ -15,15 +10,6 @@ export interface LoginResponse {
   access: string
   refresh: string
   success: boolean
-}
-
-export interface RegisterRequest {
-  id?: number
-  email: string
-  full_name: string
-  username: string
-  password: string
-  confirm_password: string
 }
 
 export interface RegisterResponse {

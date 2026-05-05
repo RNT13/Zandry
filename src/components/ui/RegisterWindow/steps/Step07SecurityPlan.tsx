@@ -3,6 +3,7 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { prevStep, selectPlanData, selectRegisterData, updatePlanData } from "@/redux/slices/registerSlice";
 import { Column } from "@/styles/globalStyles";
 import { FormikProvider, useFormik } from "formik";
+import { useRouter } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { MButton } from "../../MaskedButton/MaskedButton";
@@ -16,6 +17,10 @@ export default function Step07PlanInfo() {
   const dispatch = useAppDispatch()
   const planData = useSelector(selectPlanData)
   const registerData = useSelector(selectRegisterData)
+
+  const { push } = useRouter()
+
+
 
   const form = useFormik({
     enableReinitialize: true,
@@ -41,8 +46,9 @@ export default function Step07PlanInfo() {
         }
       }
 
-      console.log(payload)
       console.log('REGISTER COMPLETO', payload)
+
+      push('/dashboard')
     }
   })
 
