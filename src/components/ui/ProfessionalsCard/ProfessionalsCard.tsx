@@ -7,7 +7,7 @@ interface ProfessionalsCardProps {
   id?: string
   full_name?: string
   position?: string
-  rating?: number
+  rating?: string
   onClick?: () => void
 }
 

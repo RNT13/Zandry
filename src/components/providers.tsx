@@ -1,24 +1,24 @@
 'use client'
 
 
-import { persistor, store } from '@/redux/store';
+import { AuthBootstrap } from '@/redux/auth/AuthBootstrap';
+import { store } from '@/redux/store';
 import { AnimationProvider } from '@/styles/MaskedAnimations/AnimationProvider';
 import { maskedTheme } from '@/styles/MaskedThemes/MaskedThemes';
 import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from 'styled-components';
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ThemeProvider theme={maskedTheme}>
-          <AnimationProvider>
+      <ThemeProvider theme={maskedTheme}>
+        <AnimationProvider>
+          <AuthBootstrap>
             {children}
-          </AnimationProvider>
-        </ThemeProvider>
-      </PersistGate>
+          </AuthBootstrap>
+        </AnimationProvider>
+      </ThemeProvider>
     </Provider>
   )
 }

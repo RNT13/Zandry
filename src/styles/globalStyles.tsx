@@ -52,6 +52,7 @@ export const Row = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: ${maskedTheme.spacing.md};
 `
 
@@ -101,6 +102,7 @@ export const TitleH3 = styled.h3`
   color: ${maskedTheme.colors.baseBlue.dark30};
   ${transitions.default};
 `
+
 
 export const MinorTextH4 = styled.h4`
   display: flex;

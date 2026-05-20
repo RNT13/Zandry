@@ -1,68 +1,126 @@
-import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { setProfessional } from "@/redux/slices/bookingSlice";
-import { Row, TitleH2 } from "@/styles/globalStyles";
-import { MAnimation } from "@/styles/MaskedAnimations/MAnimation";
-import { ProfessionalType } from "@/types/professional.types";
-import { useParams, useRouter } from "next/navigation";
-import { IoIosArrowBack } from "react-icons/io";
-import { MButton } from "../MaskedButton/MaskedButton";
-import ProfessionalsCard from "../ProfessionalsCard/ProfessionalsCard";
-import { ProfessionalsListContainer, ProfessionalsListContent } from "./ProfessionalsList.styles";
+'use client'
 
-interface ProfessionalsListProps {
-  professionals: ProfessionalType[]
-}
+import { useParams, useRouter } from 'next/navigation'
+import { IoIosArrowBack } from 'react-icons/io'
 
-export default function ProfessionalsList({ professionals }: ProfessionalsListProps) {
+import { useAppDispatch, useAppSelector } from '@/hooks/useAppDispatch'
+
+import { selectBookingService, setProfessional } from '@/redux/slices/bookingSlice'
+
+import { Row, TitleH2, TitleH3 } from '@/styles/globalStyles'
+import { MAnimation } from '@/styles/MaskedAnimations/MAnimation'
+import { MButton } from '../MaskedButton/MaskedButton'
+import ProfessionalsCard from '../ProfessionalsCard/ProfessionalsCard'
+import {
+  ProfessionalsListContainer,
+  ProfessionalsListContent
+} from './ProfessionalsList.styles'
+
+import { usePublicProfessionals } from '@/hooks/api/usePublicProfessionals'
+import { PublicProfessionalBriefRead } from '@/redux/slices/api/generatedApi'
+
+export default function ProfessionalsList() {
   const { push } = useRouter()
   const dispatch = useAppDispatch()
 
   const params = useParams()
-  const slug = params.slug
-  // const booking = useSelector((state: RootState) => state.booking)
+  const slugParam = params.slug
+  const slug = Array.isArray(slugParam) ? slugParam[0] : slugParam
+
+  const selectedService = useAppSelector(selectBookingService)
+
+  const { professionals, isLoading, isError, refetch } = usePublicProfessionals(slug, selectedService?.uid)
 
   const handleBack = () => {
-    push(`/${slug}/servicos/`)
+    push(`/${slug}/servicos`)
   }
 
-  const handleNext = (professional: ProfessionalType) => {
-    if (!professional) return
-
+  const handleNext = (professional: PublicProfessionalBriefRead) => {
     dispatch(setProfessional(professional))
-
     push(`/${slug}/servicos/profissional/horario`)
+  }
+
+  if (!slug) {
+    return (
+      <ProfessionalsListContainer>
+        <ProfessionalsListContent>
+          <TitleH3>Slug da empresa não encontrado.</TitleH3>
+        </ProfessionalsListContent>
+      </ProfessionalsListContainer>
+    )
+  }
+
+  if (!selectedService) {
+    return (
+      <ProfessionalsListContainer>
+        <ProfessionalsListContent>
+          <TitleH3>Selecione um serviço antes de escolher o profissional.</TitleH3>
+          <MButton $variant="default" onClick={() => push(`/${slug}/servicos`)}>
+            Ir para serviços
+          </MButton>
+        </ProfessionalsListContent>
+      </ProfessionalsListContainer>
+    )
+  }
+
+  if (isLoading) {
+    return (
+      <ProfessionalsListContainer>
+        <ProfessionalsListContent>
+          <TitleH3>Carregando profissionais...</TitleH3>
+        </ProfessionalsListContent>
+      </ProfessionalsListContainer>
+    )
+  }
+
+  if (isError) {
+    return (
+      <ProfessionalsListContainer>
+        <ProfessionalsListContent>
+          <TitleH3>Não foi possível carregar os profissionais.</TitleH3>
+          <MButton $variant="default" onClick={() => refetch()}>
+            Tentar novamente
+          </MButton>
+        </ProfessionalsListContent>
+      </ProfessionalsListContainer>
+    )
   }
 
   return (
     <ProfessionalsListContainer>
       <ProfessionalsListContent>
         <MAnimation variant="revealFadeInRight" trigger="mount" delay={0.2}>
-
           <Row>
             <MButton
               $variant="default"
               shapes="circle"
               leftIcon={<IoIosArrowBack />}
               onClick={handleBack}
-            >
-
-            </MButton>
+            />
             <TitleH2>Selecione os profissionais</TitleH2>
           </Row>
-
         </MAnimation>
 
-        {professionals.map((professional, index) => (
-          <MAnimation key={professional.id} variant="revealFadeInUp" trigger="mount" delay={index * 0.2}>
-            <ProfessionalsCard
-              key={professional.id}
-              id={professional.id}
-              full_name={professional.full_name}
-              position={professional.position}
-              rating={professional.rating}
-              onClick={() => handleNext(professional)}
-            /></MAnimation>
-        ))}
+        {!professionals.length ? (
+          <TitleH3>Nenhum profissional disponível para este serviço.</TitleH3>
+        ) : (
+          professionals.map((professional, index) => (
+            <MAnimation
+              key={professional.uid ?? professional.uid}
+              variant="revealFadeInUp"
+              trigger="mount"
+              delay={index * 0.1}
+            >
+              <ProfessionalsCard
+                id={professional.uid}
+                full_name={professional.full_name}
+                position={professional.position}
+                rating={professional.rating}
+                onClick={() => handleNext(professional)}
+              />
+            </MAnimation>
+          ))
+        )}
       </ProfessionalsListContent>
     </ProfessionalsListContainer>
   )

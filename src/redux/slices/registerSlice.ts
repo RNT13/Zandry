@@ -1,32 +1,52 @@
 import {
-  RegisterAddressFormData,
-  RegisterAdvantagesFormData,
-  RegisterBasicFormData,
-  RegisterPlanFormData,
-  RegisterProfessionalsFormData,
-  RegisterSecurityFormData,
-  RegisterServicesFormData
-} from '@/types/forms.formdata'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { RootState } from '../store'
+  AuthAddressRegisterRequest,
+  AuthAdvantagesRegisterRequest,
+  AuthBusinessHourRegisterRequest,
+  AuthCompanyRegisterRequest,
+  AuthOwnerRegisterRequestWrite,
+  AuthProfessionalRegisterRequest,
+  AuthServiceRegisterRequest,
+  AuthSubscriptionRegisterRequest,
+  CodeEnum
+} from '@/redux/slices/api/generatedApi'
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import type { RootState } from '../store'
 
-interface RegisterState {
-  currentStep: number
-
-  basicData: RegisterBasicFormData
-  addressData: RegisterAddressFormData
-  advantagesData: RegisterAdvantagesFormData
-  servicesData: RegisterServicesFormData[]
-  professionalsData: RegisterProfessionalsFormData[]
-  securityData: RegisterSecurityFormData
-  planData: RegisterPlanFormData
+type ServiceDraft = AuthServiceRegisterRequest & {
+  uid: string
 }
 
-const initialState: RegisterState = {
+type ProfessionalDraft = AuthProfessionalRegisterRequest & {
+  uid: string
+}
+
+export type RegisterWizardState = {
+  currentStep: number
+  owner: AuthOwnerRegisterRequestWrite
+  company: AuthCompanyRegisterRequest
+  address: AuthAddressRegisterRequest
+  advantages: AuthAdvantagesRegisterRequest
+  businessHours: AuthBusinessHourRegisterRequest[]
+  services: ServiceDraft[]
+  professionals: ProfessionalDraft[]
+  subscription: AuthSubscriptionRegisterRequest
+}
+
+const TOTAL_STEPS = 7
+
+const initialState: RegisterWizardState = {
   currentStep: 1,
 
-  basicData: {
-    enterprise_name: '',
+  owner: {
+    full_name: '',
+    email: '',
+    phone: '',
+    password: '',
+    confirm_password: ''
+  },
+
+  company: {
+    company_name: '',
     cnpj: '',
     email: '',
     phone: '',
@@ -34,77 +54,28 @@ const initialState: RegisterState = {
     description: ''
   },
 
-  addressData: {
+  address: {
     cep: '',
     address: '',
+    number: '',
     city: '',
-    state: '',
-    number: ''
+    state: ''
   },
 
-  advantagesData: {
-    opening_hours: [
-      {
-        week_day: 'Segunda',
-        start: '',
-        end: '',
-        is_open: false
-      },
-      {
-        week_day: 'Terça',
-        start: '',
-        end: '',
-        is_open: false
-      },
-      {
-        week_day: 'Quarta',
-        start: '',
-        end: '',
-        is_open: false
-      },
-      {
-        week_day: 'Quinta',
-        start: '',
-        end: '',
-        is_open: false
-      },
-      {
-        week_day: 'Sexta',
-        start: '',
-        end: '',
-        is_open: false
-      },
-      {
-        week_day: 'Sábado',
-        start: '',
-        end: '',
-        is_open: false
-      },
-      {
-        week_day: 'Domingo',
-        start: '',
-        end: '',
-        is_open: false
-      }
-    ],
-
+  advantages: {
     advantage1: '',
     advantage2: '',
     advantage3: ''
   },
 
-  servicesData: [],
+  businessHours: [],
 
-  professionalsData: [],
+  services: [],
 
-  securityData: {
-    password: '',
-    confirm_password: ''
-  },
+  professionals: [],
 
-  planData: {
-    selected_plan: 'trial',
-    trial_days: 0
+  subscription: {
+    selected_plan: CodeEnum.Trial
   }
 }
 
@@ -112,88 +83,8 @@ const registerSlice = createSlice({
   name: 'register',
   initialState,
   reducers: {
-    //update enterprise basic data
-    updateBasicData(state, action: PayloadAction<RegisterBasicFormData>) {
-      state.basicData = action.payload
-    },
-
-    //update enterprise address
-    updateAddressData(state, action: PayloadAction<RegisterAddressFormData>) {
-      state.addressData = action.payload
-    },
-
-    //update enterprise advantages end hours
-    updateAdvantagesData(state, action: PayloadAction<RegisterAdvantagesFormData>) {
-      state.advantagesData = action.payload
-    },
-
-    //update services
-    updateServicesData(state, action: PayloadAction<RegisterServicesFormData[]>) {
-      state.servicesData = action.payload
-    },
-
-    // add services
-    addServicesData(state, action: PayloadAction<RegisterServicesFormData>) {
-      state.servicesData.push(action.payload)
-    },
-
-    // remove services
-    removeServicesData(state, action: PayloadAction<number>) {
-      state.servicesData = state.servicesData.filter(service => Number(service.id) !== action.payload)
-    },
-
-    //update professionals
-    updateProfessionalsData(state, action: PayloadAction<RegisterProfessionalsFormData[]>) {
-      state.professionalsData = action.payload
-    },
-
-    // add professionals
-    addProfessionalsData(state, action: PayloadAction<RegisterProfessionalsFormData>) {
-      state.professionalsData.push(action.payload)
-    },
-
-    // remove professionals
-    removeProfessionalsData(state, action: PayloadAction<number>) {
-      state.professionalsData = state.professionalsData.filter(professional => Number(professional.id) !== action.payload)
-    },
-
-    //update opening hours
-    applyWeekDaysHours(state, action: PayloadAction<{ start: string; end: string }>) {
-      state.advantagesData.opening_hours = state.advantagesData.opening_hours.map((day, index) => {
-        if (index <= 4) {
-          return {
-            ...day,
-            start: action.payload.start,
-            end: action.payload.end,
-            is_open: true
-          }
-        }
-        return day
-      })
-    },
-
-    //update opening hours
-    applyAllDaysHours(state, action: PayloadAction<{ start: string; end: string }>) {
-      state.advantagesData.opening_hours = state.advantagesData.opening_hours.map(day => ({
-        ...day,
-        start: action.payload.start,
-        end: action.payload.end,
-        is_open: true
-      }))
-    },
-
-    updateSecurityData(state, action: PayloadAction<RegisterSecurityFormData>) {
-      state.securityData = action.payload
-    },
-
-    //update plan
-    updatePlanData(state, action: PayloadAction<RegisterPlanFormData>) {
-      state.planData = { ...state.planData, ...action.payload }
-    },
-
-    //update current step
     nextStep(state) {
-      if (state.currentStep < 7) state.currentStep += 1
+      if (state.currentStep < TOTAL_STEPS) state.currentStep += 1
     },
 
     prevStep(state) {
@@ -201,7 +92,88 @@ const registerSlice = createSlice({
     },
 
     goToStep(state, action: PayloadAction<number>) {
-      state.currentStep = action.payload
+      const step = action.payload
+      if (step >= 1 && step <= TOTAL_STEPS) {
+        state.currentStep = step
+      }
+    },
+
+    updateOwner(state, action: PayloadAction<AuthOwnerRegisterRequestWrite>) {
+      state.owner = action.payload
+    },
+
+    updateCompany(state, action: PayloadAction<AuthCompanyRegisterRequest>) {
+      state.company = action.payload
+    },
+
+    updateAddress(state, action: PayloadAction<AuthAddressRegisterRequest>) {
+      state.address = action.payload
+    },
+
+    updateAdvantages(state, action: PayloadAction<AuthAdvantagesRegisterRequest>) {
+      state.advantages = action.payload
+    },
+
+    updateBusinessHours(state, action: PayloadAction<AuthBusinessHourRegisterRequest[]>) {
+      state.businessHours = action.payload
+    },
+
+    updateBusinessHourByIndex(state, action: PayloadAction<{ index: number; data: Partial<AuthBusinessHourRegisterRequest> }>) {
+      const { index, data } = action.payload
+      if (state.businessHours[index]) {
+        state.businessHours[index] = {
+          ...state.businessHours[index],
+          ...data
+        }
+      }
+    },
+
+    addService(state, action: PayloadAction<ServiceDraft>) {
+      state.services.push(action.payload)
+    },
+
+    updateService(state, action: PayloadAction<{ uid: string; data: Partial<ServiceDraft> }>) {
+      const { uid, data } = action.payload
+      const index = state.services.findIndex(service => service.uid === uid)
+
+      if (index !== -1) {
+        state.services[index] = {
+          ...state.services[index],
+          ...data
+        }
+      }
+    },
+
+    removeService(state, action: PayloadAction<string>) {
+      state.services = state.services.filter(service => service.uid !== action.payload)
+    },
+
+    addProfessional(state, action: PayloadAction<ProfessionalDraft>) {
+      state.professionals.push(action.payload)
+    },
+
+    updateProfessional(state, action: PayloadAction<{ uid: string; data: Partial<ProfessionalDraft> }>) {
+      const { uid, data } = action.payload
+      const index = state.professionals.findIndex(professional => professional.uid === uid)
+
+      if (index !== -1) {
+        state.professionals[index] = {
+          ...state.professionals[index],
+          ...data
+        }
+      }
+    },
+
+    removeProfessional(state, action: PayloadAction<string>) {
+      state.professionals = state.professionals.filter(professional => professional.uid !== action.payload)
+    },
+
+    updateSubscription(state, action: PayloadAction<AuthSubscriptionRegisterRequest>) {
+      state.subscription = action.payload
+    },
+
+    selectPlan(state, action: PayloadAction<CodeEnum>) {
+      state.subscription.selected_plan = action.payload
     },
 
     resetRegister() {
@@ -211,34 +183,36 @@ const registerSlice = createSlice({
 })
 
 export const {
-  updateBasicData,
-  updateAddressData,
-  updateAdvantagesData,
-  updateServicesData,
-  addServicesData,
-  removeServicesData,
-  updateProfessionalsData,
-  addProfessionalsData,
-  removeProfessionalsData,
-  applyWeekDaysHours,
-  applyAllDaysHours,
-  updateSecurityData,
-  updatePlanData,
   nextStep,
   prevStep,
   goToStep,
+  updateOwner,
+  updateCompany,
+  updateAddress,
+  updateAdvantages,
+  updateBusinessHours,
+  updateBusinessHourByIndex,
+  addService,
+  updateService,
+  removeService,
+  addProfessional,
+  updateProfessional,
+  removeProfessional,
+  updateSubscription,
+  selectPlan,
   resetRegister
 } = registerSlice.actions
 
 export default registerSlice.reducer
 
 export const selectCurrentStep = (state: RootState) => state.register.currentStep
-export const selectBasicData = (state: RootState) => state.register.basicData
-export const selectAddressData = (state: RootState) => state.register.addressData
-export const selectAdvantagesData = (state: RootState) => state.register.advantagesData
-export const selectServicesData = (state: RootState) => state.register.servicesData
-export const selectProfessionalsData = (state: RootState) => state.register.professionalsData
-export const selectSecurityData = (state: RootState) => state.register.securityData
-export const selectPlanData = (state: RootState) => state.register.planData
+export const selectOwner = (state: RootState) => state.register.owner
+export const selectCompany = (state: RootState) => state.register.company
+export const selectAddress = (state: RootState) => state.register.address
+export const selectAdvantages = (state: RootState) => state.register.advantages
+export const selectBusinessHours = (state: RootState) => state.register.businessHours
+export const selectServices = (state: RootState) => state.register.services
+export const selectProfessionals = (state: RootState) => state.register.professionals
+export const selectSubscription = (state: RootState) => state.register.subscription
 
-export const selectRegisterData = (state: RootState) => state.register
+export const selectWizardProgress = (state: RootState) => Math.round((state.register.currentStep / TOTAL_STEPS) * 100)

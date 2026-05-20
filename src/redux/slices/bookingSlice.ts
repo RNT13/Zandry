@@ -1,115 +1,96 @@
-import { DayTime } from '@/types/common'
-import { CompanyType } from '@/types/company.types'
-import { ProfessionalType } from '@/types/professional.types'
-import { ServiceType } from '@/types/service.types'
-import { UserType } from '@/types/user.types'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { RootState } from '../store'
+import type { PublicBookingResponse, PublicProfessionalBriefRead, PublicServiceRead, PublicSlotResponse } from '@/redux/slices/api/generatedApi'
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import type { RootState } from '../store'
+
+type BookingCompanyRef = {
+  id: string
+  slug: string
+  company_name: string
+}
+
+type BookingUser = {
+  user_name: string
+  user_phone: string
+  user_email?: string
+}
 
 type BookingState = {
-  services: ServiceType
-  enterprise: CompanyType
-  professional: ProfessionalType
-  user: UserType
-  dayTime: DayTime
+  company: BookingCompanyRef | null
+  service: PublicServiceRead | null
+  professional: PublicProfessionalBriefRead | null
+  slot: PublicSlotResponse | null
+  user: BookingUser | null
+  confirmation: PublicBookingResponse | null
 }
 
 const initialState: BookingState = {
-  services: {
-    id: '0',
-    name: '',
-    price: 0,
-    description: '',
-    duration: 0,
-    company_id: '',
-    created_at: '',
-    updated_at: ''
-  },
-  enterprise: {
-    id: '0',
-    name: '',
-    cnpj: '',
-    email: '',
-    category: '',
-    state: '',
-    city: '',
-    description: '',
-    phone: '',
-    logo: '',
-    banner: '',
-    slug: '',
-    address: '',
-    schedules: '',
-    advantage1: '',
-    advantage2: '',
-    advantage3: '',
-    created_at: '',
-    updated_at: ''
-  },
-  professional: {
-    id: '0',
-    full_name: '',
-    position: '',
-    rating: 0,
-    company_id: '',
-    avatar: null,
-    phone: '',
-    created_at: '',
-    updated_at: ''
-  },
-  user: {
-    id: '0',
-    full_name: '',
-    phone: '',
-    email: '',
-    created_at: ''
-  },
-  dayTime: {
-    day: 0,
-    month: 0,
-    label: '',
-    year: 0,
-    data: '',
-    time: ''
-  }
+  company: null,
+  service: null,
+  professional: null,
+  slot: null,
+  user: null,
+  confirmation: null
 }
 
 const bookingSlice = createSlice({
   name: 'booking',
   initialState,
   reducers: {
-    setEnterprise(state, action: PayloadAction<CompanyType>) {
-      state.enterprise = action.payload
+    setCompanyRef(state, action: PayloadAction<BookingCompanyRef>) {
+      state.company = action.payload
+      state.service = null
+      state.professional = null
+      state.slot = null
+      state.user = null
+      state.confirmation = null
     },
-
-    setService(state, action: PayloadAction<ServiceType>) {
-      state.services = action.payload
+    setService(state, action: PayloadAction<PublicServiceRead>) {
+      state.service = action.payload
+      state.professional = null
+      state.slot = null
     },
-
-    setProfessional(state, action: PayloadAction<ProfessionalType>) {
+    setProfessional(state, action: PayloadAction<PublicProfessionalBriefRead>) {
       state.professional = action.payload
+      state.slot = null
     },
-
-    setDateTime(state, action: PayloadAction<DayTime>) {
-      state.dayTime = action.payload
+    setSlot(state, action: PayloadAction<PublicSlotResponse>) {
+      state.slot = action.payload
     },
-
-    setUser(state, action: PayloadAction<UserType>) {
+    setUser(state, action: PayloadAction<BookingUser>) {
       state.user = action.payload
     },
-
-    reset(state) {
-      Object.assign(state, initialState)
+    setConfirmation(state, action: PayloadAction<PublicBookingResponse>) {
+      state.confirmation = action.payload
+    },
+    resetBooking() {
+      return initialState
     }
   }
 })
 
-export const { setService, setProfessional, setDateTime, setEnterprise, setUser, reset } = bookingSlice.actions
+export const { setCompanyRef, setService, setProfessional, setSlot, setUser, setConfirmation, resetBooking } = bookingSlice.actions
 
 export default bookingSlice.reducer
 
-export const selectService = (state: RootState) => state.booking.services
-export const selectProfessional = (state: RootState) => state.booking.professional
-export const selectEnterprise = (state: RootState) => state.booking.enterprise
-export const selectDateTime = (state: RootState) => state.booking.dayTime
-export const selectUser = (state: RootState) => state.booking.user
+export const selectBookingCompany = (s: RootState) => s.booking.company
+export const selectBookingService = (s: RootState) => s.booking.service
+export const selectBookingProfessional = (s: RootState) => s.booking.professional
+export const selectBookingUser = (s: RootState) => s.booking.user
+export const selectBookingSlot = (s: RootState) => s.booking.slot
+export const selectBookingConfirmation = (s: RootState) => s.booking.confirmation
+
+export const selectBookingPayload = (s: RootState) => {
+  const { company, service, professional, slot, user } = s.booking
+  if (!company || !service || !professional || !slot || !user) return null
+
+  return {
+    company_slug: company.slug,
+    service_uid: service.uid,
+    professional_uid: professional.uid,
+    date: slot.date,
+    time: slot.time,
+    user_name: user.user_name,
+    user_phone: user.user_phone,
+    ...(user.user_email ? { user_email: user.user_email } : {})
+  }
+}

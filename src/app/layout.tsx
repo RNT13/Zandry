@@ -1,4 +1,5 @@
 import { Providers } from '@/components/providers'
+import ToasterApp from '@/components/ui/Toaster/Toaster'
 import StyledComponentsRegistry from '@/lib/styled-components-registry'
 import { GlobalStyles } from '@/styles/globalStyles'
 import type { Metadata } from 'next'
@@ -44,6 +45,7 @@ export default function RootLayout({
 
           <Providers >
             <div className='container'>
+              <ToasterApp />
               {children}
             </div>
           </Providers>

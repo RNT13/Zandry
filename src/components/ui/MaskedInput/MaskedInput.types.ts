@@ -21,6 +21,7 @@ export type BaseProps<T> = {
   error?: string
   touched?: boolean
   showError?: boolean
+  required?: boolean
 }
 
 /* ================= VARIANT MAP ================= */

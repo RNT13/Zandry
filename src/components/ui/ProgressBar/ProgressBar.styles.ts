@@ -26,12 +26,22 @@ interface StepItemProps {
 
 export const StepItem = styled.div<StepItemProps>`
   flex: 1;
-  height: 10px;
+  height: 20px;
   border-radius: 20px;
   transition: all 0.3s ease;
+  cursor: pointer;
 
   background: ${({ $active }) =>
     $active
       ? `linear-gradient(90deg, ${maskedTheme.colors.baseBlue.light} 0%, ${maskedTheme.colors.baseBlue.dark} 100%)`
       : maskedTheme.colors.baseBlue.light50};
+
+  &:hover {
+    background: ${({ $active }) =>
+      $active
+        ? `linear-gradient(90deg, ${maskedTheme.colors.baseBlue.dark20} 0%, ${maskedTheme.colors.baseBlue.light20} 100%)`
+        : maskedTheme.colors.baseBlue.light50};
+
+    border: 2px solid ${maskedTheme.colors.baseBlue.base};
+  }
 `
