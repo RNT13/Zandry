@@ -1,6 +1,6 @@
 import { transitions } from '@/styles/MaskedAnimations/animations/transitions'
 import { maskedTheme } from '@/styles/MaskedThemes/MaskedThemes'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 type props = {
   $variant?: string
@@ -8,6 +8,7 @@ type props = {
   $radius?: number
   $icon?: boolean
   $open?: boolean
+  $required?: boolean
 }
 
 /* ============================================================
@@ -35,7 +36,7 @@ export const MaskedInputContainer = styled.div<props>`
     font-weight: 800;
     line-height: 1.4;
     color: ${maskedTheme.colors.baseBlue.base};
-    background-color: ${maskedTheme.colors.baseBlue.light02};
+    background-color: ${maskedTheme.colors.baseBlue.light20};
     text-align: left;
     ${transitions.slow}
 
@@ -89,7 +90,7 @@ export const MaskedInputContainer = styled.div<props>`
     }
 
     &::placeholder {
-      color: ${maskedTheme.colors.baseBlue.dark08};
+      color: ${maskedTheme.colors.baseBlue.light08};
     }
   }
 
@@ -122,7 +123,7 @@ export const SearchIcon = styled.div`
   left: 12px;
   top: 42px;
   font-size: 1.3rem;
-  color: ${maskedTheme.colors.baseBlue.light30};
+  color: ${maskedTheme.colors.baseBlue.dark};
   pointer-events: none;
 `
 
@@ -137,7 +138,7 @@ export const PasswordToggle = styled.div`
   background: none;
   border: none;
   cursor: pointer;
-  color: ${maskedTheme.colors.baseBlue.light};
+  color: ${maskedTheme.colors.baseBlue.dark};
 
   svg {
     font-size: 1.5rem;
@@ -216,7 +217,8 @@ export const ErrorDiv = styled.div`
 /* ============================================================
  * LABEL
  * ============================================================ */
-export const InputLabel = styled.label`
+export const InputLabel = styled.label<props>`
+  width: 100%;
   color: ${maskedTheme.colors.baseBlue.light30};
   font-size: 18px;
   font-weight: 500;
@@ -228,6 +230,17 @@ export const InputLabel = styled.label`
   svg {
     font-size: 20px;
   }
+
+  ${({ $required }) =>
+    $required &&
+    css`
+      &::after {
+        content: '*';
+        color: ${maskedTheme.colors.baseRed.base};
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+    `}
 `
 
 /* ============================================================
@@ -303,7 +316,7 @@ export const CurrencyWrapper = styled.div`
     transform: translateY(-50%);
     font-weight: 900;
     font-size: 1.2rem;
-    color: ${maskedTheme.colors.baseBlue.light};
+    color: ${maskedTheme.colors.baseBlue.dark};
   }
 
   input {
@@ -317,7 +330,7 @@ export const InputIconWrapper = styled.div`
   top: 44px;
   background: none;
   border: none;
-  color: ${maskedTheme.colors.baseBlue.light};
+  color: ${maskedTheme.colors.baseBlue.dark};
 
   svg {
     font-size: 1.5rem;

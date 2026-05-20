@@ -27,7 +27,7 @@ export function SearchInput(props: Props) {
       $icon={!props.icon}
     >
       {props.label && (
-        <InputLabel htmlFor={props.id}>
+        <InputLabel htmlFor={props.id} $required={props.required}>
           <span>{props.label}</span>
         </InputLabel>
       )}

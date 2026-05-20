@@ -2,7 +2,7 @@ import { continuousAnimations } from '@/styles/MaskedAnimations/animations/conti
 import { maskedTheme, media } from '@/styles/MaskedThemes/MaskedThemes'
 import styled from 'styled-components'
 
-export const EnterpriseContainer = styled.div`
+export const CompanyContainer = styled.div`
   width: 100%;
   height: 100%;
 
@@ -33,7 +33,7 @@ export const EnterpriseContainer = styled.div`
   }
 `
 
-export const EnterpriseBanner = styled.div`
+export const CompanyBanner = styled.div`
   width: 100%;
   height: 200px;
   background-color: blue;
@@ -51,19 +51,21 @@ export const LoginButtonDiv = styled.div`
 `
 
 export const AbsoluteDiv = styled.div`
+  width: 100%;
   position: absolute;
   top: 135px;
   padding: ${maskedTheme.spacing.sm};
 `
 
-export const EnterpriseContent = styled.div`
+export const CompanyContent = styled.div`
+  width: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
   gap: ${maskedTheme.spacing.md};
 `
 
-export const EnterpriseAvatar = styled.div`
+export const CompanyAvatar = styled.div`
   width: 100px;
   height: 100px;
   background-color: ${maskedTheme.colors.baseBlue.light30};
@@ -78,7 +80,7 @@ export const EnterpriseAvatar = styled.div`
   font-weight: bold;
 `
 
-export const EnterpriseInfo = styled.div`
+export const CompanyInfo = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -95,7 +97,7 @@ export const ButtonDiv = styled.div`
   }
 `
 
-export const EnterpriseTag = styled.div`
+export const CompanyTag = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -113,16 +115,23 @@ export const EnterpriseTag = styled.div`
   }
 `
 
-export const EnterpriseTime = styled.div`
+export const CompanyTime = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: ${maskedTheme.spacing.md};
   background-color: ${maskedTheme.colors.baseBlue.light30};
   border-radius: ${maskedTheme.radius.md};
   padding: ${maskedTheme.spacing.md};
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: ${maskedTheme.spacing.md};
+  }
 `
 
-export const EnterpriseInfoDiv = styled.div`
+export const CompanyInfoDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;

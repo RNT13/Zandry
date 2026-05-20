@@ -86,7 +86,7 @@ export function FileInput(props: Props) {
       />
 
       {props.label && (
-        <InputLabel htmlFor={props.id}>
+        <InputLabel htmlFor={props.id} $required={props.required}>
           {props.icon}
           <span>{props.label}</span>
         </InputLabel>

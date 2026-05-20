@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 type PlanCardProps = {
   $active?: boolean
+  $variant?: string
 }
 
 export const PlanCardsContainer = styled.div`
@@ -165,10 +166,11 @@ export const PlanIconBusiness = styled(PlanCardIcon)`
   }
 `
 
-export const PlanBadge = styled.span`
+export const PlanBadge = styled.span<PlanCardProps>`
   position: absolute;
   top: -10px;
   right: 10px;
+  z-index: 30;
   background: ${({ theme }) => theme.colors.baseBlue.dark};
   color: white;
   padding: 4px 10px;
@@ -177,18 +179,19 @@ export const PlanBadge = styled.span`
 `
 
 export const ComingSoon = styled.div`
-  width: 180%;
   position: absolute;
-  top: -183px;
-  left: -40%;
-  transform: rotate(-40deg);
+  width: 180%;
+  top: 50%;
+  left: 20%;
+  transform: translate(-35%, -300%) rotate(-45deg);
+  z-index: 30;
+  pointer-events: none;
   background: ${maskedTheme.colors.baseRed.light08};
   padding: 10px 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 30;
-  ${maskedTheme.boxShadow.lg};
+  ${maskedTheme.boxShadow.lg}
   ${continuousAnimations.continuousGlowDiagonal}
 
   h3 {
@@ -207,7 +210,7 @@ export const PlanCardHeader = styled.div`
 `
 
 export const PlanFeatures = styled.ul`
-  margin-top: 12px;
+  margin-top: 8px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -217,5 +220,6 @@ export const PlanFeatures = styled.ul`
     align-items: center;
     gap: 8px;
     font-size: 14px;
+    line-height: 1.4;
   }
 `

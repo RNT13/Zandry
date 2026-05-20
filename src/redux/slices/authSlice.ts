@@ -1,52 +1,48 @@
-import { UserType } from '@/types/user.types'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { RootState } from '../store'
+import type { AuthUserResponse } from '@/redux/slices/api/generatedApi'
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
-interface AuthState {
+export interface AuthState {
   token: string | null
-  refreshToken: string | null
-  user: UserType | null
+  user: AuthUserResponse | null
+  isHydrated: boolean
 }
 
 const initialState: AuthState = {
   token: null,
-  refreshToken: null,
-  user: null
+  user: null,
+  isHydrated: false
 }
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setCredentials: (state, action) => {
-      state.token = action.payload.token
-      if (action.payload.refreshToken) {
-        state.refreshToken = action.payload.refreshToken
-      }
-      if (action.payload.user) {
-        state.user = action.payload.user
-      }
+    setToken(state, { payload }: PayloadAction<string | null>) {
+      state.token = payload
     },
-
-    setUser: (state, action: PayloadAction<UserType>) => {
-      state.user = action.payload
+    setUser(state, { payload }: PayloadAction<AuthUserResponse | null>) {
+      state.user = payload
     },
-
-    logout: state => {
+    setCredentials(state, { payload }: PayloadAction<{ token: string; user: AuthUserResponse }>) {
+      state.token = payload.token
+      state.user = payload.user
+    },
+    setHydrated(state) {
+      state.isHydrated = true
+    },
+    logout(state) {
       state.token = null
-      state.refreshToken = null
       state.user = null
-
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('refreshToken')
-      }
+      state.isHydrated = true
     }
   }
 })
 
-export const { setCredentials, setUser, logout } = authSlice.actions
+export const { setToken, setUser, setCredentials, setHydrated, logout } = authSlice.actions
 export default authSlice.reducer
 
-export const selectToken = (state: RootState) => state.auth.token
-export const selectUser = (state: RootState) => state.auth.user
-export const selectRefreshToken = (state: RootState) => state.auth.refreshToken
+export const selectToken = (s: { auth: AuthState }) => s.auth.token
+export const selectUser = (s: { auth: AuthState }) => s.auth.user
+export const selectIsHydrated = (s: { auth: AuthState }) => s.auth.isHydrated
+export const selectIsAuthenticated = (s: { auth: AuthState }) => !!s.auth.token && !!s.auth.user
+export const selectCompanySlug = (s: { auth: AuthState }) => s.auth.user?.company_slug ?? null

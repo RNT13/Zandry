@@ -10,27 +10,15 @@ export const ConfirmationContent = styled.div`
   padding: ${maskedTheme.spacing.sm};
 `
 
-export const ConfirmationName = styled.div`
+export const ConfirmationDiv = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: ${maskedTheme.spacing.md};
   padding: ${maskedTheme.spacing.md} 0;
 
-  input {
-    height: 55px;
-  }
-`
-
-export const ConfirmationPhone = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: ${maskedTheme.spacing.md};
-  padding: ${maskedTheme.spacing.md} 0;
-
-  input {
-    height: 55px;
+  label {
+    color: ${maskedTheme.colors.baseBlue.base};
   }
 `
 

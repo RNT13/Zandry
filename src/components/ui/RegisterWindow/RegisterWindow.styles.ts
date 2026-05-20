@@ -65,6 +65,7 @@ export const RegisterWindowBody = styled.div`
   flex-direction: column;
   gap: ${maskedTheme.spacing.md};
   padding: ${maskedTheme.spacing.lg} 0;
+
   label {
     color: ${maskedTheme.colors.baseBlue.base};
   }
@@ -75,7 +76,7 @@ export const RegisterRow = styled.div`
   display: flex;
   flex-direction: row;
   gap: ${maskedTheme.spacing.sm};
-  padding: ${maskedTheme.spacing.sm} 10px;
+  padding: ${maskedTheme.spacing.sm} ${maskedTheme.spacing.md};
   background-color: ${maskedTheme.colors.baseBlue.light40};
   border-radius: ${maskedTheme.radius.md};
 `
@@ -85,8 +86,8 @@ export const RegisterColumn = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${maskedTheme.spacing.md};
-  margin-bottom: 20px;
-  padding: ${maskedTheme.spacing.sm} 10px;
+  margin-bottom: ${maskedTheme.spacing.md};
+  padding: ${maskedTheme.spacing.sm} ${maskedTheme.spacing.md};
   background-color: ${maskedTheme.colors.baseBlue.light40};
   border-radius: ${maskedTheme.radius.md};
 `

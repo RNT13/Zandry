@@ -6,10 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate:api": "npx @rtk-query/codegen-openapi openapi-config.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
+    "async-mutex": "^0.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "formik": "^2.4.9",
@@ -31,6 +33,7 @@
     "yup": "^1.7.1"
   },
   "devDependencies": {
+    "@rtk-query/codegen-openapi": "^2.2.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -40,6 +43,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "prettier": "^3.8.2",
+    "tsx": "^4.22.1",
     "typescript": "^5"
   }
 }

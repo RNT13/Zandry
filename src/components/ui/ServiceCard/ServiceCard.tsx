@@ -6,7 +6,7 @@ interface ServiceCardProps {
   id: string
   name: string
   description: string
-  price: number
+  price: string
   duration: number
   onClick?: () => void
 }
