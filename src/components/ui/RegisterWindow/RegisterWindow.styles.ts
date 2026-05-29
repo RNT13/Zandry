@@ -92,6 +92,24 @@ export const RegisterColumn = styled.div`
   border-radius: ${maskedTheme.radius.md};
 `
 
+export const ServicesDataDiv = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: ${maskedTheme.spacing.md};
+  margin-bottom: ${maskedTheme.spacing.md};
+  padding: ${maskedTheme.spacing.sm} ${maskedTheme.spacing.md};
+  background-color: ${maskedTheme.colors.baseBlue.light40};
+  border-radius: ${maskedTheme.radius.md};
+
+  ${media.mobile} {
+    padding: ${maskedTheme.spacing.sm};
+    gap: ${maskedTheme.spacing.sm};
+    flex-direction: column;
+  }
+`
+
 export const RegisterWindowFooter = styled.div`
   width: 100%;
   display: flex;

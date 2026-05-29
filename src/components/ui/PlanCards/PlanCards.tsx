@@ -47,7 +47,6 @@ function CardHeader({ plan, icon }: { plan?: SubscriptionPlanReadRead; icon: Rea
 export default function PlanCards({ selectedPlan, onSelectPlan }: PlanCardsProps) {
   const { plans, isLoading } = useSubscriptionPlans()
 
-  // ← aqui estavam faltando essas 4 linhas
   const trial = usePlanByCode(plans, 'trial')
   const start = usePlanByCode(plans, 'start')
   const pro = usePlanByCode(plans, 'pro')

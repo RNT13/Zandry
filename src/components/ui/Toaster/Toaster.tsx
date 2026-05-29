@@ -1,4 +1,5 @@
 
+import { maskedTheme } from "@/styles/MaskedThemes/MaskedThemes";
 import { Toaster } from "react-hot-toast";
 
 export default function ToasterApp() {
@@ -12,22 +13,24 @@ export default function ToasterApp() {
         toastOptions={{
           duration: 4000,
           style: {
-            background: '#ebc6d3ff',
-            color: '#3f3c6eff',
-            borderRadius: '8px',
-            padding: '12px 16px',
-            fontSize: '0.9rem',
+            background: `${maskedTheme.colors.baseBlue.base}`,
+            color: `${maskedTheme.colors.baseBlue.light40}`,
+            borderRadius: `${maskedTheme.radius.md}`,
+            padding: `${maskedTheme.spacing.sm} ${maskedTheme.spacing.md}`,
+            fontSize: `${maskedTheme.fontSize.sm}`,
           },
           iconTheme: {
-            primary: '#3f3c6eff',
-            secondary: '#fbddf3',
+            primary: `${maskedTheme.colors.baseBlue.light40}`,
+            secondary: `${maskedTheme.colors.baseBlue.dark}`,
           },
           error: {
             style: {
-              background: '#fcd5d5',
-              color: '#b91c1c',
-              borderRadius: '8px',
-              padding: '12px 16px',
+              background: `${maskedTheme.colors.baseRed.base}`,
+              color: `${maskedTheme.colors.baseRed.light40}`,
+            },
+            iconTheme: {
+              primary: `${maskedTheme.colors.baseRed.light40}`,
+              secondary: `${maskedTheme.colors.baseRed.dark}`,
             },
           },
         }}
@@ -36,4 +39,3 @@ export default function ToasterApp() {
   );
 }
 
-      

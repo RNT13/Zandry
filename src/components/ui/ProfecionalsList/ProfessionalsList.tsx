@@ -12,8 +12,10 @@ import { MAnimation } from '@/styles/MaskedAnimations/MAnimation'
 import { MButton } from '../MaskedButton/MaskedButton'
 import ProfessionalsCard from '../ProfessionalsCard/ProfessionalsCard'
 import {
+  DurationTag,
   ProfessionalsListContainer,
-  ProfessionalsListContent
+  ProfessionalsListContent,
+  ServiceBadge
 } from './ProfessionalsList.styles'
 
 import { usePublicProfessionals } from '@/hooks/api/usePublicProfessionals'
@@ -100,6 +102,19 @@ export default function ProfessionalsList() {
             <TitleH2>Selecione os profissionais</TitleH2>
           </Row>
         </MAnimation>
+
+        {selectedService && (
+          <>
+            <MAnimation variant="revealFadeInUp" trigger="mount" delay={0.15}>
+              <ServiceBadge>
+                <span>{selectedService.name}</span>
+                {selectedService.duration && (
+                  <DurationTag>{selectedService.duration} min</DurationTag>
+                )}
+              </ServiceBadge>
+            </MAnimation>
+          </>
+        )}
 
         {!professionals.length ? (
           <TitleH3>Nenhum profissional disponível para este serviço.</TitleH3>

@@ -12,7 +12,7 @@ import {
 } from '@/redux/slices/bookingSlice'
 import { MinorTextH4, Row, TitleH2, TitleH3 } from '@/styles/globalStyles'
 import { MAnimation } from '@/styles/MaskedAnimations/MAnimation'
-import { addMinutes } from '@/utils/business-hours'
+import { addMinutes } from '@/utils/businessHoursUtils'
 import { FormikProvider, useFormik } from 'formik'
 import { useParams, useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
@@ -41,7 +41,10 @@ const validationSchema = yup.object({
     .min(14, 'Telefone inválido')
     .required('Telefone é obrigatório'),
 
-  user_email: yup.string().email('E-mail inválido').optional(),
+  user_email: yup
+    .string()
+    .email('E-mail inválido')
+    .required('E-mail é obrigatório'),
 })
 
 export default function Confirmation() {
@@ -94,7 +97,7 @@ export default function Confirmation() {
           time: slot.time,
           user_name: values.user_name,
           user_phone: values.user_phone,
-          ...(values.user_email ? { user_email: values.user_email } : {})
+          user_email: values.user_email
         })
 
         dispatch(setConfirmation(payload))
@@ -164,6 +167,7 @@ export default function Confirmation() {
             <MAnimation variant="revealFadeInRight" trigger="mount" delay={0.4}>
               <ConfirmationDiv>
                 <FormikMInput
+                  required
                   name="user_email"
                   id="user_email"
                   label="E-mail"

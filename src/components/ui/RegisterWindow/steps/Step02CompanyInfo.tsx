@@ -80,7 +80,7 @@ export default function Step02CompanyInfo() {
 
         <RegisterWindowHeader >
           <ProgressBar currentStep={2} totalSteps={7} onStepClick={(step) => dispatch(goToStep(step))} />
-          <MinorTextH4>Navegue pelas etapas anterioes</MinorTextH4>
+          <MinorTextH4>Navegue pelas etapas anteriores</MinorTextH4>
         </RegisterWindowHeader>
 
         <FormikProvider value={form}>
@@ -125,8 +125,8 @@ export default function Step02CompanyInfo() {
                     { value: 'Beleza e Estética', label: 'Beleza e Estética' },
                     { value: 'Saúde e Bem-estar', label: 'Saúde e Bem-estar' },
                     { value: 'Consultórios e Clínicas', label: 'Consultórios e Clínicas' },
-                    { value: 'servicos-automotivos', label: 'Serviços Automotivos' },
-                    { value: 'Serviços Automotivos', label: 'Educação e Aulas' },
+                    { value: 'Serviços Automotivos', label: 'Serviços Automotivos' },
+                    { value: 'Educação e Aulas', label: 'Educação e Aulas' },
                     { value: 'Eventos e Locações', label: 'Eventos e Locações' },
                     { value: 'Serviços Profissionais', label: 'Serviços Profissionais' },
                     { value: 'Fitness e Esportes', label: 'Fitness e Esportes' },

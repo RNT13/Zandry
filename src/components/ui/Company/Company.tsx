@@ -1,20 +1,20 @@
 'use client'
 
-import { useAuth } from "@/hooks/api/useAuth";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { CompanyReadRead } from "@/redux/slices/api/generatedApi";
-import { setCompanyRef } from "@/redux/slices/bookingSlice";
-import { MinorTextH4, Row, TitleH2, TitleH3 } from "@/styles/globalStyles";
-import { MAnimation } from "@/styles/MaskedAnimations/MAnimation";
-import { FormattedDay, getFormattedHours, getOpeningHoursSummary } from "@/utils/business-hours";
-import { getInitials } from "@/utils/initials";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { BsChatRightText } from "react-icons/bs";
-import { FaMapMarkedAlt, FaMapMarkerAlt, FaRegClock } from "react-icons/fa";
-import { GoDotFill } from "react-icons/go";
-import { MdContactPhone, MdStoreMallDirectory } from "react-icons/md";
-import { MButton } from "../MaskedButton/MaskedButton";
+import { useAuth } from '@/hooks/api/useAuth'
+import { useAppDispatch } from '@/hooks/useAppDispatch'
+import { CompanyReadRead } from '@/redux/slices/api/generatedApi'
+import { setCompanyRef } from '@/redux/slices/bookingSlice'
+import { MinorTextH4, Row, TitleH2, TitleH3 } from '@/styles/globalStyles'
+import { MAnimation } from '@/styles/MaskedAnimations/MAnimation'
+import { FormattedDay, getFormattedHours, getOpeningHoursSummary } from '@/utils/businessHoursUtils'
+import { getInitials } from '@/utils/initials'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { BsChatRightText } from 'react-icons/bs'
+import { FaMapMarkedAlt, FaMapMarkerAlt, FaRegClock } from 'react-icons/fa'
+import { GoDotFill } from 'react-icons/go'
+import { MdContactPhone, MdStoreMallDirectory } from 'react-icons/md'
+import { MButton } from '../MaskedButton/MaskedButton'
 import {
   AbsoluteDiv,
   ButtonDiv,
@@ -26,56 +26,55 @@ import {
   CompanyInfoDiv,
   CompanyTag,
   CompanyTime,
-  LoginButtonDiv
-} from "./Company.styles";
+  LoginButtonDiv,
+} from './Company.styles'
 
 interface CompanyProps {
-  company: CompanyReadRead;
+  company: CompanyReadRead
 }
 
 export default function Company({ company }: CompanyProps) {
-  const { push } = useRouter();
-  const dispatch = useAppDispatch();
+  const { push } = useRouter()
+  const dispatch = useAppDispatch()
+  const auth = useAuth()
 
-  const companyName = company.name ?? "Empresa";
-  const companySlug = company.slug ?? "";
-  const companyDescription = company.description ?? "Descrição não informada.";
-  const companyAddress = company.address ?? "Endereço não informado.";
-  const companyZipCode = company.cep ?? "";
-  const companyCity = company.city ?? "";
-  const companyState = company.state ?? "";
-  const companyNumber = company.number ?? "";
-  const companyPhone = company.phone ?? 'Telefone nao informado';
-  const companyLogo = company.logo ?? "";
-  const companyBanner = company.banner ?? "";
-  const companyCategory = company.category ?? ""
-  const companyEmail = company.email ?? 'E-mail nao informado';
-  const companyRating = company.rating ?? 'Ainda não avaliado';
+  const companyName = company.name ?? 'Empresa'
+  const companySlug = company.slug ?? ''
+  const companyDescription = company.description ?? 'Descrição não informada.'
+  const companyAddress = company.address ?? 'Endereço não informado.'
+  const companyZipCode = company.cep ?? ''
+  const companyCity = company.city ?? ''
+  const companyState = company.state ?? ''
+  const companyNumber = company.number ?? ''
+  const companyPhone = company.phone ?? 'Telefone não informado'
+  const companyLogo = company.logo ?? ''
+  const companyBanner = company.banner ?? ''
+  const companyCategory = company.category ?? ''
+  const companyEmail = company.email ?? 'E-mail não informado'
+  const companyRating = company.rating ?? 'Ainda não avaliado'
 
   const hours = getOpeningHoursSummary(company.business_hours ?? [])
   const allHours = getFormattedHours(company.business_hours ?? [])
 
-  const auth = useAuth();
-
   const handleNext = () => {
-    if (!companySlug) return;
+    if (!companySlug) return
 
     dispatch(
       setCompanyRef({
         id: company.id,
         slug: companySlug,
-        company_name: companyName
+        company_name: companyName,
       })
-    );
+    )
 
-    push(`/${companySlug}/servicos`);
-  };
+    push(`/${companySlug}/servicos`)
+  }
 
   const handleLogin = () => {
-    push(`/login`)
-  };
+    push('/login?returnTo=%2Fdashboard')
+  }
 
-  const handleDashboard = () => {
+  const handleManage = () => {
     push(`/${companySlug}/dashboard`)
   }
 
@@ -88,7 +87,7 @@ export default function Company({ company }: CompanyProps) {
               $variant="link"
               size="sm"
               leftIcon={<MdStoreMallDirectory />}
-              onClick={handleDashboard}
+              onClick={handleManage}
             >
               Painel da empresa
             </MButton>
@@ -150,7 +149,7 @@ export default function Company({ company }: CompanyProps) {
                   size="lg"
                   fullWidth
                   onClick={handleNext}
-                  state={!companySlug ? "disabled" : "default"}
+                  state={!companySlug ? 'disabled' : 'default'}
                 >
                   Serviços
                 </MButton>
@@ -160,27 +159,25 @@ export default function Company({ company }: CompanyProps) {
             <MAnimation variant="revealFadeInUp" trigger="mount" delay={0.3}>
               <CompanyTime>
                 <div>
-                  <span className={hours.isOpenToday ? "openDot" : "closedDot"} />
+                  <span className={hours.isOpenToday ? 'openDot' : 'closedDot'} />
                   <TitleH2>{hours.todayLabel}</TitleH2>
                 </div>
-                <span className={hours.isOpenToday ? "openTag" : "closedTag"}>
-                  {hours.isOpenToday
-                    ? `Aberto · ${hours.start} até ${hours.end}`
-                    : "Fechado hoje"}
+                <span className={hours.isOpenToday ? 'openTag' : 'closedTag'}>
+                  {hours.isOpenToday ? `Aberto · ${hours.start} até ${hours.end}` : 'Fechado hoje'}
                 </span>
               </CompanyTime>
             </MAnimation>
 
             <MAnimation variant="revealFadeInUp" trigger="mount" delay={0.4}>
               <CompanyInfoDiv>
-                <TitleH2><FaRegClock /> Horários</TitleH2>
+                <TitleH2>
+                  <FaRegClock /> Horários
+                </TitleH2>
 
                 {allHours.map((day: FormattedDay) => (
-                  <Row key={day.key}                  >
+                  <Row key={day.key}>
                     <MinorTextH4>{day.label}:</MinorTextH4>
-                    <MinorTextH4>
-                      {day.is_open ? `${day.start} – ${day.end}` : "Fechado"}
-                    </MinorTextH4>
+                    <MinorTextH4>{day.is_open ? `${day.start} – ${day.end}` : 'Fechado'}</MinorTextH4>
                   </Row>
                 ))}
               </CompanyInfoDiv>
@@ -191,8 +188,14 @@ export default function Company({ company }: CompanyProps) {
                 <TitleH2>
                   <MdContactPhone /> Contato
                 </TitleH2>
-                <Row><MinorTextH4>E-mail:</MinorTextH4><MinorTextH4>{companyEmail}</MinorTextH4></Row>
-                <Row><MinorTextH4>Whatsapp:</MinorTextH4><MinorTextH4>{companyPhone}</MinorTextH4></Row>
+                <Row>
+                  <MinorTextH4>E-mail:</MinorTextH4>
+                  <MinorTextH4>{companyEmail}</MinorTextH4>
+                </Row>
+                <Row>
+                  <MinorTextH4>Whatsapp:</MinorTextH4>
+                  <MinorTextH4>{companyPhone}</MinorTextH4>
+                </Row>
               </CompanyInfoDiv>
             </MAnimation>
 
@@ -201,9 +204,22 @@ export default function Company({ company }: CompanyProps) {
                 <TitleH2>
                   <FaMapMarkerAlt /> Endereço
                 </TitleH2>
-                <Row><MinorTextH4>Endereço:</MinorTextH4><MinorTextH4>{companyAddress} - {companyNumber}</MinorTextH4></Row>
-                <Row><MinorTextH4>CEP:</MinorTextH4><MinorTextH4>{companyZipCode}</MinorTextH4></Row>
-                <Row><MinorTextH4>Cidade/Estado</MinorTextH4><MinorTextH4>{companyCity} - {companyState}</MinorTextH4></Row>
+                <Row>
+                  <MinorTextH4>Endereço:</MinorTextH4>
+                  <MinorTextH4>
+                    {companyAddress} - {companyNumber}
+                  </MinorTextH4>
+                </Row>
+                <Row>
+                  <MinorTextH4>CEP:</MinorTextH4>
+                  <MinorTextH4>{companyZipCode}</MinorTextH4>
+                </Row>
+                <Row>
+                  <MinorTextH4>Cidade/Estado</MinorTextH4>
+                  <MinorTextH4>
+                    {companyCity} - {companyState}
+                  </MinorTextH4>
+                </Row>
 
                 <MButton $variant="link" leftIcon={<FaMapMarkedAlt />}>
                   Ver no mapa
@@ -218,15 +234,29 @@ export default function Company({ company }: CompanyProps) {
                 </TitleH2>
                 <MinorTextH4>{companyDescription}</MinorTextH4>
 
-                {company.advantage1 && <MinorTextH4><GoDotFill />{company.advantage1}</MinorTextH4>}
-                {company.advantage2 && <MinorTextH4><GoDotFill />{company.advantage2}</MinorTextH4>}
-                {company.advantage3 && <MinorTextH4><GoDotFill />{company.advantage3}</MinorTextH4>}
-
+                {company.advantage1 && (
+                  <MinorTextH4>
+                    <GoDotFill />
+                    {company.advantage1}
+                  </MinorTextH4>
+                )}
+                {company.advantage2 && (
+                  <MinorTextH4>
+                    <GoDotFill />
+                    {company.advantage2}
+                  </MinorTextH4>
+                )}
+                {company.advantage3 && (
+                  <MinorTextH4>
+                    <GoDotFill />
+                    {company.advantage3}
+                  </MinorTextH4>
+                )}
               </CompanyInfoDiv>
             </MAnimation>
           </CompanyInfo>
         </AbsoluteDiv>
       </CompanyContent>
     </CompanyContainer>
-  );
+  )
 }

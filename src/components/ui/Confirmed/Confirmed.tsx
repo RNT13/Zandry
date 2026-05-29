@@ -15,7 +15,7 @@ import {
 } from '@/redux/slices/bookingSlice'
 import { MinorTextH4, TitleH2, TitleH3 } from '@/styles/globalStyles'
 import { MAnimation } from '@/styles/MaskedAnimations/MAnimation'
-import { addMinutes } from '@/utils/business-hours'
+import { addMinutes } from '@/utils/businessHoursUtils'
 import { MButton } from '../MaskedButton/MaskedButton'
 import {
   ConfirmationTotal,

@@ -27,7 +27,8 @@ import {
   RegisterWindowFooter,
   RegisterWindowHeader,
   RegisterWindowWrapper,
-  SelectServicesDiv
+  SelectServicesDiv,
+  ServicesDataDiv
 } from "../RegisterWindow.styles";
 
 const validationSchema = yup.object({
@@ -90,7 +91,7 @@ export default function Step06ProfessionalsInfo() {
       <RegisterWindowWrapper>
         <RegisterWindowHeader>
           <ProgressBar currentStep={6} totalSteps={7} onStepClick={(step) => dispatch(goToStep(step))} />
-          <MinorTextH4>Navegue pelas etapas anterioes</MinorTextH4>
+          <MinorTextH4>Navegue pelas etapas anteriores</MinorTextH4>
         </RegisterWindowHeader>
 
         <FormikProvider value={form}>
@@ -131,7 +132,7 @@ export default function Step06ProfessionalsInfo() {
                   </MinorTextH4>
 
                   <MAnimation variant="revealSoftRevealRight" trigger="mount" delay={0.3}>
-                    <RegisterRow>
+                    <ServicesDataDiv>
                       {servicesData.map((service) => {
                         const isSelected = form.values.service_uids.includes(service.uid)
 
@@ -160,7 +161,7 @@ export default function Step06ProfessionalsInfo() {
                           </SelectServicesDiv>
                         )
                       })}
-                    </RegisterRow>
+                    </ServicesDataDiv>
                   </MAnimation>
                 </Column>
 
