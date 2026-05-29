@@ -13,7 +13,7 @@ import type {
   AuthServiceRegisterRequest,
   AuthSubscriptionRegisterRequest,
   CodeEnum,
-  RegisterCompanyRequestWrite
+  RegisterCompanyRequestWrite,
 } from '@/redux/slices/api/generatedApi'
 import { useAuthRegisterCompanyCreateMutation, useSubscriptionsPlansListQuery } from '@/redux/slices/api/generatedApi'
 import { setCredentials } from '@/redux/slices/authSlice'
@@ -28,10 +28,11 @@ import {
   selectOwner,
   selectProfessionals,
   selectServices,
-  selectSubscription
+  selectSubscription,
 } from '@/redux/slices/registerSlice'
 import { Column, MinorTextH4, TitleH2 } from '@/styles/globalStyles'
 import { MAnimation } from '@/styles/MaskedAnimations/MAnimation'
+import { handleApiError } from '@/utils/handleApiError'
 import { FormikProvider, useFormik } from 'formik'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
@@ -44,12 +45,12 @@ import {
   RegisterWindowBody,
   RegisterWindowFooter,
   RegisterWindowHeader,
-  RegisterWindowWrapper
+  RegisterWindowWrapper,
 } from '../RegisterWindow.styles'
 
 export default function Step07PlanInfo() {
   const dispatch = useAppDispatch()
-  const { push } = useRouter()
+  const router = useRouter()
 
   const { data: plans = [], isLoading: isLoadingPlans } = useSubscriptionsPlansListQuery({})
   const [registerCompany, { isLoading }] = useAuthRegisterCompanyCreateMutation()
@@ -66,7 +67,7 @@ export default function Step07PlanInfo() {
   const form = useFormik({
     enableReinitialize: true,
     initialValues: {
-      selected_plan: planData.selected_plan as CodeEnum
+      selected_plan: planData.selected_plan as CodeEnum,
     },
     onSubmit: async values => {
       const selectedPlan = values.selected_plan
@@ -77,7 +78,7 @@ export default function Step07PlanInfo() {
           email: ownerData.email,
           phone: ownerData.phone,
           password: ownerData.password,
-          confirm_password: ownerData.confirm_password
+          confirm_password: ownerData.confirm_password,
         } satisfies AuthOwnerRegisterRequestWrite,
 
         company: {
@@ -86,7 +87,7 @@ export default function Step07PlanInfo() {
           email: companyData.email,
           phone: companyData.phone,
           category: companyData.category,
-          description: companyData.description
+          description: companyData.description,
         } satisfies AuthCompanyRegisterRequest,
 
         address: {
@@ -94,20 +95,20 @@ export default function Step07PlanInfo() {
           address: addressData.address,
           city: addressData.city,
           state: addressData.state,
-          number: addressData.number
+          number: addressData.number,
         } satisfies AuthAddressRegisterRequest,
 
         advantages: {
           advantage1: advantagesData.advantage1,
           advantage2: advantagesData.advantage2,
-          advantage3: advantagesData.advantage3
+          advantage3: advantagesData.advantage3,
         } satisfies AuthAdvantagesRegisterRequest,
 
         business_hours: businessHours.map(day => ({
           week_day: day.week_day,
           start: day.start,
           end: day.end,
-          is_open: day.is_open
+          is_open: day.is_open,
         })) satisfies AuthBusinessHourRegisterRequest[],
 
         services: services.map(service => ({
@@ -115,19 +116,19 @@ export default function Step07PlanInfo() {
           name: service.name,
           description: service.description,
           price: service.price,
-          duration: service.duration
+          duration: service.duration,
         })) satisfies AuthServiceRegisterRequest[],
 
         professionals: professionals.map(professional => ({
           full_name: professional.full_name,
           position: professional.position,
           phone: professional.phone,
-          services_ids: professional.services_ids
+          services_ids: professional.services_ids,
         })) satisfies AuthProfessionalRegisterRequest[],
 
         subscription: {
-          selected_plan: selectedPlan
-        } satisfies AuthSubscriptionRegisterRequest
+          selected_plan: selectedPlan,
+        } satisfies AuthSubscriptionRegisterRequest,
       }
 
       try {
@@ -136,20 +137,20 @@ export default function Step07PlanInfo() {
         dispatch(
           setCredentials({
             token: result.access,
-            user: result.user
+            user: result.user,
           })
         )
 
         dispatch(resetRegister())
 
-        const slug = result.company_slug
-        push(slug ? `/${slug}/dashboard` : '/dashboard')
+        toast.success('Bem-vindo ao Zandry!')
+        router.replace(`/${result.company_slug}/dashboard`)
       } catch (error: any) {
-        const message = error?.data?.message || 'Não foi possível concluir o cadastro.'
+        const message = handleApiError(error)
         toast.error(message)
-        console.error(message)
+        console.error('Erro detalhado:', error)
       }
-    }
+    },
   })
 
   const currentPlan = plans.find(plan => plan.code === form.values.selected_plan)

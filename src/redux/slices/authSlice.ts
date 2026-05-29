@@ -44,5 +44,5 @@ export default authSlice.reducer
 export const selectToken = (s: { auth: AuthState }) => s.auth.token
 export const selectUser = (s: { auth: AuthState }) => s.auth.user
 export const selectIsHydrated = (s: { auth: AuthState }) => s.auth.isHydrated
-export const selectIsAuthenticated = (s: { auth: AuthState }) => !!s.auth.token && !!s.auth.user
+export const selectIsAuthenticated = (s: { auth: AuthState }) => Boolean(s.auth.token && s.auth.user)
 export const selectCompanySlug = (s: { auth: AuthState }) => s.auth.user?.company_slug ?? null

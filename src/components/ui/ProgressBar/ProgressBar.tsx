@@ -5,7 +5,7 @@ interface ProgressBarProps {
   currentStep: number;
   totalSteps: number;
   onStepClick?: (step: number) => void;
-  maxReachableStep?: number; // opcional (controle de avanço)
+  maxReachableStep?: number;
 }
 
 export default function ProgressBar({

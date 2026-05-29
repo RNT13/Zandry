@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
+import { useAuth } from '@/hooks/api/useAuth'
+import { useAppDispatch } from '@/hooks/useAppDispatch'
+import { setCredentials } from '@/redux/slices/authSlice'
+import { MinorTextH4, Row, TitleH2 } from '@/styles/globalStyles'
+import { MAnimation } from '@/styles/MaskedAnimations/MAnimation'
 import { FormikProvider, useFormik } from 'formik'
+import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
@@ -9,12 +15,6 @@ import { AiOutlineLock } from 'react-icons/ai'
 import { CiMail } from 'react-icons/ci'
 import { IoIosArrowBack } from 'react-icons/io'
 import * as yup from 'yup'
-
-import { useAuth } from '@/hooks/api/useAuth'
-import { useAppDispatch } from '@/hooks/useAppDispatch'
-import { setCredentials } from '@/redux/slices/authSlice'
-import { MinorTextH4, Row, TitleH2 } from '@/styles/globalStyles'
-import Image from 'next/image'
 import { MButton } from '../MaskedButton/MaskedButton'
 import { FormikMInput } from '../MaskedInput/FormikMaskedInput'
 import {
@@ -44,9 +44,6 @@ export default function LoginWindow() {
   const [rememberMe, setRememberMe] = useState(false)
   const { login, loginState } = useAuth()
 
-  const buildUrl = (path: string) =>
-    returnTo ? `${path}?returnTo=${encodeURIComponent(returnTo)}` : path
-
   const goBackSafe = () => {
     if (returnTo) return router.replace(returnTo)
     if (typeof window !== 'undefined' && window.history.length > 1) return router.back()
@@ -56,7 +53,7 @@ export default function LoginWindow() {
   const form = useFormik({
     initialValues: { email: '', password: '' },
     validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async values => {
       const loadingId = toast.loading('Entrando...')
 
       try {
@@ -68,16 +65,17 @@ export default function LoginWindow() {
           },
         }).unwrap()
 
-        dispatch(setCredentials({
-          token: data.access,
-          user: data.user,
-        }))
+        dispatch(
+          setCredentials({
+            token: data.access,
+            user: data.user,
+          })
+        )
 
         toast.dismiss(loadingId)
         toast.success('Login realizado com sucesso!')
 
-        const next = returnTo ?? (data.user.company_slug ? `/${data.user.company_slug}/dashboard` : '/dashboard')
-        router.replace(next)
+        router.replace(returnTo ?? `/${data.user.company_slug}/dashboard`)
       } catch (error: any) {
         toast.dismiss(loadingId)
         toast.error(
@@ -90,99 +88,123 @@ export default function LoginWindow() {
   })
 
   return (
-    <LoginWindowContainer>
-      <LoginWindowContent>
-        <LoginWindowWrapper>
-          <LoginWindowHeader>
-            <SvgDiv>
-              <Image
-                src="/Zendry.png"
-                alt="Logo"
-                width={100}
-                height={100}
-                priority
-                loading="eager"
-              />
-            </SvgDiv>
-            <TitleH2>Acesso Empresarial</TitleH2>
-            <MinorTextH4>Entre para gerenciar seus agendamentos</MinorTextH4>
-          </LoginWindowHeader>
-
-          <FormikProvider value={form}>
-            <form onSubmit={form.handleSubmit} noValidate>
-              <LoginWindowBody>
-                <FormikMInput
-                  required
-                  variant="default"
-                  name="email"
-                  id="email"
-                  label="E-mail"
-                  icon={<CiMail />}
-                  placeholder="contato@seunegocio.com"
-                />
-                <FormikMInput
-                  required
-                  variant="password"
-                  name="password"
-                  id="password"
-                  label="Senha"
-                  icon={<AiOutlineLock />}
-                  placeholder="Sua senha"
-                />
-              </LoginWindowBody>
-
-              <LoginWindowFooter>
-                <Row>
-                  <MButton
-                    type="button"
-                    $variant="toggle"
-                    $toggleLabel="Lembrar"
-                    $isActive={rememberMe}
-                    onClick={() => setRememberMe((p) => !p)}
-                    size="sm"
+    <MAnimation variant="revealSoftRevealDown" trigger="mount">
+      <LoginWindowContainer>
+        <LoginWindowContent>
+          <LoginWindowWrapper>
+            <LoginWindowHeader>
+              <MAnimation variant="revealZoomFromDeep" trigger="mount">
+                <SvgDiv>
+                  <Image
+                    src="/Zendry.png"
+                    alt="Logo"
+                    width={100}
+                    height={100}
+                    priority
+                    loading="eager"
                   />
-                  <MButton
-                    type="button"
-                    $variant="link"
-                    size="sm"
-                    onClick={() => router.push('/esqueci-senha')}
-                  >
-                    Esqueci a senha
-                  </MButton>
-                </Row>
+                </SvgDiv>
+              </MAnimation>
 
-                <MButton
-                  $variant="default"
-                  type="submit"
-                  fullWidth
-                  state={loginState.isLoading ? 'disabled' : 'default'}
-                >
-                  {loginState.isLoading ? 'Entrando...' : 'Entrar'}
-                </MButton>
-              </LoginWindowFooter>
-            </form>
-          </FormikProvider>
-        </LoginWindowWrapper>
+              <MAnimation variant="revealSoftRevealDown" trigger="mount" delay={0.1} center>
+                <TitleH2>Acesso Empresarial</TitleH2>
+              </MAnimation>
 
-        <MButton
-          type="button"
-          $variant="link"
-          fullWidth
-          onClick={() => router.replace(buildUrl('/cadastro'))}
-        >
-          Cadastre sua empresa
-        </MButton>
+              <MAnimation variant="revealSoftRevealDown" trigger="mount" delay={0.2} center>
+                <MinorTextH4>Entre para gerenciar seus agendamentos</MinorTextH4>
+              </MAnimation>
+            </LoginWindowHeader>
 
-        <MButton
-          type="button"
-          $variant="link"
-          fullWidth
-          leftIcon={<IoIosArrowBack />}
-          onClick={goBackSafe}
-        >
-          Voltar para a página inicial
-        </MButton>
-      </LoginWindowContent>
-    </LoginWindowContainer>
+            <FormikProvider value={form}>
+              <form onSubmit={form.handleSubmit} noValidate>
+                <LoginWindowBody>
+                  <MAnimation variant="revealSoftRevealRight" trigger="mount" delay={0.1}>
+                    <FormikMInput
+                      required
+                      variant="default"
+                      name="email"
+                      id="email"
+                      label="E-mail"
+                      icon={<CiMail />}
+                      placeholder="contato@seunegocio.com"
+                    />
+                  </MAnimation>
+
+                  <MAnimation variant="revealSoftRevealRight" trigger="mount" delay={0.2}>
+                    <FormikMInput
+                      required
+                      variant="password"
+                      name="password"
+                      id="password"
+                      label="Senha"
+                      icon={<AiOutlineLock />}
+                      placeholder="Sua senha"
+                    />
+                  </MAnimation>
+                </LoginWindowBody>
+
+                <LoginWindowFooter>
+                  <MAnimation variant="revealSoftRevealDown" trigger="mount" delay={0.3}>
+                    <Row>
+                      <MButton
+                        type="button"
+                        $variant="toggle"
+                        $toggleLabel="Lembrar"
+                        $isActive={rememberMe}
+                        onClick={() => setRememberMe(p => !p)}
+                        size="sm"
+                      />
+
+                      <MButton
+                        type="button"
+                        $variant="link"
+                        size="sm"
+                        onClick={() => router.push('/esqueci-senha')}
+                      >
+                        Esqueci a senha
+                      </MButton>
+                    </Row>
+                  </MAnimation>
+
+                  <MAnimation variant="revealSoftRevealDown" trigger="mount" delay={0.4}>
+                    <MButton
+                      $variant="default"
+                      type="submit"
+                      fullWidth
+                      state={loginState.isLoading ? 'disabled' : 'default'}
+                    >
+                      {loginState.isLoading ? 'Entrando...' : 'Entrar'}
+                    </MButton>
+                  </MAnimation>
+                </LoginWindowFooter>
+              </form>
+            </FormikProvider>
+          </LoginWindowWrapper>
+
+          <MAnimation variant="revealSoftRevealDown" trigger="mount" delay={0.5}>
+            <MButton
+              type="button"
+              $variant="link"
+              fullWidth
+              onClick={() => router.push('/cadastro')}
+            >
+              Cadastre sua empresa
+            </MButton>
+          </MAnimation>
+
+          <MAnimation variant="revealSoftRevealDown" trigger="mount" delay={0.6}>
+            <MButton
+              type="button"
+              $variant="link"
+              fullWidth
+              leftIcon={<IoIosArrowBack />}
+              onClick={goBackSafe}
+            >
+              Voltar para a página inicial
+            </MButton>
+          </MAnimation>
+        </LoginWindowContent>
+      </LoginWindowContainer>
+    </MAnimation>
   )
 }

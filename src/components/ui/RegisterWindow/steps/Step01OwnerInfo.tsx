@@ -88,7 +88,7 @@ export default function Step01OwnerInfo() {
 
         <RegisterWindowHeader >
           <ProgressBar currentStep={1} totalSteps={7} onStepClick={(step) => dispatch(goToStep(step))} />
-          <MinorTextH4>Navegue pelas etapas anterioes</MinorTextH4>
+          <MinorTextH4>Navegue pelas etapas anteriores</MinorTextH4>
         </RegisterWindowHeader>
 
         <FormikProvider value={form}>

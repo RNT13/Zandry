@@ -345,7 +345,6 @@ export type RegisterCompanyResponse = {
   company_id: string
   company_slug: string
   access: string
-  refresh: string
 }
 export type AuthOwnerRegisterRequest = {
   full_name: string
@@ -365,7 +364,7 @@ export type AuthCompanyRegisterRequest = {
   email: string
   phone: string
   category: string
-  description: string
+  description?: string
 }
 export type AuthAddressRegisterRequest = {
   cep: string
@@ -626,7 +625,11 @@ export type CompanyReadRead = {
 export type PublicSlotResponse = {
   date: string
   time: string
+  ends_at?: string
   available: boolean
+  free: boolean
+  busy: boolean
+  conflict: boolean
 }
 export type PublicDayAvailabilityResponse = {
   date: string

@@ -68,25 +68,25 @@ export const PlanCardIcon = styled.span<PlanCardProps>`
 `
 
 export const PlanCardFree = styled(PlanCardBase)`
-  background-color: ${maskedTheme.colors.baseBlack.light30};
-  border: 2px solid ${maskedTheme.colors.baseBlack.dark20};
+  background-color: ${maskedTheme.colors.baseCyan.light30};
+  border: 2px solid ${maskedTheme.colors.baseCyan.dark20};
 
   h2,
   h3,
   h4 {
-    color: ${maskedTheme.colors.baseBlack.dark30};
+    color: ${maskedTheme.colors.baseCyan.dark30};
   }
 
   svg {
-    color: ${maskedTheme.colors.baseBlack.dark20};
+    color: ${maskedTheme.colors.baseCyan.dark20};
   }
 `
 
 export const PlanIconFree = styled(PlanCardIcon)`
-  background-color: ${maskedTheme.colors.baseBlack.dark20};
+  background-color: ${maskedTheme.colors.baseCyan.dark20};
 
   svg {
-    color: ${maskedTheme.colors.baseBlack.light30};
+    color: ${maskedTheme.colors.baseCyan.light30};
   }
 `
 
@@ -180,7 +180,7 @@ export const PlanBadge = styled.span<PlanCardProps>`
 
 export const ComingSoon = styled.div`
   position: absolute;
-  width: 180%;
+  width: 250%;
   top: 50%;
   left: 20%;
   transform: translate(-35%, -300%) rotate(-45deg);

@@ -11,9 +11,30 @@ import { DashboardContainer, DashboardContent } from './Dashboard.styles'
 export default function Dashboard() {
   const { push } = useRouter()
 
-  const { user, companySlug, logout } = useAuth()
+  const { user, companySlug, logout, isLoadingMe } = useAuth()
   const { company, isLoading: isCompanyLoading } = usePublicCompany(companySlug ? companySlug : '')
   const { summary, isLoading: isSummaryLoading } = useDashboardSummary(7)
+
+  if (isLoadingMe) {
+    return <Loading />
+  }
+
+  if (!companySlug && !isLoadingMe) {
+    return (
+      <DashboardContainer>
+        <DashboardContent>
+          <h1>Dashboard</h1>
+          <p>Você ainda não tem uma empresa cadastrada.</p>
+          <MButton $variant="default" onClick={() => push('/cadastro')}>
+            Criar empresa
+          </MButton>
+          <MButton $variant="default" onClick={() => push('/login')}>
+            ou faça login para acessar suas empresas
+          </MButton>
+        </DashboardContent>
+      </DashboardContainer>
+    )
+  }
 
   if (isCompanyLoading || isSummaryLoading) {
     return <Loading />

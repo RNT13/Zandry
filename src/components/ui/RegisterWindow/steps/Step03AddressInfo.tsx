@@ -50,7 +50,7 @@ export default function Step03AddressInfo() {
 
         <RegisterWindowHeader >
           <ProgressBar currentStep={3} totalSteps={7} onStepClick={(step) => dispatch(goToStep(step))} />
-          <MinorTextH4>Navegue pelas etapas anterioes</MinorTextH4>
+          <MinorTextH4>Navegue pelas etapas anteriores</MinorTextH4>
         </RegisterWindowHeader>
 
         <FormikProvider value={form}>

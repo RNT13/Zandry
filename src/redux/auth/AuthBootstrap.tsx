@@ -2,10 +2,8 @@
 
 import { useAppDispatch } from '@/hooks/useAppDispatch'
 import { generatedApi } from '@/redux/slices/api/generatedApi'
-import { setHydrated, setToken } from '@/redux/slices/authSlice'
+import { logout, setHydrated, setToken, setUser } from '@/redux/slices/authSlice'
 import { useEffect, useRef } from 'react'
-
-const API = process.env.NEXT_PUBLIC_API_URL!
 
 export function AuthBootstrap({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch()
@@ -16,25 +14,33 @@ export function AuthBootstrap({ children }: { children: React.ReactNode }) {
     attempted.current = true
 
       ; (async () => {
-        try {
-          const r = await fetch(`${API}/api/auth/refresh/`, {
-            method: 'POST',
-            credentials: 'include'
-          })
+        const refresh = await dispatch(
+          generatedApi.endpoints.authRefreshCreate.initiate()
+        ).unwrap().catch(() => null)
 
-          if (r.ok) {
-            const { access } = await r.json()
-            dispatch(setToken(access))
-
-            await dispatch(
-              generatedApi.endpoints.authMeRetrieve.initiate()
-            ).unwrap().catch(() => { })
-          }
-        } catch {
-        } finally {
+        if (!refresh) {
+          dispatch(logout())
           dispatch(setHydrated())
+          return
         }
-      })()
+
+        dispatch(setToken(refresh.access))
+
+        const me = await dispatch(
+          generatedApi.endpoints.authMeRetrieve.initiate()
+        ).unwrap().catch(() => null)
+
+        if (me) {
+          dispatch(setUser(me))
+        } else {
+          dispatch(logout())
+        }
+
+        dispatch(setHydrated())
+      })().catch(() => {
+        dispatch(logout())
+        dispatch(setHydrated())
+      })
   }, [dispatch])
 
   return <>{children}</>

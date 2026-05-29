@@ -17,6 +17,7 @@ import { MButton } from '../MaskedButton/MaskedButton'
 import { RegisterWindowContainer, RegisterWindowContent, SvgDiv } from './RegisterWindow.styles'
 
 import { selectCurrentStep } from '@/redux/slices/registerSlice'
+import { MAnimation } from '@/styles/MaskedAnimations/MAnimation'
 import Step01OwnerInfo from './steps/Step01OwnerInfo'
 import Step02BasicInfo from './steps/Step02CompanyInfo'
 import Step03AddressInfo from './steps/Step03AddressInfo'
@@ -29,6 +30,7 @@ export default function RegisterWindow() {
   const currentStep = useSelector(selectCurrentStep)
 
   const router = useRouter()
+  const { push } = useRouter()
   const searchParams = useSearchParams()
   const returnTo = searchParams.get('returnTo')
 
@@ -36,16 +38,15 @@ export default function RegisterWindow() {
     trigger: currentStep
   })
 
-  const buildUrl = (path: string) =>
-    returnTo ? `${path}?returnTo=${encodeURIComponent(returnTo)}` : path;
-
   const handleBackToStart = () => {
     if (returnTo) return router.replace(returnTo);
     if (typeof window !== "undefined" && window.history.length > 1) return router.back();
     return router.replace("/login");
   };
 
-  const handleGoToLogin = () => router.replace(buildUrl("/login"));
+  const handleGoToLogin = () => {
+    push('/login')
+  };
 
   return (
     <RegisterWindowContainer>
@@ -128,24 +129,31 @@ export default function RegisterWindow() {
         {currentStep === 6 && <Step06ProfessionalsInfo />}
         {currentStep === 7 && <Step07PlanInfo />}
 
-        <MButton
-          type="button"
-          $variant="link"
-          fullWidth
-          leftIcon={<IoIosArrowBack />}
-          onClick={handleBackToStart}
-        >
-          Voltar para a página inicial
-        </MButton>
+        <MAnimation variant="revealSoftRevealDown" trigger="mount" delay={0.1}>
+          <MButton
+            type="button"
+            $variant="link"
+            fullWidth
+            onClick={handleGoToLogin}
+          >
+            Já possui conta? Ir para login
+          </MButton>
+        </MAnimation>
 
-        <MButton
-          type="button"
-          $variant="link"
-          fullWidth
-          onClick={handleGoToLogin}
-        >
-          Já possui conta? Ir para login
-        </MButton>
+
+        <MAnimation variant="revealSoftRevealDown" trigger="mount" delay={0.2}>
+          <MButton
+            type="button"
+            $variant="link"
+            fullWidth
+            leftIcon={<IoIosArrowBack />}
+            onClick={handleBackToStart}
+          >
+            Voltar para a página inicial
+          </MButton>
+        </MAnimation>
+
+
       </RegisterWindowContent>
     </RegisterWindowContainer>
   )

@@ -1,17 +1,24 @@
-import { useAppDispatch, useAppSelector } from '@/hooks/useAppDispatch'
 import { generatedApi } from '@/redux/slices/api/generatedApi'
-import { logout as clearAuth, selectCompanySlug, selectIsAuthenticated, selectIsHydrated, selectUser } from '@/redux/slices/authSlice'
+import { logout as clearAuth, selectCompanySlug, selectIsAuthenticated, selectIsHydrated, selectToken, selectUser } from '@/redux/slices/authSlice'
+import { useAppDispatch, useAppSelector } from '../useAppDispatch'
 
 export function useAuth() {
   const dispatch = useAppDispatch()
 
   const user = useAppSelector(selectUser)
+  const token = useAppSelector(selectToken)
+  const companySlugRedux = useAppSelector(selectCompanySlug)
   const isAuthenticated = useAppSelector(selectIsAuthenticated)
   const isHydrated = useAppSelector(selectIsHydrated)
-  const companySlug = useAppSelector(selectCompanySlug)
 
   const [login, loginState] = generatedApi.useAuthLoginCreateMutation()
   const [triggerLogout, logoutState] = generatedApi.useAuthLogoutCreateMutation()
+
+  const shouldFetchMe = isHydrated && Boolean(token)
+
+  const { data: meData, isLoading: isLoadingMe } = generatedApi.useAuthMeRetrieveQuery(undefined, {
+    skip: !shouldFetchMe
+  })
 
   const logout = async () => {
     try {
@@ -22,10 +29,11 @@ export function useAuth() {
   }
 
   return {
-    user,
+    user: meData ?? user,
+    companySlug: meData?.company_slug ?? companySlugRedux,
     isAuthenticated,
     isHydrated,
-    companySlug,
+    isLoadingMe,
     login,
     logout,
     loginState,
