@@ -109,11 +109,13 @@ export default function Confirmation() {
           })
         )
 
+        toast.success('Agendamento solicitado! Enviamos um e-mail para confirmação.')
+
         push(`/${slug}/servicos/profissional/horario/confirmar/confirmado`)
       } catch {
-        toast.error('Erro ao confirmar. O horário pode ter sido reservado. Tente outro.')
+        toast.error('Erro ao solicitar agendamento. O horário pode ter sido reservado. Tente outro.')
       }
-    },
+    }
   })
 
   const handleBack = () => push(`/${slug}/servicos/profissional/horario`)
@@ -223,7 +225,7 @@ export default function Confirmation() {
                 fullWidth
                 state={canSubmit ? 'default' : 'disabled'}
               >
-                {isLoading ? 'Confirmando...' : 'Confirmar atendimento'}
+                {isLoading ? 'Solicitando agendamento...' : 'Solicitar agendamento'}
               </MButton>
             </MAnimation>
           </form>

@@ -1,12 +1,12 @@
 
 'use client'
 
+import { MButton } from '@/components/ui/MaskedButton/MaskedButton'
 import { maskedTheme, media } from '@/styles/MaskedThemes/MaskedThemes'
 import Image from 'next/image'
 // 🚫 NOT FOUND PÚBLICO - Página 404 para rotas públicas
 // ⚠️ ARQUIVO DELETÁVEL - Pode ser removido ao criar sua própria página 404
 
-import Link from 'next/link'
 import styled from 'styled-components'
 
 const NotFoundContainer = styled.div`
@@ -52,28 +52,22 @@ const ImageContainer = styled.div`
   }
 `
 
-const BackButton = styled(Link)`
-  background-color: ${maskedTheme.colors.baseBlue.base};
-  color: white;
-  padding: 12px 24px;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: background-color 0.3s;
 
-  &:hover {
-    background-color: ${maskedTheme.colors.baseBlue.dark};
-  }
-`
 
 export default function NotFound() {
   return (
     <NotFoundContainer>
       <ImageContainer>
-        <Image src="/not-fond.png" alt="404" fill loading="eager" />
+        <Image src="/not-found.png" alt="404" fill loading="eager" priority />
       </ImageContainer>
       <h2>Página não encontrada</h2>
       <p>A página que você está procurando não existe ou foi movida.</p>
-      <BackButton href="/login">Voltar ao início</BackButton>
+      <MButton
+        $variant="default"
+        href='/login'
+      >
+        Voltar ao início
+      </MButton>
     </NotFoundContainer>
   )
 }

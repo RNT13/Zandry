@@ -38,7 +38,6 @@ export const GlobalStyles = createGlobalStyle`
 
   .container {
     max-width: 600px;
-    padding: ${maskedTheme.spacing.xl} 0;
     margin: 0 auto;
     width: 100%;
 
@@ -61,6 +60,16 @@ export const Column = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${maskedTheme.spacing.md};
+`
+
+export const CenterDiv = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: ${maskedTheme.spacing.md};
+  padding: ${maskedTheme.spacing.sm};
 `
 
 export const OverlayBlur = styled.div`

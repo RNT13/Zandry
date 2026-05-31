@@ -70,6 +70,13 @@ export const ConfirmedRow = styled.div`
   }
 `
 
+export const ConfirmedColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${maskedTheme.spacing.sm};
+  align-items: center;
+`
+
 export const ConfirmedDiv = styled.div`
   display: flex;
   gap: ${maskedTheme.spacing.sm};

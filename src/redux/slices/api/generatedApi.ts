@@ -78,6 +78,13 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.publicCreateBookingRequest
       })
     }),
+    publicBookingsVerifyCreate: build.mutation<PublicBookingsVerifyCreateApiResponse, PublicBookingsVerifyCreateApiArg>({
+      query: queryArg => ({
+        url: `/api/public/bookings/verify/`,
+        method: 'POST',
+        body: queryArg.appointmentVerificationRequestRequest
+      })
+    }),
     publicCompanyRetrieve: build.query<PublicCompanyRetrieveApiResponse, PublicCompanyRetrieveApiArg>({
       query: queryArg => ({ url: `/api/public/company/${queryArg.slug}/` })
     }),
@@ -172,6 +179,10 @@ export type NotificationsReadCreateApiArg = {
 export type PublicBookingsCreateApiResponse = /** status 201  */ PublicBookingResponse
 export type PublicBookingsCreateApiArg = {
   publicCreateBookingRequest: PublicCreateBookingRequest
+}
+export type PublicBookingsVerifyCreateApiResponse = /** status 200  */ AppointmentVerificationResponse
+export type PublicBookingsVerifyCreateApiArg = {
+  appointmentVerificationRequestRequest: AppointmentVerificationRequestRequest
 }
 export type PublicCompanyRetrieveApiResponse = /** status 200  */ CompanyReadRead
 export type PublicCompanyRetrieveApiArg = {
@@ -509,6 +520,7 @@ export type NotificationPreference = {
   recipient_type: RecipientTypeEnum
   allow_in_app?: boolean
   allow_whatsapp?: boolean
+  allow_email?: boolean
   booking_created?: boolean
   booking_confirmed?: boolean
   booking_cancelled?: boolean
@@ -521,6 +533,7 @@ export type NotificationPreferenceRead = {
   recipient_type: RecipientTypeEnum
   allow_in_app?: boolean
   allow_whatsapp?: boolean
+  allow_email?: boolean
   booking_created?: boolean
   booking_confirmed?: boolean
   booking_cancelled?: boolean
@@ -532,6 +545,7 @@ export type PatchedNotificationPreferenceRequest = {
   recipient_type?: RecipientTypeEnum
   allow_in_app?: boolean
   allow_whatsapp?: boolean
+  allow_email?: boolean
   booking_created?: boolean
   booking_confirmed?: boolean
   booking_cancelled?: boolean
@@ -575,6 +589,16 @@ export type PublicCreateBookingRequest = {
   user_name: string
   user_phone: string
   user_email?: string
+}
+export type AppointmentVerificationResponse = {
+  id: string
+  status: string
+  date: string
+  time: string
+  message: string
+}
+export type AppointmentVerificationRequestRequest = {
+  token: string
 }
 export type CompanyRead = {
   name: string
@@ -739,7 +763,8 @@ export enum EventKeyEnum {
 }
 export enum ChannelEnum {
   InApp = 'in_app',
-  Whatsapp = 'whatsapp'
+  Whatsapp = 'whatsapp',
+  Email = 'email'
 }
 export enum NotificationSummaryStatusEnum {
   Pending = 'pending',
@@ -776,6 +801,7 @@ export const {
   useNotificationsPreferencesPartialUpdateMutation,
   useNotificationsReadCreateMutation,
   usePublicBookingsCreateMutation,
+  usePublicBookingsVerifyCreateMutation,
   usePublicCompanyRetrieveQuery,
   usePublicCompanyAvailabilityRetrieveQuery,
   usePublicCompanyServicesListQuery,

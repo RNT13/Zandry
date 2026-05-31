@@ -10,14 +10,15 @@ import { useAppDispatch, useAppSelector } from '@/hooks/useAppDispatch'
 import {
   selectBookingProfessional,
   selectBookingService,
-  setSlot
+  setSlot,
 } from '@/redux/slices/bookingSlice'
-import { MinorTextH4, Row, TitleH2, TitleH3 } from '@/styles/globalStyles'
+import { CenterDiv, MinorTextH4, Row, TitleH2, TitleH3 } from '@/styles/globalStyles'
 import { MAnimation } from '@/styles/MaskedAnimations/MAnimation'
 import { ApiDay, DisplayDay, DisplaySlot } from '@/types/types'
-import { buildUIDay, getSlotLabel, isSlotInsideInterval, minutesToTime, timeToMinutes } from '@/utils/dataTimeUtils'
+import { buildUIDay, countAvailableSlots, getSlotLabel } from '@/utils/dataTimeUtils'
 import { MButton } from '../MaskedButton/MaskedButton'
 import {
+  AvailabilitySummary,
   DataContainer,
   DataTimeContainer,
   DataTimeContent,
@@ -26,9 +27,12 @@ import {
   DurationTag,
   LockIcon,
   ServiceBadge,
+  SlotEndTime,
+  SlotLabel,
+  SlotStartTime,
   TimeContainer,
   TimeItem,
-  TodayDot
+  TodayDot,
 } from './DataTime.styles'
 
 export default function DataTime() {
@@ -47,81 +51,101 @@ export default function DataTime() {
   const { availability, isLoading, isError, refetch } = usePublicAvailability({
     slug,
     serviceUid: selectedService?.uid,
-    professionalUid: selectedProfessional?.uid
+    professionalUid: selectedProfessional?.uid,
   })
 
+  // Dia e horário selecionados pelo usuário
   const [selectedDayDate, setSelectedDayDate] = useState<string | null>(null)
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
 
-  const serviceDuration = Number(selectedService?.duration ?? 0)
+  // ---------------------------------------------------------------------------
+  // Dias disponíveis
+  // ---------------------------------------------------------------------------
 
+  /**
+   * Converte os dias da API em DisplayDay e filtra apenas os dias abertos,
+   * limitando a 7 dias na grade de seleção.
+   */
   const days: DisplayDay[] = useMemo(() => {
     if (!availability?.days?.length) return []
-
     return (availability.days as ApiDay[])
       .map(buildUIDay)
-      .filter(day => day.isOpen)
+      .filter((day) => day.isOpen)
       .slice(0, 7)
   }, [availability])
 
+  /**
+   * Data efetiva: respeita a seleção do usuário, mas cai de volta
+   * para o primeiro dia disponível se a seleção não existir na lista.
+   */
   const effectiveDayDate = useMemo(() => {
     if (!days.length) return null
-
-    if (selectedDayDate && days.some(day => day.date === selectedDayDate)) {
+    if (selectedDayDate && days.some((day) => day.date === selectedDayDate)) {
       return selectedDayDate
     }
-
     return days[0].date
   }, [days, selectedDayDate])
 
   const effectiveDay: DisplayDay | null = useMemo(() => {
     if (!effectiveDayDate) return null
-    return days.find(day => day.date === effectiveDayDate) ?? null
+    return days.find((day) => day.date === effectiveDayDate) ?? null
   }, [days, effectiveDayDate])
 
-  const allSlots: DisplaySlot[] = useMemo(() => {
-    return effectiveDay?.slots ?? []
-  }, [effectiveDay])
+  // ---------------------------------------------------------------------------
+  // Slots do dia selecionado
+  // ---------------------------------------------------------------------------
 
-  const availableStartSlots: DisplaySlot[] = useMemo(() => {
-    return allSlots.filter(slot => slot.isSelectable)
-  }, [allSlots])
+  /**
+   * Todos os slots do dia ativo (livres e ocupados).
+   * Cada slot já é um bloco completo: .time → .ends_at.
+   */
+  const allSlots: DisplaySlot[] = useMemo(() => effectiveDay?.slots ?? [], [effectiveDay])
 
-  const selectedStartSlot: DisplaySlot | null = useMemo(() => {
+  /** Apenas os slots que o usuário pode clicar e confirmar. */
+  const availableSlots: DisplaySlot[] = useMemo(
+    () => allSlots.filter((slot) => slot.isSelectable),
+    [allSlots],
+  )
+
+  /**
+   * Slot selecionado pelo usuário.
+   * Se nenhum foi escolhido ainda, pré-seleciona o primeiro disponível.
+   * Se o usuário trocou de dia, reseta para o primeiro do novo dia.
+   */
+  const selectedSlot: DisplaySlot | null = useMemo(() => {
     if (!allSlots.length) return null
 
-    if (!selectedTime) {
-      return availableStartSlots[0] ?? null
+    // Usuário clicou em um horário explicitamente
+    if (selectedTime) {
+      const found = allSlots.find(
+        (slot) => slot.date === effectiveDay?.date && slot.time === selectedTime,
+      )
+      // Se o horário selecionado está disponível, usa ele; senão, cai para o primeiro
+      if (found?.isSelectable) return found
     }
 
-    return allSlots.find(
-      slot => slot.date === effectiveDay?.date && slot.time === selectedTime
-    ) ?? (availableStartSlots[0] ?? null)
-  }, [allSlots, availableStartSlots, effectiveDay?.date, selectedTime])
+    // Pré-seleciona o primeiro slot disponível do dia
+    return availableSlots[0] ?? null
+  }, [allSlots, availableSlots, effectiveDay?.date, selectedTime])
 
-  const selectedIntervalEnd: string | null = useMemo(() => {
-    if (!selectedStartSlot || serviceDuration <= 0) return null
-    return minutesToTime(timeToMinutes(selectedStartSlot.time) + serviceDuration)
-  }, [selectedStartSlot, serviceDuration])
-
-  const selectedRangeSlots: DisplaySlot[] = useMemo(() => {
-    if (!effectiveDay || !selectedStartSlot || !serviceDuration) return []
-
-    return allSlots.filter(slot =>
-      slot.date === effectiveDay.date &&
-      isSlotInsideInterval(slot.time, selectedStartSlot.time, serviceDuration)
-    )
-  }, [allSlots, effectiveDay, selectedStartSlot, serviceDuration])
-
-  const selectedRangeHasConflict = useMemo(() => {
-    if (!selectedRangeSlots.length) return false
-    return selectedRangeSlots.some(slot => slot.busy || slot.conflict)
-  }, [selectedRangeSlots])
-
+  /**
+   * Último slot disponível do dia — recebe destaque visual
+   * para indicar ao usuário que a agenda está quase lotada.
+   */
   const lastAvailableSlot: DisplaySlot | null = useMemo(() => {
-    if (!availableStartSlots.length) return null
-    return availableStartSlots[availableStartSlots.length - 1]
-  }, [availableStartSlots])
+    if (availableSlots.length <= 1) return null
+    return availableSlots[availableSlots.length - 1]
+  }, [availableSlots])
+
+  // ---------------------------------------------------------------------------
+  // Estado do botão Confirmar
+  // ---------------------------------------------------------------------------
+
+  /**
+   * O botão fica desabilitado se não há slot selecionado ou o slot
+   * escolhido não é selecionável (ex: usuário forçou via estado externo).
+   */
+  const confirmDisabled = !effectiveDay || !selectedSlot || !selectedSlot.isSelectable
 
   // ---------------------------------------------------------------------------
   // Handlers
@@ -130,30 +154,26 @@ export default function DataTime() {
   const handleBack = () => push(`/${slug}/servicos/profissional`)
 
   const handleNext = () => {
-    if (!effectiveDay || !selectedStartSlot || selectedRangeHasConflict) return
+    if (confirmDisabled || !effectiveDay || !selectedSlot) return
 
     dispatch(
       setSlot({
         date: effectiveDay.date,
-        time: selectedStartSlot.time,
+        time: selectedSlot.time,
         available: true,
         free: true,
         busy: false,
-        conflict: false
-      })
+        conflict: false,
+      }),
     )
 
     push(`/${slug}/servicos/profissional/horario/confirmar`)
   }
 
   const handleSelectDay = (date: string) => {
-    if (!days.some(day => day.date === date)) {
-      setSelectedDayDate(null)
-      setSelectedTime(null)
-    } else {
-      setSelectedDayDate(date)
-      setSelectedTime(null)
-    }
+    // Ao trocar de dia, reseta o horário selecionado
+    setSelectedDayDate(date)
+    setSelectedTime(null)
   }
 
   const handleSelectTime = (slot: DisplaySlot) => {
@@ -161,59 +181,50 @@ export default function DataTime() {
     setSelectedTime(slot.time)
   }
 
-  const confirmDisabled =
-    !effectiveDay ||
-    !selectedStartSlot ||
-    !selectedStartSlot.isSelectable ||
-    selectedRangeHasConflict
-
   // ---------------------------------------------------------------------------
   // Guard renders
   // ---------------------------------------------------------------------------
 
   if (!canFetch) {
     return (
-      <DataTimeContainer>
-        <DataTimeContent>
-          <TitleH3>Selecione serviço e profissional antes de escolher data e horário.</TitleH3>
-          <MButton $variant="default" onClick={() => push(`/${slug}/servicos/profissional`)}>
-            Ir para profissionais
-          </MButton>
-        </DataTimeContent>
-      </DataTimeContainer>
+      <CenterDiv>
+        <TitleH3>Selecione serviço e profissional antes de escolher data e horário.</TitleH3>
+        <MButton $variant="default" onClick={() => push(`/${slug}/servicos/profissional`)}>
+          Ir para profissionais
+        </MButton>
+      </CenterDiv>
     )
   }
 
   if (isLoading) {
     return (
-      <DataTimeContainer>
-        <DataTimeContent>
-          <TitleH3>Carregando horários...</TitleH3>
-        </DataTimeContent>
-      </DataTimeContainer>
+      <CenterDiv>
+        <TitleH3>Carregando horários...</TitleH3>
+      </CenterDiv>
     )
   }
 
   if (isError) {
     return (
-      <DataTimeContainer>
-        <DataTimeContent>
-          <TitleH3>Não foi possível carregar os horários.</TitleH3>
-          <MButton $variant="default" onClick={() => refetch()}>
-            Tentar novamente
-          </MButton>
-        </DataTimeContent>
-      </DataTimeContainer>
+      <CenterDiv>
+        <TitleH3>Não foi possível carregar os horários.</TitleH3>
+        <MButton $variant="default" onClick={() => refetch()}>
+          Tentar novamente
+        </MButton>
+      </CenterDiv>
     )
   }
 
   // ---------------------------------------------------------------------------
-  // Main render
+  // Render principal
   // ---------------------------------------------------------------------------
+
+  const availableCount = countAvailableSlots(allSlots)
 
   return (
     <DataTimeContainer>
       <DataTimeContent>
+        {/* Cabeçalho */}
         <MAnimation variant="revealFadeInRight" trigger="mount" delay={0.1}>
           <Row>
             <MButton
@@ -226,6 +237,7 @@ export default function DataTime() {
           </Row>
         </MAnimation>
 
+        {/* Badges de serviço e profissional */}
         {selectedService && selectedProfessional && (
           <>
             <MAnimation variant="revealFadeInUp" trigger="mount" delay={0.15}>
@@ -249,6 +261,7 @@ export default function DataTime() {
         )}
 
         <DataContainer>
+          {/* ── Seleção de dia ── */}
           <MAnimation variant="revealFadeInLeft" trigger="mount" delay={0.2}>
             <TitleH3>Escolha o dia</TitleH3>
           </MAnimation>
@@ -269,7 +282,9 @@ export default function DataTime() {
                     $isActive={day.date === effectiveDay?.date}
                     onClick={() => handleSelectDay(day.date)}
                   >
-                    {day.isToday && <TodayDot $isActive={day.date === effectiveDay?.date} />}
+                    {day.isToday && (
+                      <TodayDot $isActive={day.date === effectiveDay?.date} />
+                    )}
                     <TitleH2>{day.dayNumber}</TitleH2>
                     <TitleH3>{day.weekdayShort}</TitleH3>
                   </DayItem>
@@ -278,87 +293,94 @@ export default function DataTime() {
             )}
           </DaysContainer>
 
+          {/* ── Seleção de horário ── */}
           <MAnimation variant="revealFadeInLeft" trigger="mount" delay={0.2}>
             <TitleH3>Escolha o horário</TitleH3>
           </MAnimation>
 
+          {/* Resumo de disponibilidade do dia */}
+          {allSlots.length > 0 && (
+            <MAnimation variant="revealFadeInLeft" trigger="mount" delay={0.25}>
+              <AvailabilitySummary>
+                {availableCount > 0
+                  ? `${availableCount} horário${availableCount !== 1 ? 's' : ''} disponível${availableCount !== 1 ? 'is' : ''} neste dia`
+                  : 'Nenhum horário disponível neste dia'}
+              </AvailabilitySummary>
+            </MAnimation>
+          )}
+
           {allSlots.length === 0 ? (
-            <TitleH3>Nenhum horário disponível para este dia.</TitleH3>
+            <MinorTextH4>Nenhum horário disponível para este dia.</MinorTextH4>
           ) : (
-            <>
-              {availableStartSlots.length === 0 && (
-                <MinorTextH4>
-                  Este dia está aberto, mas não há horário suficiente para iniciar um novo
-                  agendamento.
-                </MinorTextH4>
-              )}
+            <TimeContainer>
+              {allSlots.map((slot, i) => {
 
-              <TimeContainer>
-                {allSlots.map((slot, i) => {
-                  const isSelectedStart =
-                    selectedStartSlot?.date === slot.date &&
-                    selectedStartSlot?.time === slot.time
+                const isSelected =
+                  selectedSlot?.date === slot.date && selectedSlot?.time === slot.time
 
-                  const isInSelectedRange =
-                    !!selectedStartSlot &&
-                    slot.date === effectiveDay?.date &&
-                    isSlotInsideInterval(slot.time, selectedStartSlot.time, serviceDuration)
+                const isLast =
+                  !isSelected &&
+                  lastAvailableSlot?.date === slot.date &&
+                  lastAvailableSlot?.time === slot.time
 
-                  const isConflict = (isInSelectedRange && slot.busy) || slot.conflict
-                  const isRangeInterval = isInSelectedRange && !slot.busy && !isSelectedStart
+                const label = getSlotLabel({ slot, isSelected, isLast })
 
-                  const isLast =
-                    lastAvailableSlot?.date === slot.date &&
-                    lastAvailableSlot?.time === slot.time &&
-                    !isSelectedStart
-
-                  const slotLabel = getSlotLabel({
-                    slot,
-                    isSelectedStart,
-                    isInSelectedRange
-                  })
-
-                  return (
-                    <MAnimation
-                      key={`${slot.date}|${slot.time}`}
-                      variant="revealFadeInRight"
-                      trigger="mount"
-                      delay={i * 0.02}
+                return (
+                  <MAnimation
+                    key={`${slot.date}|${slot.time}`}
+                    variant="revealFadeInRight"
+                    trigger="mount"
+                    delay={i * 0.02}
+                  >
+                    <TimeItem
+                      $isActive={isSelected}
+                      $isOccupied={slot.busy}
+                      $isLast={isLast}
+                      onClick={() => handleSelectTime(slot)}
+                      role="button"
+                      aria-label={`Horário ${slot.time} até ${slot.ends_at} — ${label}`}
+                      aria-pressed={isSelected}
+                      aria-disabled={slot.busy}
                     >
-                      <TimeItem
-                        $isActive={isSelectedStart || isRangeInterval}
-                        $isOccupied={slot.busy && !isConflict}
-                        $isConflict={isConflict}
-                        $isLast={isLast}
-                        onClick={() => handleSelectTime(slot)}
-                      >
-                        {slot.busy && (
-                          <LockIcon aria-hidden="true">
-                            <FaLock />
-                          </LockIcon>
-                        )}
+                      {/* Ícone de cadeado para slots ocupados */}
+                      {slot.busy && (
+                        <LockIcon aria-hidden="true">
+                          <FaLock />
+                        </LockIcon>
+                      )}
 
-                        <TitleH3>{slot.time}</TitleH3>
-                        <MinorTextH4>{slotLabel}</MinorTextH4>
-                      </TimeItem>
-                    </MAnimation>
-                  )
-                })}
-              </TimeContainer>
-            </>
+                      {/* Horário de início (destaque principal) */}
+                      <SlotStartTime>{slot.time}</SlotStartTime>
+
+                      {/* Horário de término */}
+                      {slot.ends_at && (
+                        <SlotEndTime>até {slot.ends_at}</SlotEndTime>
+                      )}
+
+                      {/* Label de status */}
+                      <SlotLabel>{label}</SlotLabel>
+                    </TimeItem>
+                  </MAnimation>
+                )
+              })}
+            </TimeContainer>
           )}
         </DataContainer>
 
-        {selectedStartSlot && selectedIntervalEnd && (
-          <MinorTextH4>
-            Intervalo selecionado: {selectedStartSlot.time} até {selectedIntervalEnd}
-          </MinorTextH4>
+        {/* Resumo do intervalo selecionado */}
+        {selectedSlot && (
+          <MAnimation variant="revealFadeInUp" trigger="mount" delay={0.1}>
+            <MinorTextH4>
+              Horário selecionado:{' '}
+              <strong>
+                {selectedSlot.time} até {selectedSlot.ends_at}
+              </strong>{' '}
+              ({selectedService?.duration} min)
+            </MinorTextH4>
+          </MAnimation>
         )}
 
-        {selectedRangeHasConflict && (
-          <MinorTextH4>Esse horário não comporta a duração do serviço.</MinorTextH4>
-        )}
-
+        {/* Botão de confirmação */}
         <MAnimation variant="revealFadeInUp" trigger="mount" delay={0.2}>
           <MButton
             $variant="default"
