@@ -1,15 +1,10 @@
 'use client'
 
 import DataTime from "@/components/ui/DataTime/DataTime"
-import { TimeContainer, TimeContent } from "./time.styles"
 
 
-export default function Time() {
+export default function TimePage() {
   return (
-    <TimeContainer>
-      <TimeContent>
-        <DataTime />
-      </TimeContent>
-    </TimeContainer>
+    <DataTime />
   )
 }

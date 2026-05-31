@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/useAppDispatch'
 
 import { selectBookingService, setProfessional } from '@/redux/slices/bookingSlice'
 
-import { Row, TitleH2, TitleH3 } from '@/styles/globalStyles'
+import { CenterDiv, Row, TitleH2, TitleH3 } from '@/styles/globalStyles'
 import { MAnimation } from '@/styles/MaskedAnimations/MAnimation'
 import { MButton } from '../MaskedButton/MaskedButton'
 import ProfessionalsCard from '../ProfessionalsCard/ProfessionalsCard'
@@ -44,47 +44,39 @@ export default function ProfessionalsList() {
 
   if (!slug) {
     return (
-      <ProfessionalsListContainer>
-        <ProfessionalsListContent>
-          <TitleH3>Slug da empresa não encontrado.</TitleH3>
-        </ProfessionalsListContent>
-      </ProfessionalsListContainer>
+      <CenterDiv>
+        <TitleH3>Slug da empresa não encontrado.</TitleH3>
+      </CenterDiv>
     )
   }
 
   if (!selectedService) {
     return (
-      <ProfessionalsListContainer>
-        <ProfessionalsListContent>
-          <TitleH3>Selecione um serviço antes de escolher o profissional.</TitleH3>
-          <MButton $variant="default" onClick={() => push(`/${slug}/servicos`)}>
-            Ir para serviços
-          </MButton>
-        </ProfessionalsListContent>
-      </ProfessionalsListContainer>
+      <CenterDiv>
+        <TitleH3>Selecione um serviço antes de escolher o profissional.</TitleH3>
+        <MButton $variant="default" onClick={() => push(`/${slug}/servicos`)}>
+          Ir para serviços
+        </MButton>
+      </CenterDiv>
     )
   }
 
   if (isLoading) {
     return (
-      <ProfessionalsListContainer>
-        <ProfessionalsListContent>
-          <TitleH3>Carregando profissionais...</TitleH3>
-        </ProfessionalsListContent>
-      </ProfessionalsListContainer>
+      <CenterDiv>
+        <TitleH3>Carregando profissionais...</TitleH3>
+      </CenterDiv>
     )
   }
 
   if (isError) {
     return (
-      <ProfessionalsListContainer>
-        <ProfessionalsListContent>
-          <TitleH3>Não foi possível carregar os profissionais.</TitleH3>
-          <MButton $variant="default" onClick={() => refetch()}>
-            Tentar novamente
-          </MButton>
-        </ProfessionalsListContent>
-      </ProfessionalsListContainer>
+      <CenterDiv>
+        <TitleH3>Não foi possível carregar os profissionais.</TitleH3>
+        <MButton $variant="default" onClick={() => refetch()}>
+          Tentar novamente
+        </MButton>
+      </CenterDiv>
     )
   }
 

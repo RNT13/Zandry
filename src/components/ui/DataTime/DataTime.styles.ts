@@ -32,42 +32,18 @@ export const DaysContainer = styled.ul`
   &::-webkit-scrollbar {
     height: 8px;
   }
-
   &::-webkit-scrollbar-track {
     background: transparent;
   }
-
   &::-webkit-scrollbar-thumb {
     background-color: ${maskedTheme.colors.baseBlue.base};
     border-radius: 999px;
     border: 2px solid transparent;
     background-clip: content-box;
   }
-
   &::-webkit-scrollbar-thumb:hover {
     background-color: ${maskedTheme.colors.baseBlue.light40};
   }
-`
-
-export const TimeContainer = styled.ul`
-  width: 100%;
-  align-items: center;
-  display: grid;
-  grid-template-columns: ${maskedTheme.grid.three};
-  gap: ${maskedTheme.spacing.md};
-  padding: ${maskedTheme.spacing.md};
-  list-style: none;
-
-  ${media.mobile} {
-    padding: 0;
-    gap: ${maskedTheme.spacing.xs};
-  }
-`
-
-export const HoursContainer = styled.ul`
-  display: flex;
-  gap: ${maskedTheme.spacing.md};
-  list-style: none;
 `
 
 export const DayItem = styled.li<{ $isActive?: boolean }>`
@@ -86,10 +62,8 @@ export const DayItem = styled.li<{ $isActive?: boolean }>`
   background-color: ${({ $isActive }) => ($isActive ? maskedTheme.colors.baseBlue.base : maskedTheme.colors.baseBlue.light30)};
   transition: ${transitions.default};
   cursor: pointer;
-  ${transitions.default}
 
   &:hover {
-    cursor: pointer;
     scale: 1.02;
     box-shadow: ${maskedTheme.boxShadow.lg};
   }
@@ -100,29 +74,42 @@ export const DayItem = styled.li<{ $isActive?: boolean }>`
   }
 `
 
-export const TimeItem = styled.li<{ $isActive?: boolean; $isOccupied?: boolean; $isLast?: boolean; $isConflict?: boolean }>`
+export const TimeContainer = styled.ul`
   width: 100%;
-  height: 80px;
-  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: ${maskedTheme.spacing.md};
+  padding: ${maskedTheme.spacing.md};
+  list-style: none;
+  align-items: start;
+
+  ${media.mobile} {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0;
+    gap: ${maskedTheme.spacing.sm};
+  }
+`
+
+export const TimeItem = styled.li<{
+  $isActive?: boolean
+  $isOccupied?: boolean
+  $isLast?: boolean
+}>`
+  width: 100%;
+  height: 96px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: ${maskedTheme.spacing.sm};
+  gap: 2px;
   border-radius: ${maskedTheme.radius.md};
   padding: ${maskedTheme.spacing.sm};
   position: relative;
   transition: ${transitions.default};
 
-  /* ── Disponível (padrão) ── */
   border: 1px solid ${maskedTheme.colors.baseBlue.base};
   background-color: ${maskedTheme.colors.baseBlue.light30};
   cursor: pointer;
-
-  h3 {
-    color: ${maskedTheme.colors.baseBlue.base};
-    font-size: ${maskedTheme.fontSize.lg};
-  }
 
   &:hover {
     scale: 1.02;
@@ -135,9 +122,11 @@ export const TimeItem = styled.li<{ $isActive?: boolean; $isOccupied?: boolean; 
     css`
       border-color: ${maskedTheme.colors.baseBlue.light40};
       background-color: ${maskedTheme.colors.baseBlue.base};
+
       h3,
-      small {
-        color: ${maskedTheme.colors.baseBlue.light40};
+      small,
+      span:not([aria-hidden]) {
+        color: ${maskedTheme.colors.baseBlue.light40} !important;
       }
     `}
 
@@ -149,10 +138,12 @@ export const TimeItem = styled.li<{ $isActive?: boolean; $isOccupied?: boolean; 
       background-color: ${maskedTheme.colors.baseBlue.light20};
       cursor: not-allowed;
       opacity: 0.55;
+
       &:hover {
         scale: 1;
         box-shadow: none;
       }
+
       h3 {
         text-decoration: line-through;
         color: ${maskedTheme.colors.baseBlue.dark30};
@@ -166,38 +157,44 @@ export const TimeItem = styled.li<{ $isActive?: boolean; $isOccupied?: boolean; 
   ${({ $isLast }) =>
     $isLast &&
     css`
-      border-color: ${maskedTheme.colors.baseYellow.dark08};
       border: 3px solid ${maskedTheme.colors.baseYellow.dark08};
       background-color: ${maskedTheme.colors.baseYellow.light08};
+
       h3 {
         color: ${maskedTheme.colors.baseYellow.dark20};
       }
     `}
+`
 
-  ${({ $isConflict }) =>
-    $isConflict &&
-    css`
-      border-color: #ef4444;
-      background-color: #fee2e2;
-      cursor: not-allowed;
+export const SlotStartTime = styled.h3`
+  margin: 0;
+  font-size: ${maskedTheme.fontSize.lg};
+  font-weight: 700;
+  color: ${maskedTheme.colors.baseBlue.base};
+  line-height: 1;
+`
 
-      h3 {
-        color: #b91c1c;
-        text-decoration: line-through;
-      }
+export const SlotEndTime = styled.span`
+  font-size: ${maskedTheme.fontSize.xs};
+  font-weight: 500;
+  color: ${maskedTheme.colors.baseBlue.base};
+  opacity: 0.75;
+  line-height: 1;
+`
 
-      small {
-        color: #991b1b;
-      }
-    `}
+export const SlotLabel = styled.small`
+  font-size: ${maskedTheme.fontSize.xs};
+  color: ${maskedTheme.colors.baseBlue.dark20};
+  line-height: 1;
+  margin-top: 2px;
 `
 
 export const LockIcon = styled.span`
   position: absolute;
   top: 5px;
   right: 6px;
-  font-size: 15px;
-  opacity: 0.5;
+  font-size: 12px;
+  opacity: 0.45;
 `
 
 export const TodayDot = styled.span<{ $isActive?: boolean }>`
@@ -227,4 +224,10 @@ export const DurationTag = styled.span`
   padding: ${maskedTheme.spacing.xs} ${maskedTheme.spacing.md};
   font-size: ${maskedTheme.fontSize.xs};
   font-weight: 500;
+`
+
+export const AvailabilitySummary = styled.p`
+  font-size: ${maskedTheme.fontSize.xs};
+  color: ${maskedTheme.colors.baseBlue.dark20};
+  margin: 0;
 `

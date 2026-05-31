@@ -1,14 +1,7 @@
 'use client'
 
-import { ChatContainer, ChatContent } from "./chat.styles"
-
-
-export default function Chat() {
+export default function ChatPage() {
   return (
-    <ChatContainer>
-      <ChatContent>
-        <h1>pagina de chat da empresa</h1>
-      </ChatContent>
-    </ChatContainer>
+    <h1>pagina de chat da empresa</h1>
   )
 }

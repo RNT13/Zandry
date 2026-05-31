@@ -5,9 +5,8 @@ import NotFound from "@/app/not-found";
 import Company from "@/components/ui/Company/Company";
 import { usePublicCompany } from "@/hooks/api/usePublicCompany";
 import { useParams } from "next/navigation";
-import { HomeContainer, HomeContent } from "./home.styles";
 
-export default function Home() {
+export default function HomePage() {
   const params = useParams();
   const slugParam = params.slug;
   const slug = Array.isArray(slugParam) ? slugParam[0] : slugParam;
@@ -16,39 +15,23 @@ export default function Home() {
 
   if (!slug) {
     return (
-      <HomeContainer>
-        <HomeContent>
-          <NotFound />
-        </HomeContent>
-      </HomeContainer>
+      <NotFound />
     );
   }
 
   if (isLoading) {
     return (
-      <HomeContainer>
-        <HomeContent>
-          <Loading />
-        </HomeContent>
-      </HomeContainer>
+      <Loading />
     );
   }
 
   if (isError || !company) {
     return (
-      <HomeContainer>
-        <HomeContent>
-          <NotFound />
-        </HomeContent>
-      </HomeContainer>
+      <NotFound />
     );
   }
 
   return (
-    <HomeContainer>
-      <HomeContent>
-        <Company company={company} />
-      </HomeContent>
-    </HomeContainer>
+    <Company company={company} />
   );
 }

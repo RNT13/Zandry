@@ -14,7 +14,7 @@ export interface RTKQueryError {
 
 // Tipos de dataTime
 
-export type SlotStatus = 'free' | 'busy' | 'conflict'
+export type SlotStatus = 'free' | 'busy' | 'last'
 
 export type ApiSlot = {
   date: string
@@ -23,7 +23,7 @@ export type ApiSlot = {
   available: boolean
   free?: boolean
   busy?: boolean
-  conflict?: boolean
+  last?: boolean
   status?: 'free' | 'busy'
 }
 

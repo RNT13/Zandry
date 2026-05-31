@@ -1,13 +1,7 @@
 'use client'
 
-import { ScheduleContainer, ScheduleContent } from "./schedule.styles"
-
-export default function Schedule() {
+export default function SchedulePage() {
   return (
-    <ScheduleContainer>
-      <ScheduleContent>
-        <h1>pagina para ver os agendados</h1>
-      </ScheduleContent>
-    </ScheduleContainer>
+    <h1>pagina para ver os agendados</h1>
   )
 }
